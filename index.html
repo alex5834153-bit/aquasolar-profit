@@ -14,6 +14,7 @@
 <meta name="theme-color" content="#2A6E69">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.1/chart.umd.min.js"></script>
 <style>
 :root{
   --bg:#F1ECDF;
@@ -335,6 +336,21 @@ input[type="date"]:focus-visible,input[type="number"]:focus-visible,input[type="
   padding:9px 11px;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.3);
 }
 .note.warn{color:var(--warn);}
+.findings{display:flex;flex-direction:column;gap:10px;}
+.finding{border-left:3px solid var(--line);background:var(--bg);border-radius:8px;padding:10px 12px;}
+.finding.good{border-left-color:var(--good);}
+.finding.warn{border-left-color:var(--warn);}
+.finding.bad{border-left-color:var(--bad);}
+.finding.info{border-left-color:var(--water-deep);}
+.finding-head{font-weight:700;font-size:13px;color:var(--ink);margin-bottom:5px;display:flex;align-items:center;gap:7px;text-wrap:balance;}
+.finding-head .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;background:var(--line);}
+.finding.good .finding-head .dot{background:var(--good);}
+.finding.warn .finding-head .dot{background:var(--warn);}
+.finding.bad .finding-head .dot{background:var(--bad);}
+.finding.info .finding-head .dot{background:var(--water-deep);}
+.finding-body{font-size:12px;color:var(--ink-soft);line-height:1.65;}
+.finding-body b{color:var(--ink);}
+
 .foot{font-size:11px;color:var(--ink-soft);margin-top:20px;padding:0 4px;line-height:1.8;}
 .foot b{color:var(--ink);}
 .foot h3{font-size:12px;color:var(--ink);margin:14px 0 4px;}
@@ -345,6 +361,7 @@ body.pitch-mode .pitch{display:block;}
 .pitch p{font-size:13px;line-height:1.7;color:var(--ink-soft);margin:0 0 10px;}
 .pitch p b{color:var(--ink);}
 .pitch-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.pitch-chart-wrap{position:relative;height:220px;margin-top:16px;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:12px 10px 4px;box-sizing:border-box;}
 .pitch-item{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:8px 10px;}
 .pitch-item .gl{font-size:10px;color:var(--ink-faint);display:block;}
 .pitch-item .gv{font-size:15px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:var(--ink);}
@@ -360,7 +377,7 @@ body.pitch-mode .log-del{display:none;}
 <header>
   <h1>漁電獲利站</h1>
   <p>295 / 249-1 兩案場・養殖＋加工＋太陽能整合獲利試算</p>
-  <p class="version-tag">v9・2026-09-08</p>
+  <p class="version-tag">v10・2026-09-08</p>
   <button class="reset-link" id="btn-reset-all" type="button">重置為預設值</button>
   <div class="theme-toggle" id="theme-toggle">
     <button type="button" data-theme-choice="auto" class="theme-btn">自動(跟裝置)</button>
@@ -392,6 +409,7 @@ body.pitch-mode .log-del{display:none;}
     <div class="pitch-item"><span class="gl">20年NPV</span><span class="gv" id="pitch-npv">--</span></div>
     <div class="pitch-item"><span class="gl">IRR / 簡單回收</span><span class="gv" id="pitch-irr">--</span></div>
   </div>
+  <div class="pitch-chart-wrap"><canvas id="pitch-chart"></canvas></div>
   <p id="pitch-risk" style="margin-top:12px;"></p>
   <p id="pitch-basis" style="font-size:11px;color:var(--ink-faint);"></p>
 </div>
@@ -833,8 +851,18 @@ function applyTheme(choice){
   try{ localStorage.setItem('aquacalc_theme', choice); }catch(e){}
 }
 document.querySelectorAll('#theme-toggle .theme-btn').forEach(b=>{
-  b.addEventListener('click', ()=>applyTheme(b.dataset.themeChoice));
+  b.addEventListener('click', ()=>{
+    applyTheme(b.dataset.themeChoice);
+    if(typeof render==='function' && typeof els!=='undefined') render();
+  });
 });
+try{
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ()=>{
+    let cur='auto';
+    try{ cur=localStorage.getItem('aquacalc_theme')||'auto'; }catch(e){}
+    if(cur==='auto' && typeof render==='function' && typeof els!=='undefined') render();
+  });
+}catch(e){}
 (function(){
   let savedTheme='auto';
   try{ savedTheme = localStorage.getItem('aquacalc_theme') || 'auto'; }catch(e){}
@@ -918,6 +946,31 @@ const procSourceNotes={
 };
 
 let latestCalc={};
+let pitchChart=null;
+function updatePitchChart(baseAnnual, mixAnnual, totalAnnual){
+  const canvas=document.getElementById('pitch-chart');
+  if(!canvas || typeof Chart==='undefined') return;
+  const styles=getComputedStyle(document.documentElement);
+  const ink=styles.getPropertyValue('--ink').trim();
+  const inkFaint=styles.getPropertyValue('--ink-faint').trim();
+  const good=styles.getPropertyValue('--good').trim();
+  const solar=styles.getPropertyValue('--solar').trim();
+  const line=styles.getPropertyValue('--line').trim();
+  const data={
+    labels:['僅養殖','養殖＋加工','＋太陽能售電'],
+    datasets:[{ data:[baseAnnual, mixAnnual, totalAnnual], backgroundColor:[inkFaint, good, solar], borderRadius:6, maxBarThickness:56 }]
+  };
+  const options={
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:(ctx)=>fmt(ctx.parsed.y)+' /年'}} },
+    scales:{
+      x:{ ticks:{color:ink, font:{size:11}}, grid:{display:false} },
+      y:{ ticks:{color:inkFaint, font:{size:10}, callback:(v)=>(v/10000).toFixed(0)+'萬'}, grid:{color:line} }
+    }
+  };
+  if(pitchChart){ pitchChart.data=data; pitchChart.options=options; pitchChart.update(); }
+  else{ pitchChart=new Chart(canvas.getContext('2d'), {type:'bar', data, options}); }
+}
 let site='b';
 let product='suo';
 let laborMode='profit';
@@ -1597,6 +1650,7 @@ function render(){
     '目前試算情境是<b>'+s.label+'</b>,養殖魚種選<b>'+speciesName+'</b>。';
   document.getElementById('pitch-scenario').textContent = s.label+'・'+speciesName+'・'+(solarApproved?'太陽能已核准':'太陽能尚未核准');
   document.getElementById('pitch-total').textContent = fmt(totalAnnual)+' /年';
+  updatePitchChart(baseAnnual, mixAnnual, totalAnnual);
   document.getElementById('pitch-npv').textContent = fmt(combNPV);
   document.getElementById('pitch-irr').textContent = (combIRR===null?'無法收斂':fmtPct(combIRR))+' ・ '+(combSP===null?'未回本':combSP.toFixed(1)+'年回本');
   document.getElementById('pitch-risk').innerHTML =
@@ -1682,41 +1736,53 @@ function render(){
   }
 
   // ---- 結論(動態,會隨上方所有數字即時改變判斷與建議,不是固定文字) ----
-  const conclLines=[];
+  const conclItems=[];
 
-  let irrVerdict;
-  if(combIRR===null){ irrVerdict='IRR在20年內無法收斂,代表現金流可能長期無法翻正,<b>目前假設下不建議貿然投入</b>,需要重新檢視太陽能與養殖假設。'; }
-  else if(combNPV<=0 || combIRR<wacc){ irrVerdict='IRR '+fmtPct(combIRR)+' <b>低於</b>你設定的折現率/WACC('+fmtPct(wacc)+'),NPV'+(combNPV<=0?'為負':'雖為正但緩衝薄')+',代表這筆投資報酬率可能不如把資金拿去做其他用途,建議重新檢視假設或降低太陽能/養殖的初期投入。'; }
-  else if(combIRR<wacc+0.05){ irrVerdict='IRR '+fmtPct(combIRR)+' 略高於WACC('+fmtPct(wacc)+'),理論上划算但緩衝不大,建議用「情境與敏感度」卡的悲觀情境再確認一次。'; }
-  else { irrVerdict='IRR '+fmtPct(combIRR)+' 明顯高於WACC('+fmtPct(wacc)+'),NPV為正,數字面上具吸引力。'; }
-  conclLines.push('本頁以20年為分析期間(對齊太陽能躉購合約年限),目前選定'+s.label+'，合計NPV約'+fmt(combNPV)+'、IRR '+(combIRR===null?'無法收斂':fmtPct(combIRR))+'、簡單回收約'+fmtYear(combSP)+'。'+irrVerdict+((fishSpecies!=='jinmulu')?'(此NPV/IRR仍是金目鱸官方模型算出來的,跟你上面選的'+speciesPresets[currentSpecies].name+'是兩回事,只能當太陽能端的參考)':''));
+  let irrVerdict, irrHead;
+  if(combIRR===null){ irrHead='⚠️ 現金流無法翻正'; irrVerdict='IRR在20年內無法收斂,代表現金流可能長期無法翻正,<b>目前假設下不建議貿然投入</b>,需要重新檢視太陽能與養殖假設。'; }
+  else if(combNPV<=0 || combIRR<wacc){ irrHead='⚠️ 報酬率低於資金成本'; irrVerdict='IRR '+fmtPct(combIRR)+' <b>低於</b>你設定的折現率/WACC('+fmtPct(wacc)+'),NPV'+(combNPV<=0?'為負':'雖為正但緩衝薄')+',代表這筆投資報酬率可能不如把資金拿去做其他用途,建議重新檢視假設或降低太陽能/養殖的初期投入。'; }
+  else if(combIRR<wacc+0.05){ irrHead='划算,但緩衝不大'; irrVerdict='IRR '+fmtPct(combIRR)+' 略高於WACC('+fmtPct(wacc)+'),理論上划算但緩衝不大,建議用「情境與敏感度」卡的悲觀情境再確認一次。'; }
+  else { irrHead='數字面上具吸引力'; irrVerdict='IRR '+fmtPct(combIRR)+' 明顯高於WACC('+fmtPct(wacc)+'),NPV為正,數字面上具吸引力。'; }
+  conclItems.push({level:glanceClass, head:'20年NPV '+fmt(combNPV)+'・IRR '+(combIRR===null?'無法收斂':fmtPct(combIRR))+'・回收'+fmtYear(combSP)+' — '+irrHead,
+    body:'分析期間20年(對齊太陽能躉購合約),情境為'+s.label+'。'+irrVerdict+((fishSpecies!=='jinmulu')?'(此NPV/IRR仍是金目鱸官方模型算出來的,跟你上面選的'+speciesPresets[currentSpecies].name+'是兩回事,只能當太陽能端的參考)':'')});
 
-  let feasNote;
+  let feasHead, feasBody, feasLevel;
   if(fishSpecies==='jinmulu'){
-    feasNote='<b>可行性風險</b>:金目鱸是唯一有官方核准經營計畫書實測數字支持的魚種,財務數字的可行性風險最低;但兩案場官方「陸上魚塭養殖漁業登記證」登記的養殖種類其實是烏魚/吳郭魚/土虱,不是金目鱸,實際要養金目鱸可能得先辦理登記證的魚種變更,這是行政程序風險。更值得注意的是,文件提到未來接續養殖的「育傑生物科技有限公司」公開資料顯示其專長是白蝦/螃蟹/鰻魚(據點在雲林口湖),不是金目鱸——三邊物種都對不上,務必直接跟育傑確認他們對金目鱸的實際操作能力與人力配置,不是財務數字好看就能直接養,詳見頁尾「育傑生物科技有限公司」段落。';
+    feasHead='可行性風險:金目鱸官方數字,但操作方物種對不上';
+    feasLevel='warn';
+    feasBody='金目鱸是唯一有官方核准經營計畫書實測數字支持的魚種,財務數字的可行性風險最低;但兩案場官方「陸上魚塭養殖漁業登記證」登記的養殖種類其實是烏魚/吳郭魚/土虱,不是金目鱸,實際要養金目鱸可能得先辦理登記證的魚種變更,這是行政程序風險。更值得注意的是,文件提到未來接續養殖的「育傑生物科技有限公司」公開資料顯示其專長是白蝦/螃蟹/鰻魚(據點在雲林口湖),不是金目鱸——三邊物種都對不上,務必直接跟育傑確認他們對金目鱸的實際操作能力與人力配置,不是財務數字好看就能直接養,詳見頁尾「育傑生物科技有限公司」段落。';
   } else {
     const p=speciesPresets[currentSpecies];
+    feasHead='可行性風險:'+p.name+'('+p.fitLabel+')';
+    feasLevel=p.fit;
     const fitWord = p.fit==='good'?'可行性風險較低,跟現有RAS設施相容度高':(p.fit==='warn'?'可行性風險中等,部分假設(密度/成本結構)查無公開資料待實測':'可行性風險較高,跟現有RAS快速輪養設計邏輯衝突,不建議直接套用現有設施');
     const diffPct = jinmuluBaseAnnual!==0 ? ((baseAnnual-jinmuluBaseAnnual)/Math.abs(jinmuluBaseAnnual)*100) : 0;
-    feasNote='<b>可行性風險</b>:目前選的'+p.name+'相容性判斷為「'+p.fitLabel+'」，'+fitWord+'。概估年稅後淨利'+fmt(baseAnnual)+'，對照金目鱸官方模型('+s.label+')的'+fmt(jinmuluBaseAnnual)+'，'+(diffPct>=0?'高出':'低了')+Math.abs(diffPct).toFixed(0)+'%——但這隻魚的數字是市場概估、不是官方查證數字，財務面看起來好看或難看都務必先驗證假設是否成立，不是只看數字。'+p.note;
+    feasBody=fitWord+'。概估年稅後淨利'+fmt(baseAnnual)+'，對照金目鱸官方模型('+s.label+')的'+fmt(jinmuluBaseAnnual)+'，'+(diffPct>=0?'高出':'低了')+Math.abs(diffPct).toFixed(0)+'%——但這隻魚的數字是市場概估、不是官方查證數字，財務面看起來好看或難看都務必先驗證假設是否成立，不是只看數字。'+p.note;
   }
-  conclLines.push(feasNote);
+  conclItems.push({level:feasLevel, head:feasHead, body:feasBody});
 
   if(!solarApproved){
-    conclLines.push('⚠️ 太陽能目前狀態為「尚未核准」——依農業部漁業署「漁電共生案場養殖事實查核參考指引4.0版」(2025年7月修訂),地面型案場完工併網後6個月內須繳交養殖成果,且產量須達該魚種近3年漁業統計年報平均值7成以上,查核不通過容許使用可能被廢止;《報導者》調查指出完工案場僅約4%實際通過查核。這是全案最大的單一風險,建議把「先穩定做出養殖產量紀錄」列為比擴大太陽能規模更優先的目標。');
+    conclItems.push({level:'bad', head:'⚠️ 太陽能尚未核准 — 全案最大單一風險', body:'依農業部漁業署「漁電共生案場養殖事實查核參考指引4.0版」(2025年7月修訂),地面型案場完工併網後6個月內須繳交養殖成果,且產量須達該魚種近3年漁業統計年報平均值7成以上,查核不通過容許使用可能被廢止;《報導者》調查指出完工案場僅約4%實際通過查核。建議把「先穩定做出養殖產量紀錄」列為比擴大太陽能規模更優先的目標。'});
   } else {
-    conclLines.push('太陽能已核准,但依查核指引4.0版,地方政府仍會不定期複查養殖事實(工具/資材、放養與收成紀錄、產量是否達門檻)，建議把每期紀錄留存好，避免日後被追繳躉購金額或撤照。');
+    conclItems.push({level:'good', head:'太陽能已核准,仍需留意複查', body:'依查核指引4.0版,地方政府仍會不定期複查養殖事實(工具/資材、放養與收成紀錄、產量是否達門檻),建議把每期紀錄留存好,避免日後被追繳躉購金額或撤照。'});
   }
 
-  let marginNote;
-  if(marginOfSafety<0){ marginNote='⚠️ 目前設定的存活率('+survivalEff.toFixed(1)+'%)已經<b>低於</b>損益兩平存活率('+fmtPct(breakevenSurvival)+')，照這個假設這期就是虧錢，請重新檢視存活率、售價或成本假設。'; }
-  else if(marginOfSafety<0.05){ marginNote='目前安全邊際只有'+fmtPct(marginOfSafety)+'，緩衝很薄，存活率稍微下滑就可能轉虧，建議提高「週轉金與預備金」卡的緩衝設定。'; }
-  else { marginNote='目前安全邊際'+fmtPct(marginOfSafety)+'，還算有緩衝，但建議每期實際收成後都回來對照，及早發現落差。'; }
-  conclLines.push(marginNote+'存活率是養殖端最大的敏感變數，飼料成本(佔非人事成本比重最高)是第二大因子，詳見上方「情境與敏感度」卡。');
+  let marginHead, marginLevel;
+  if(marginOfSafety<0){ marginLevel='bad'; marginHead='⚠️ 已低於損益兩平存活率'; }
+  else if(marginOfSafety<0.05){ marginLevel='warn'; marginHead='安全邊際偏薄('+fmtPct(marginOfSafety)+')'; }
+  else { marginLevel='good'; marginHead='安全邊際尚可('+fmtPct(marginOfSafety)+')'; }
+  let marginBody;
+  if(marginOfSafety<0){ marginBody='目前設定的存活率('+survivalEff.toFixed(1)+'%)已經<b>低於</b>損益兩平存活率('+fmtPct(breakevenSurvival)+')，照這個假設這期就是虧錢，請重新檢視存活率、售價或成本假設。'; }
+  else if(marginOfSafety<0.05){ marginBody='緩衝很薄，存活率稍微下滑就可能轉虧，建議提高「週轉金與預備金」卡的緩衝設定。'; }
+  else { marginBody='還算有緩衝，但建議每期實際收成後都回來對照，及早發現落差。'; }
+  marginBody+='存活率是養殖端最大的敏感變數，飼料成本(佔非人事成本比重最高)是第二大因子，詳見上方「情境與敏感度」卡。';
+  conclItems.push({level:marginLevel, head:marginHead, body:marginBody});
 
-  conclLines.push('依上方「週轉金與預備金需求」卡試算，用目前魚種與假設，建議在每期開始養殖前準備好合計約'+fmt(totalFundingNeed)+'(週轉金'+fmt(workingCapitalRecommended)+'＋預備金'+fmt(reserveFund)+')，這筆錢最好在申請/開始養殖前就備妥，不要等收成後才發現缺口。');
+  conclItems.push({level:'info', head:'每期開工前建議準備 '+fmt(totalFundingNeed), body:'依上方「週轉金與預備金需求」卡試算,用目前魚種與假設,週轉金'+fmt(workingCapitalRecommended)+'＋預備金'+fmt(reserveFund)+'，這筆錢最好在申請/開始養殖前就備妥，不要等收成後才發現缺口。'});
 
-  document.getElementById('conclusion-detail').innerHTML=conclLines.map(l=>'• '+l).join('<br><br>');
+  document.getElementById('conclusion-detail').innerHTML='<div class="findings">'+conclItems.map(it=>
+    '<div class="finding '+it.level+'"><div class="finding-head"><span class="dot"></span>'+it.head+'</div><div class="finding-body">'+it.body+'</div></div>'
+  ).join('')+'</div>';
 
   latestCalc = {stockedEff, survivalEff, pricePerFish, nonLaborForCalc, landRentPeriod, afterW, baseAnnual, combNPV, combIRR};
 
