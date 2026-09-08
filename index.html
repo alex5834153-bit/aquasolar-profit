@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>漁電獲利站</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="漁電獲利站">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#2A6E69">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F1ECDF;
+  --surface:#FFFFFF;
+  --ink:#16302E;
+  --ink-soft:#4B615F;
+  --ink-faint:#8A9A97;
+  --line:#D9D2BF;
+  --header-bg:#2A6E69;
+  --header-text:#FFFFFF;
+  --header-text-soft:#DCEEEB;
+  --nav-pill-bg:rgba(255,255,255,0.12);
+  --nav-pill-border:rgba(255,255,255,0.2);
+  --nav-pill-text:#EAF6F4;
+  --nav-group-gap:14px;
+  --water:#3E9A93;
+  --water-deep:#1F5F5A;
+  --water-pale:#DCE9E6;
+  --water-pale-border:#C3D9D5;
+  --solar:#C8963E;
+  --solar-pale:#F5E9D3;
+  --solar-pale-border:#E4CB98;
+  --good:#1D7A5A;
+  --good-pale:#DFF0E6;
+  --good-pale-border:#B9DCC7;
+  --warn:#B4680C;
+  --warn-pale:#F3E3CB;
+  --bad:#A5432E;
+  --bad-pale:#F3DCD6;
+  --purple:#5B4B8A;
+  --purple-soft:#7B6BA5;
+  --purple-pale:#E7E2F2;
+  --purple-pale-border:#D2C8E8;
+  --total-bg:#1F5F5A;
+  --total-text:#FFFFFF;
+  --total-text-soft:#CFE6E2;
+  --thumb-ring:#FFFFFF;
+  --eyebrow:#8A7A55;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1D19;
+    --surface:#172622;
+    --ink:#E7F0EC;
+    --ink-soft:#93AFA9;
+    --ink-faint:#6C8A83;
+    --line:#283B36;
+    --header-bg:#173933;
+    --header-text:#EAF3EF;
+    --header-text-soft:#B9D9D3;
+    --nav-pill-bg:rgba(255,255,255,0.1);
+    --nav-pill-border:rgba(255,255,255,0.18);
+    --nav-pill-text:#D8ECE8;
+    --water:#5CB0AB;
+    --water-deep:#4FA39F;
+    --water-pale:#1C332F;
+    --water-pale-border:#2C4C46;
+    --solar:#E0AE5C;
+    --solar-pale:#3A2E19;
+    --solar-pale-border:#5A4726;
+    --good:#5BCB9B;
+    --good-pale:#153A2B;
+    --good-pale-border:#255A41;
+    --warn:#E7B96A;
+    --warn-pale:#3A2A12;
+    --bad:#E5917A;
+    --bad-pale:#3A1E17;
+    --purple:#B5A6E0;
+    --purple-soft:#8F7FC0;
+    --purple-pale:#2A2440;
+    --purple-pale-border:#413A63;
+    --total-bg:#2F7A78;
+    --total-text:#0A1815;
+    --total-text-soft:#123430;
+    --thumb-ring:#0F1D19;
+    --eyebrow:#C9B37E;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1D19;
+  --surface:#172622;
+  --ink:#E7F0EC;
+  --ink-soft:#93AFA9;
+  --ink-faint:#6C8A83;
+  --line:#283B36;
+  --header-bg:#173933;
+  --header-text:#EAF3EF;
+  --header-text-soft:#B9D9D3;
+  --nav-pill-bg:rgba(255,255,255,0.1);
+  --nav-pill-border:rgba(255,255,255,0.18);
+  --nav-pill-text:#D8ECE8;
+  --water:#5CB0AB;
+  --water-deep:#4FA39F;
+  --water-pale:#1C332F;
+  --water-pale-border:#2C4C46;
+  --solar:#E0AE5C;
+  --solar-pale:#3A2E19;
+  --solar-pale-border:#5A4726;
+  --good:#5BCB9B;
+  --good-pale:#153A2B;
+  --good-pale-border:#255A41;
+  --warn:#E7B96A;
+  --warn-pale:#3A2A12;
+  --bad:#E5917A;
+  --bad-pale:#3A1E17;
+  --purple:#B5A6E0;
+  --purple-soft:#8F7FC0;
+  --purple-pale:#2A2440;
+  --purple-pale-border:#413A63;
+  --total-bg:#2F7A78;
+  --total-text:#0A1815;
+  --total-text-soft:#123430;
+  --thumb-ring:#0F1D19;
+  --eyebrow:#C9B37E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'IBM Plex Sans',sans-serif;
+  padding-bottom:40px;
+}
+.mono{font-family:'IBM Plex Mono',monospace;}
+.wrap{max-width:480px;margin:0 auto;padding:18px 18px 0;}
+
+header{
+  background:var(--header-bg);
+  color:var(--header-text);
+  padding:18px 18px 14px;
+  text-align:center;
+}
+header h1{font-size:17px;font-weight:600;margin:0;text-wrap:balance;}
+header p{font-size:12px;color:var(--header-text-soft);margin:4px 0 0;}
+.version-tag{font-size:10.5px;color:var(--header-text-soft);opacity:0.7;font-family:'IBM Plex Mono',monospace;margin:6px 0 0;}
+.reset-link{
+  margin-top:10px;font-size:11px;font-family:inherit;color:var(--header-text-soft);
+  background:transparent;border:1px solid rgba(255,255,255,0.25);border-radius:20px;
+  padding:4px 12px;cursor:pointer;
+}
+.reset-link:active,.reset-link:focus-visible{background:rgba(255,255,255,0.12);outline:none;}
+.theme-toggle{display:flex;justify-content:center;gap:6px;margin-top:8px;}
+.theme-btn{
+  font-size:11px;font-family:inherit;color:var(--header-text-soft);
+  background:transparent;border:1px solid rgba(255,255,255,0.25);border-radius:20px;
+  padding:4px 12px;cursor:pointer;
+}
+.theme-btn.active{background:rgba(255,255,255,0.22);color:var(--header-text);font-weight:600;border-color:rgba(255,255,255,0.4);}
+.theme-btn:focus-visible{outline:none;background:rgba(255,255,255,0.12);}
+
+nav.quicknav{
+  position:sticky;top:0;z-index:10;
+  background:var(--header-bg);
+  padding:0 12px 10px;
+  display:flex;gap:6px;overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+nav.quicknav a{
+  flex:0 0 auto;font-size:11px;color:var(--nav-pill-text);background:var(--nav-pill-bg);
+  border:1px solid var(--nav-pill-border);border-radius:20px;padding:6px 11px;
+  text-decoration:none;white-space:nowrap;
+}
+nav.quicknav a:active,nav.quicknav a:focus-visible{background:rgba(255,255,255,0.2);outline:none;}
+nav.quicknav .navgap{flex:0 0 auto;width:1px;align-self:stretch;background:rgba(255,255,255,0.18);margin:2px 2px;}
+
+.section-eyebrow{
+  display:flex;align-items:center;gap:10px;
+  margin:26px 2px 10px;
+  font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--eyebrow);
+}
+.section-eyebrow::after{content:"";flex:1;height:1px;background:var(--line);}
+.result-grid+.section-eyebrow,.delta-bar.solar+.section-eyebrow{margin-top:22px;}
+
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 0;}
+.result-card{border-radius:12px;padding:14px 12px;text-align:center;}
+.result-card.base{background:var(--surface);border:1px solid var(--line);}
+.result-card.mix{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--good);}
+.result-card.solar{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--solar);}
+.result-card.total{background:var(--total-bg);border:1px solid var(--total-bg);}
+.result-card .rl{font-size:12px;color:var(--ink-soft);margin-bottom:6px;}
+.result-card.total .rl{color:var(--total-text-soft);}
+.result-card .rv{font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:700;line-height:1.15;}
+.result-card.mix .rv{color:var(--good);}
+.result-card.solar .rv{color:var(--warn);}
+.result-card.total .rv{color:var(--total-text);font-size:18px;}
+.result-card .ru{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+.result-card.total .ru{color:var(--total-text-soft);}
+.result-card .rtag{display:inline-block;font-size:10px;padding:2px 6px;border-radius:5px;margin-top:5px;background:var(--warn-pale);color:var(--warn);}
+.result-card .rtag.ok{background:var(--good-pale);color:var(--good);}
+
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 0;}
+.kpi-card{background:var(--purple-pale);border:1px solid var(--purple-pale-border);border-radius:12px;padding:12px;text-align:center;}
+.kpi-card .rl{font-size:11px;color:var(--purple);margin-bottom:4px;}
+.kpi-card .rv{font-family:'IBM Plex Mono',monospace;font-size:17px;font-weight:700;color:var(--purple);}
+.kpi-card .ru{font-size:10.5px;color:var(--purple-soft);margin-top:2px;}
+
+.delta-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:10px 16px;margin:10px 0;
+}
+.delta-bar .dl{font-size:12.5px;color:var(--ink-soft);}
+.delta-bar .dv{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:700;color:var(--good);}
+.delta-bar.solar .dv{color:var(--warn);}
+
+.glance{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--water-deep);border-radius:12px;padding:14px 16px;margin:12px 16px 0;}
+.glance-verdict{margin:0 0 10px;font-size:13px;line-height:1.5;color:var(--ink);}
+.glance-verdict b{color:var(--ink);}
+.glance-badges{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.gbadge{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:8px 10px;display:flex;flex-direction:column;gap:2px;}
+.gbadge .gl{font-size:10px;color:var(--ink-faint);}
+.gbadge .gv{font-size:15px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:var(--ink);}
+.gbadge.good{background:var(--good-pale);border-color:var(--good-pale-border);}
+.gbadge.good .gl,.gbadge.good .gv{color:var(--good);}
+.gbadge.warn{background:var(--warn-pale);border-color:var(--warn);}
+.gbadge.warn .gl,.gbadge.warn .gv{color:var(--warn);}
+.gbadge.bad{background:var(--bad-pale);border-color:var(--bad);}
+.gbadge.bad .gl,.gbadge.bad .gv{color:var(--bad);}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px;scroll-margin-top:56px;}
+.card h2{font-size:13px;font-weight:600;color:var(--ink-soft);margin:0 0 4px;text-transform:none;cursor:pointer;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+.card h2 .htext{flex:1;}
+.card h2 .sub{font-weight:400;font-size:11px;color:var(--ink-faint);display:block;margin-top:2px;}
+.card h2 .chev{flex:0 0 auto;font-size:11px;color:var(--ink-faint);transition:transform .15s;margin-top:1px;}
+.card.collapsed h2{margin-bottom:0;}
+.card.collapsed h2 .chev{transform:rotate(-90deg);}
+.card.collapsed>*:not(h2){display:none;}
+
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -2px;padding:0 2px;}
+.table-scroll .cmp-table{min-width:460px;}
+
+.row{margin-top:16px;}
+.row label{display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px;}
+.row .sv{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--water-deep);}
+input[type=range]{
+  -webkit-appearance:none;width:100%;height:4px;border-radius:2px;
+  background:var(--line);outline:none;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+  background:var(--water-deep);cursor:pointer;border:3px solid var(--thumb-ring);box-shadow:0 0 0 1px var(--water-deep);
+}
+input[type=range]::-moz-range-thumb{
+  width:20px;height:20px;border-radius:50%;background:var(--water-deep);cursor:pointer;border:3px solid var(--thumb-ring);
+}
+input[type=range]:focus-visible{outline:2px solid var(--water);outline-offset:3px;}
+input[type="date"],input[type="number"],input[type="text"]{
+  width:100%;box-sizing:border-box;background:var(--bg);color:var(--ink);
+  border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-family:inherit;font-size:13px;
+}
+input[type="date"]:focus-visible,input[type="number"]:focus-visible,input[type="text"]:focus-visible{outline:2px solid var(--water);outline-offset:1px;}
+.log-error{color:var(--bad);font-size:12px;margin-top:8px;}
+.log-btn-row{width:100%;margin-top:10px;}
+.log-del{font-size:11px;background:transparent;border:1px solid var(--line);color:var(--ink-soft);border-radius:6px;padding:3px 8px;cursor:pointer;}
+.log-apply{font-size:11px;background:var(--water-pale);border:1px solid var(--water-pale-border);color:var(--water-deep);border-radius:6px;padding:3px 8px;cursor:pointer;margin-right:4px;}
+
+.toggle-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.toggle-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.toggle-row2x2{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.toggle-btn{
+  padding:10px 6px;border-radius:8px;border:1px solid var(--line);background:var(--surface);
+  font-size:13px;font-family:inherit;color:var(--ink);text-align:center;
+}
+.toggle-row3 .toggle-btn{font-size:12px;padding:9px 4px;}
+.toggle-btn:focus-visible{outline:2px solid var(--water);outline-offset:1px;}
+.toggle-btn.active{border-color:var(--water-deep);background:var(--water-pale);color:var(--water-deep);font-weight:600;}
+.toggle-btn.solar-active{border-color:var(--solar);background:var(--solar-pale);color:var(--warn);font-weight:600;}
+.toggle-btn.purple-active{border-color:var(--purple);background:var(--purple-pale);color:var(--purple);font-weight:600;}
+
+.info-box{background:var(--water-pale);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--water-deep);line-height:1.7;margin-top:10px;}
+.info-box.purple{background:var(--purple-pale);color:var(--purple);}
+.info-box.warn{background:var(--warn-pale);color:var(--warn);}
+.info-box b{font-weight:600;}
+.breakdown{margin-top:10px;font-size:11.5px;color:var(--ink-soft);line-height:1.9;border-top:1px dashed var(--line);padding-top:10px;}
+.breakdown .bd-row{display:flex;justify-content:space-between;}
+.breakdown .bd-row b{color:var(--ink);font-weight:600;}
+
+.status-pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:5px 10px;border-radius:20px;margin-top:10px;}
+.status-pill.pending{background:var(--warn-pale);color:var(--warn);}
+.status-pill.ok{background:var(--good-pale);color:var(--good);}
+
+.sens-table{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px;}
+.sens-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:5px 0;}
+.sens-row .sl{color:var(--ink-soft);}
+.sens-row .sv2{font-family:'IBM Plex Mono',monospace;font-size:12px;font-variant-numeric:tabular-nums;}
+.sens-row .up{color:var(--good);}
+.sens-row .down{color:var(--bad);}
+
+.cmp-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:11.5px;}
+.cmp-table th,.cmp-table td{padding:6px 4px;text-align:right;border-bottom:1px solid var(--line);}
+.cmp-table th:first-child,.cmp-table td:first-child{text-align:left;}
+.cmp-table th{color:var(--ink-soft);font-weight:600;font-size:11px;}
+.cmp-table td.mono{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;}
+.cmp-table tr.hl td{font-weight:700;color:var(--water-deep);}
+
+.species-card{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:10px;}
+.species-card .sname{font-weight:600;font-size:13px;}
+.species-card .sfit{display:inline-block;font-size:10px;padding:2px 7px;border-radius:5px;margin-left:6px;}
+.sfit.good{background:var(--good-pale);color:var(--good);}
+.sfit.warn{background:var(--warn-pale);color:var(--warn);}
+.sfit.bad{background:var(--bad-pale);color:var(--bad);}
+
+.note{font-size:11.5px;color:var(--ink-soft);margin-top:12px;line-height:1.6;}
+.info-toggle{
+  margin-top:10px;font-size:11px;font-family:inherit;color:var(--water-deep);
+  background:var(--water-pale);border:1px solid var(--water-pale-border);border-radius:14px;
+  padding:4px 10px;cursor:pointer;
+}
+.info-toggle:active,.info-toggle:focus-visible{background:var(--water);color:#fff;outline:none;}
+#price-source-note{white-space:pre-line;}
+
+.term{border-bottom:1px dotted var(--ink-faint);cursor:pointer;white-space:nowrap;padding:4px 1px;margin:-4px -1px;display:inline-block;}
+.term::after{content:"?";display:inline-block;font-size:10px;font-weight:700;color:#fff;background:var(--water);
+  width:15px;height:15px;line-height:15px;border-radius:50%;text-align:center;margin-left:3px;vertical-align:-2px;}
+.term-tooltip{
+  position:fixed;z-index:50;max-width:min(280px,calc(100vw - 32px));
+  background:var(--ink);color:var(--bg);font-size:11.5px;line-height:1.6;
+  padding:9px 11px;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.3);
+}
+.note.warn{color:var(--warn);}
+.foot{font-size:11px;color:var(--ink-soft);margin-top:20px;padding:0 4px;line-height:1.8;}
+.foot b{color:var(--ink);}
+.foot h3{font-size:12px;color:var(--ink);margin:14px 0 4px;}
+
+.pitch{display:none;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--solar);border-radius:12px;padding:14px 16px;margin:12px 16px 0;}
+body.pitch-mode .pitch{display:block;}
+.pitch h2{font-size:14px;margin:0 0 8px;color:var(--ink);}
+.pitch p{font-size:13px;line-height:1.7;color:var(--ink-soft);margin:0 0 10px;}
+.pitch p b{color:var(--ink);}
+.pitch-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.pitch-item{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:8px 10px;}
+.pitch-item .gl{font-size:10px;color:var(--ink-faint);display:block;}
+.pitch-item .gv{font-size:15px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:var(--ink);}
+body.pitch-mode .row input{display:none;}
+body.pitch-mode .pitch-hide{display:none;}
+body.pitch-mode .card h2 .sub{display:none;}
+body.pitch-mode .log-btn-row{display:none;}
+body.pitch-mode .log-del{display:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>漁電獲利站</h1>
+  <p>295 / 249-1 兩案場・養殖＋加工＋太陽能整合獲利試算</p>
+  <p class="version-tag">v5・2026-09-08</p>
+  <button class="reset-link" id="btn-reset-all" type="button">重置為預設值</button>
+  <div class="theme-toggle" id="theme-toggle">
+    <button type="button" data-theme-choice="auto" class="theme-btn">自動(跟裝置)</button>
+    <button type="button" data-theme-choice="light" class="theme-btn">淺色</button>
+    <button type="button" data-theme-choice="dark" class="theme-btn">深色</button>
+  </div>
+  <div class="theme-toggle" id="pitch-toggle" style="margin-top:6px;">
+    <button type="button" data-pitch-choice="full" class="theme-btn">完整版(操作用)</button>
+    <button type="button" data-pitch-choice="pitch" class="theme-btn">簡報模式(給投資方看)</button>
+  </div>
+</header>
+
+<div class="glance">
+  <p class="glance-verdict" id="glance-verdict">計算中…</p>
+  <div class="glance-badges">
+    <div class="gbadge" id="gb-npv"><span class="gl">20年NPV(合計)</span><span class="gv mono" id="gb-npv-v">--</span></div>
+    <div class="gbadge" id="gb-irr"><span class="gl">IRR</span><span class="gv mono" id="gb-irr-v">--</span></div>
+    <div class="gbadge" id="gb-payback"><span class="gl">簡單回收年限</span><span class="gv mono" id="gb-payback-v">--</span></div>
+    <div class="gbadge" id="gb-solar"><span class="gl">太陽能查核狀態</span><span class="gv" id="gb-solar-v">--</span></div>
+  </div>
+</div>
+
+<div class="pitch" id="sec-pitch">
+  <h2>商業模式一句話</h2>
+  <p id="pitch-onesent">計算中…</p>
+  <div class="pitch-grid">
+    <div class="pitch-item"><span class="gl">目前情境</span><span class="gv" id="pitch-scenario" style="font-size:13px;">--</span></div>
+    <div class="pitch-item"><span class="gl">年化總淨利(養殖+太陽能)</span><span class="gv" id="pitch-total">--</span></div>
+    <div class="pitch-item"><span class="gl">20年NPV</span><span class="gv" id="pitch-npv">--</span></div>
+    <div class="pitch-item"><span class="gl">IRR / 簡單回收</span><span class="gv" id="pitch-irr">--</span></div>
+  </div>
+  <p id="pitch-risk" style="margin-top:12px;"></p>
+  <p id="pitch-basis" style="font-size:11px;color:var(--ink-faint);"></p>
+</div>
+
+<nav class="quicknav">
+  <a href="#sec-top">總覽</a>
+  <a href="#grp-basic">基本假設</a>
+  <a href="#grp-results">分析結果</a>
+  <a href="#grp-extra">延伸評估</a>
+  <a href="#grp-conclusion">結論</a>
+</nav>
+
+<div class="wrap">
+
+  <div id="sec-top" class="result-grid">
+    <div class="result-card base">
+      <div class="rl">僅養殖<span id="r-species-tag"></span></div>
+      <div class="rv mono" id="r-base">--</div>
+      <div class="ru">元/年</div>
+    </div>
+    <div class="result-card mix">
+      <div class="rl">養殖＋加工</div>
+      <div class="rv mono" id="r-mix">--</div>
+      <div class="ru">元/年</div>
+    </div>
+    <div class="result-card solar">
+      <div class="rl">＋太陽能售電(均年)</div>
+      <div class="rv mono" id="r-solar">--</div>
+      <div class="ru">元/年</div>
+      <div class="rtag" id="r-solar-tag">尚未核准・預估值</div>
+    </div>
+    <div class="result-card total">
+      <div class="rl">20年總計(養殖+加工+太陽能)</div>
+      <div class="rv mono" id="r-20y">--</div>
+      <div class="ru">元</div>
+    </div>
+  </div>
+
+  <div class="delta-bar">
+    <span class="dl">加工帶來的年增量</span>
+    <span class="dv mono" id="r-delta1">--</span>
+  </div>
+  <div class="delta-bar solar">
+    <span class="dl">太陽能帶來的年增量(均年)</span>
+    <span class="dv mono" id="r-delta2">--</span>
+  </div>
+
+  <div class="section-eyebrow" id="grp-basic">基本假設</div>
+  <div id="sec-site" class="card collapsed">
+    <h2><span class="htext">案場選擇<span class="sub">兩筆嘉義縣府核准案場,數字不同,分開試算</span></span><span class="chev">▾</span></h2>
+    <div class="toggle-row">
+      <button class="toggle-btn active" id="btn-site-a" type="button">案場A・295地號</button>
+      <button class="toggle-btn" id="btn-site-b" type="button">案場B・249-1地號</button>
+    </div>
+    <div class="info-box" id="site-info"></div>
+  </div>
+
+  <div id="sec-aqua" class="card collapsed">
+    <h2><span class="htext">養殖生產與售價<span class="sub">點選魚種切換,官方數字/市場概估自動帶入</span></span><span class="chev">▾</span></h2>
+    <div class="toggle-row2x2">
+      <button class="toggle-btn active" id="btn-fish-jinmulu" type="button">金目鱸(官方)</button>
+      <button class="toggle-btn" id="btn-fish-mullet" type="button">烏魚</button>
+      <button class="toggle-btn" id="btn-fish-tilapia" type="button">吳郭魚</button>
+      <button class="toggle-btn" id="btn-fish-catfish" type="button">土虱</button>
+    </div>
+    <button class="info-toggle" id="btn-price-info" type="button">ⓘ 這些數字哪裡來的?</button>
+    <p class="note" id="price-source-note" style="display:none;"></p>
+
+    <div id="jinmulu-block">
+      <div class="row">
+        <label>放養尾數 <span class="sv" id="v-stocked">--</span></label>
+        <input type="range" id="s-stocked" min="20000" max="70000" value="47700" step="100">
+      </div>
+      <div class="row">
+        <label>存活率 <span class="sv" id="v-survival">90%</span></label>
+        <input type="range" id="s-survival" min="60" max="100" value="90" step="0.5">
+      </div>
+      <div class="row">
+        <label>躉售價 (元/尾,約600g) <span class="sv" id="v-price">70</span></label>
+        <input type="range" id="s-price" min="40" max="100" value="70" step="1">
+      </div>
+      <div class="row">
+        <label>非人事成本合計 (元/期) <span class="sv" id="v-nonlabor">--</span></label>
+        <input type="range" id="s-nonlabor" min="1000000" max="4000000" value="2348000" step="2000">
+      </div>
+      <div class="breakdown" id="nonlabor-breakdown"></div>
+      <p class="note">每年約1.5期(每期6-8個月成長期,收成後緊接下一批)。存活率/售價/非人事成本三項可用下方「情境與敏感度」卡快速套用官方文件的悲觀/樂觀假設。「損益兩平與老闆稅後淨利」卡與「週轉金與預備金」卡會跟著上面選的魚種一起變動;「NPV/IRR」「情境敏感度」「白蝦混養」三張卡因為只有金目鱸有完整20年跨期成本/貸款資料,仍固定以金目鱸官方模型試算,不隨魚種切換變動,選其他魚種時請以「魚種概估」卡與上方「可行性結論」的年淨利數字為準。</p>
+    </div>
+
+    <div id="generic-species-block" style="display:none;">
+      <p class="note">兩筆案場的官方「陸上魚塭養殖漁業登記證」上登記的養殖種類是烏魚、吳郭魚、土虱(6人共有、涵蓋6筆地5.6公頃的舊登記),跟經營計畫書規劃養的金目鱸不同。以下是這三種魚在台灣的一般市場行情估算,<b>兩份官方文件都沒有這三種魚的財務數字</b>,以下皆為產業概估,務必自行查證或請教育傑生物科技團隊。</p>
+      <div class="row">
+        <label>評估面積 (㎡) <span class="sv" id="v-spArea">4994</span></label>
+        <input type="range" id="s-spArea" min="500" max="10000" value="4994" step="100">
+      </div>
+      <div class="row">
+        <label>放養密度 (尾/㎡) <span class="sv" id="v-spDensity">2</span></label>
+        <input type="range" id="s-spDensity" min="1" max="60" value="2" step="1">
+      </div>
+      <div class="row">
+        <label>存活率 <span class="sv" id="v-spSurvival">70%</span></label>
+        <input type="range" id="s-spSurvival" min="40" max="98" value="70" step="1">
+      </div>
+      <div class="row">
+        <label>收成規格 (公斤/尾) <span class="sv" id="v-spWeight">1.0</span></label>
+        <input type="range" id="s-spWeight" min="0.2" max="2" value="1.0" step="0.05">
+      </div>
+      <div class="row">
+        <label>售價 (元/公斤) <span class="sv" id="v-spPrice">150</span></label>
+        <input type="range" id="s-spPrice" min="30" max="300" value="150" step="5">
+      </div>
+      <div class="row">
+        <label>成本佔營收比例 <span class="sv" id="v-spCostRatio">75%</span></label>
+        <input type="range" id="s-spCostRatio" min="30" max="95" value="75" step="1">
+      </div>
+      <div class="row">
+        <label>年養殖週期數 <span class="sv" id="v-spCycles">0.4</span></label>
+        <input type="range" id="s-spCycles" min="0.3" max="3" value="0.4" step="0.1">
+      </div>
+      <div class="species-card" id="species-detail"></div>
+      <div class="species-card" id="species-fit"></div>
+    </div>
+  </div>
+
+  <div id="sec-labor" class="card collapsed">
+    <h2><span class="htext">人事成本模式</span><span class="chev">▾</span></h2>
+    <div class="toggle-row">
+      <button class="toggle-btn active" id="btn-labor-profit" type="button">利潤分成制(老闆自訂)</button>
+      <button class="toggle-btn" id="btn-labor-fixed" type="button">固定人事費(官方基準)</button>
+    </div>
+    <div id="labor-profit-block">
+      <div class="row">
+        <label>底薪 (元/月) <span class="sv" id="v-basesalary">29000</span></label>
+        <input type="range" id="s-basesalary" min="20000" max="45000" value="29000" step="500">
+      </div>
+      <div class="row">
+        <label>每期薪資月數 <span class="sv" id="v-months">8</span></label>
+        <input type="range" id="s-months" min="4" max="10" value="8" step="1">
+      </div>
+      <div class="row">
+        <label>員工利潤分成比例 <span class="sv" id="v-share">25%</span></label>
+        <input type="range" id="s-share" min="0" max="40" value="25" step="1">
+      </div>
+      <div class="row">
+        <label>分成上限 (元/期) <span class="sv" id="v-empcap">500,000</span></label>
+        <input type="range" id="s-empcap" min="100000" max="1000000" value="500000" step="10000">
+      </div>
+    </div>
+    <div id="labor-fixed-block" style="display:none;">
+      <div class="row">
+        <label>固定人事費 (元/期) <span class="sv" id="v-laborfixed">280,000</span></label>
+        <input type="range" id="s-laborfixed" min="100000" max="800000" value="280000" step="10000">
+      </div>
+      <p class="note">官方經營計畫書表3寫的人事費是每期28萬元總額(未拆分人數/月薪),不含利潤分成設計。</p>
+    </div>
+    <div class="info-box" id="breakeven-mini"></div>
+  </div>
+
+  <div id="sec-proc" class="card collapsed">
+    <h2><span class="htext">加工品項<span class="sub">你自訂的延伸應用情境,非官方文件內容;品項會隨上方魚種切換</span></span><span class="chev">▾</span></h2>
+    <div class="toggle-row" id="proc-toggle-row"></div>
+    <button class="info-toggle" id="btn-proc-info" type="button">ⓘ 這些數字哪裡來的?</button>
+    <p class="note" id="proc-source-note" style="display:none;white-space:pre-line;"></p>
+    <div class="row">
+      <label>轉加工比例 <span class="sv" id="v-cv">20%</span></label>
+      <input type="range" id="s-cv" min="0" max="100" value="20" step="5">
+    </div>
+    <div class="row">
+      <label>每尾產出量 (<span id="unit-a">公斤</span>) <span class="sv" id="v-yd">0.6</span></label>
+      <input type="range" id="s-yd" min="0.05" max="1.5" value="0.6" step="0.01">
+    </div>
+    <div class="row">
+      <label>零售價 (元/<span id="unit-b">公斤</span>) <span class="sv" id="v-rp">500</span></label>
+      <input type="range" id="s-rp" min="50" max="5000" value="500" step="10">
+    </div>
+    <div class="row">
+      <label>加工成本 (元/<span id="unit-c">公斤</span>) <span class="sv" id="v-pc">100</span></label>
+      <input type="range" id="s-pc" min="0" max="500" value="100" step="10">
+    </div>
+    <div class="row">
+      <label>通路抽成 <span class="sv" id="v-cc">20%</span></label>
+      <input type="range" id="s-cc" min="0" max="50" value="20" step="5">
+    </div>
+    <div class="note" id="note-detail"></div>
+  </div>
+
+  <div id="sec-solar" class="card collapsed">
+    <h2><span class="htext">太陽能與售電<span class="sub">第二階段規劃:須取得養殖實績後才能申請容許使用,目前尚未核准</span></span><span class="chev">▾</span></h2>
+    <div class="toggle-row">
+      <button class="toggle-btn active" id="btn-solar-approved-no" type="button">尚未核准(預估)</button>
+      <button class="toggle-btn" id="btn-solar-approved-yes" type="button">已取得二階段核准</button>
+    </div>
+    <div class="row pitch-hide">
+      <label>完工併網日期(尚未併網可留白)</label>
+      <input type="date" id="s-gridconnectdate">
+    </div>
+    <div class="info-box" id="grid-countdown" style="display:none;"></div>
+    <div class="row">
+      <label>納入案場數 <span class="sv" id="v-solarsites">1 場(295或249-1擇一)</span></label>
+      <input type="range" id="s-solarsites" min="1" max="2" value="1" step="1">
+    </div>
+    <div class="row">
+      <label>躉購費率 (元/度) <span class="sv" id="v-tariff">3.9666</span></label>
+      <input type="range" id="s-tariff" min="2" max="5" value="3.9666" step="0.0001">
+    </div>
+    <div class="row">
+      <label>年發電度數 (度/kWp,第1年) <span class="sv" id="v-genperkwp">1250</span></label>
+      <input type="range" id="s-genperkwp" min="900" max="1500" value="1250" step="10">
+    </div>
+    <div class="row">
+      <label>發電效能年衰減率 <span class="sv" id="v-solardecay">0.5%</span></label>
+      <input type="range" id="s-solardecay" min="0" max="2" value="0.5" step="0.1">
+    </div>
+    <div class="row">
+      <label>貸款成數(僅影響本卡的自有資金回本試算) <span class="sv" id="v-loanratio">70%</span></label>
+      <input type="range" id="s-loanratio" min="0" max="90" value="70" step="5">
+    </div>
+    <div class="row">
+      <label>貸款利率 <span class="sv" id="v-loanrate">2.5%</span></label>
+      <input type="range" id="s-loanrate" min="0" max="6" value="2.5" step="0.1">
+    </div>
+    <div class="row">
+      <label>貸款年限 <span class="sv" id="v-loanterm">15年</span></label>
+      <input type="range" id="s-loanterm" min="5" max="20" value="15" step="1">
+    </div>
+    <div class="info-box" id="solar-detail"></div>
+    <div class="info-box" id="solar-financing-detail"></div>
+    <p class="note warn">⚠️ 養殖查核才是太陽能能否保住的關鍵:依農業部漁業署「漁電共生案場養殖事實查核參考指引4.0版」(2025年7月修訂),地面型案場完工併網後6個月內須繳交養殖成果,且產量須達到該魚種近3年漁業統計年報平均值的7成以上,查核不通過容許使用可能被廢止;《報導者》調查指出目前完工案場僅約4%實際通過查核。這比太陽能發電效率本身更該優先盯緊。</p>
+    <p class="note">2026年度(115年度)太陽光電躉購費率經濟部已公告全年持平於2025年第二期水準(屋頂型約3.50~5.63元/度);合約費率以「完工併聯當年度」公告數字為準,簽約後鎖定20年不變。正式簽約前請以能源署最新公告核對,上方滑桿數字僅供試算。</p>
+  </div>
+
+  <div id="sec-adv" class="card collapsed">
+    <h2><span class="htext">進階財務假設<span class="sub">會同時影響下面「老闆稅後」「NPV/IRR」兩張卡</span></span><span class="chev">▾</span></h2>
+    <div class="row">
+      <label><span class="term" data-term="wacc">折現率 / WACC</span> <span class="sv" id="v-wacc">6%</span></label>
+      <input type="range" id="s-wacc" min="2" max="12" value="6" step="0.5">
+    </div>
+    <div class="row">
+      <label>養殖<span class="term" data-term="costinf">現金成本年通膨率</span> <span class="sv" id="v-costinf">2%</span></label>
+      <input type="range" id="s-costinf" min="0" max="8" value="2" step="0.5">
+    </div>
+    <div class="row">
+      <label>魚價年成長率 <span class="sv" id="v-fishgrowth">0%</span></label>
+      <input type="range" id="s-fishgrowth" min="-5" max="5" value="0" step="0.5">
+    </div>
+    <div class="row">
+      <label>土地租金 (元/年,付給地主) <span class="sv" id="v-landrent">0</span></label>
+      <input type="range" id="s-landrent" min="0" max="1000000" value="0" step="10000">
+    </div>
+    <p class="note warn">⚠️ 土地所有權人是吳先生A/吳先生B等家人,不是家族企業自己,目前所有官方文件都沒有列「土地租金」這筆支出,租金設0元會高估獲利,請填入實際租約金額(或跟家裡談好的數字)。</p>
+    <p class="note">塭池整備費(40萬元/期)在官方經營計畫書裡的性質不明確——是每次收成後都要整池的重複支出,還是只在建置期發生一次、被誤植進週期成本表。本頁一律採較保守的算法(每期都算),建議跟育傑生物科技或計畫書撰寫單位確認實際性質。</p>
+  </div>
+
+  <div id="sec-scenario" class="card collapsed">
+    <h2><span class="htext">情境與<span class="term" data-term="sensitivity">敏感度</span></span><span class="chev">▾</span></h2>
+    <div class="toggle-row3">
+      <button class="toggle-btn" id="btn-scn-bad" type="button">悲觀</button>
+      <button class="toggle-btn active" id="btn-scn-base" type="button">基準</button>
+      <button class="toggle-btn" id="btn-scn-good" type="button">樂觀</button>
+    </div>
+    <p class="note">悲觀/樂觀會套用文件出現過的區間(存活率80~97.5%、售價60~80元)並自動調整上面的滑桿,你仍可再自行微調。</p>
+    <div class="sens-table" id="sensitivity-list"></div>
+  </div>
+
+  <div class="section-eyebrow" id="grp-results">分析結果</div>
+  <div id="sec-breakeven" class="card collapsed">
+    <h2><span class="htext">損益兩平與老闆稅後淨利<span class="sub">從收入到老闆實際到手的完整拆解(僅養殖端,不含太陽能)</span></span><span class="chev">▾</span></h2>
+    <div class="info-box" id="breakeven-detail"></div>
+    <div class="breakdown" id="waterfall-detail"></div>
+  </div>
+
+  <div id="sec-actual" class="card collapsed">
+    <h2><span class="htext">實績記錄:實際 vs 預估對照<span class="sub">每期收成後回來填實際數字,看跟假設差多少,長期修正模型用</span></span><span class="chev">▾</span></h2>
+    <div class="row pitch-hide">
+      <label>收成日期</label>
+      <input type="date" id="s-actual-date">
+    </div>
+    <div class="row pitch-hide">
+      <label>實際存活率 (%)</label>
+      <input type="number" id="s-actual-survival" step="0.5" min="0" max="100" placeholder="例如 88">
+    </div>
+    <div class="row pitch-hide">
+      <label>實際售價 (元/尾)</label>
+      <input type="number" id="s-actual-price" step="1" min="0" placeholder="例如 68">
+    </div>
+    <div class="row pitch-hide">
+      <label>實際非人事成本合計 (元/期)</label>
+      <input type="number" id="s-actual-nonlabor" step="1000" min="0" placeholder="例如 2400000">
+    </div>
+    <div class="row pitch-hide">
+      <label>備註(選填)</label>
+      <input type="text" id="s-actual-note" placeholder="例如:颱風延後收成">
+    </div>
+    <p class="log-error" id="actual-log-error" style="display:none;"></p>
+    <button class="toggle-btn log-btn-row" id="btn-actual-add" type="button">新增這期實績記錄</button>
+    <div class="table-scroll" style="margin-top:12px;">
+      <table class="cmp-table" id="actual-log-table">
+        <tr><th>日期</th><th>預估稅後淨利/期</th><th>實際稅後淨利/期</th><th>差異</th><th></th></tr>
+      </table>
+    </div>
+    <p class="note" id="actual-log-empty">還沒有任何實績記錄,收成後回來記一筆,才能看出假設跟現實差多少。</p>
+    <p class="note">預估值是「新增當下」上面所有滑桿算出來的稅後淨利/期(金目鱸用官方模型,其他魚種用概估模型),不會因為你之後調滑桿而改變,這樣才能公平比較。</p>
+  </div>
+
+  <div id="sec-fund" class="card collapsed">
+    <h2><span class="htext"><span class="term" data-term="workingcapital">週轉金</span>與<span class="term" data-term="reserve">預備金</span>需求<span class="sub">跟著上方魚種選擇連動,幫你抓風險承受能力的具體金額</span></span><span class="chev">▾</span></h2>
+    <div class="row">
+      <label>週轉金安全緩衝 <span class="sv" id="v-wcbuffer">130%</span></label>
+      <input type="range" id="s-wcbuffer" min="100" max="200" value="130" step="10">
+    </div>
+    <div class="row">
+      <label>預備金要能撐幾期虧損 <span class="sv" id="v-reservecycles">2 期</span></label>
+      <input type="range" id="s-reservecycles" min="1" max="5" value="2" step="1">
+    </div>
+    <div class="info-box" id="fund-detail"></div>
+    <p class="note">悲觀情境固定假設:收成量-15%、售價-15%、非人事成本+10%(跟「情境與敏感度」卡的悲觀情境同一套邏輯),用來估算最壞情況下一期可能虧多少錢。這只是抓大概方向的簡化試算,不是精算,實際週轉金需求還要看應付帳款/貨款收付時間差等細節,建議跟會計師/銀行再確認。</p>
+  </div>
+
+  <div id="sec-dcf" class="card collapsed">
+    <h2><span class="htext">現金流與可行性指標(NPV/IRR)<span class="sub">20年折現現金流,套用進階假設的WACC/通膨/租金;含20%營所稅</span></span><span class="chev">▾</span></h2>
+    <p class="note">固定以金目鱸+目前案場的官方模型試算,切換魚種不會改變這裡的數字。</p>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="rl"><span class="term" data-term="npv">合計淨現值 NPV</span>(20年,含稅)</div>
+        <div class="rv mono" id="k-npv">--</div>
+        <div class="ru">元</div>
+      </div>
+      <div class="kpi-card">
+        <div class="rl">合計<span class="term" data-term="irr">內部報酬率 IRR</span></div>
+        <div class="rv mono" id="k-irr">--</div>
+        <div class="ru">20年</div>
+      </div>
+      <div class="kpi-card">
+        <div class="rl"><span class="term" data-term="payback">簡單回收年限</span></div>
+        <div class="rv mono" id="k-payback">--</div>
+        <div class="ru">年(未折現)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="rl"><span class="term" data-term="discpayback">折現回收年限</span></div>
+        <div class="rv mono" id="k-dpayback">--</div>
+        <div class="ru">年</div>
+      </div>
+    </div>
+    <div class="table-scroll"><table class="cmp-table">
+      <tr><th>指標</th><th>養殖獨立</th><th>太陽能獨立</th><th>合計</th></tr>
+      <tr id="row-capex"><td><span class="term" data-term="capex">初始資本支出</span></td><td class="mono"></td><td class="mono"></td><td class="mono"></td></tr>
+      <tr id="row-npv" class="hl"><td><span class="term" data-term="npv">NPV</span>(元)</td><td class="mono"></td><td class="mono"></td><td class="mono"></td></tr>
+      <tr id="row-irr"><td><span class="term" data-term="irr">IRR</span></td><td class="mono"></td><td class="mono"></td><td class="mono"></td></tr>
+      <tr id="row-simple"><td>簡單回收(年)</td><td class="mono"></td><td class="mono"></td><td class="mono"></td></tr>
+      <tr id="row-disc"><td>折現回收(年)</td><td class="mono"></td><td class="mono"></td><td class="mono"></td></tr>
+      <tr id="row-cum20"><td>20年<span class="term" data-term="cashflow">現金流</span>總計</td><td class="mono"></td><td class="mono"></td><td class="mono"></td></tr>
+    </table></div>
+    <p class="note">表格若顯示不完整,可在表格上左右滑動查看其餘欄位。</p>
+    <p class="note warn">⚠️ 這裡的數字跟你之前那份Excel不完全一樣:Excel的20年現金流模型完全沒有扣20%營所稅(整個NPV/IRR都是稅前口徑),這裡已經幫你把稅加回去,所以NPV/IRR會比Excel原本算出的低,但更貼近實際能留下的錢。</p>
+  </div>
+
+  <div class="section-eyebrow" id="grp-extra">延伸評估</div>
+  <div id="sec-shrimp" class="card collapsed">
+    <h2><span class="htext">鱸魚+白蝦混養情境<span class="sub">部分池改養白蝦,填鱸魚8個月成長期的現金流空窗</span></span><span class="chev">▾</span></h2>
+    <div class="row">
+      <label>轉換白蝦面積 (㎡) <span class="sv" id="v-shrimparea">1295</span></label>
+      <input type="range" id="s-shrimparea" min="0" max="5180" value="1295" step="10">
+    </div>
+    <div class="row">
+      <label>白蝦放養密度 (尾/㎡) <span class="sv" id="v-shrimpdensity">100</span></label>
+      <input type="range" id="s-shrimpdensity" min="50" max="200" value="100" step="10">
+    </div>
+    <div class="row">
+      <label>白蝦存活率 <span class="sv" id="v-shrimpsurvival">75%</span></label>
+      <input type="range" id="s-shrimpsurvival" min="50" max="95" value="75" step="1">
+    </div>
+    <div class="row">
+      <label>白蝦年週期數 <span class="sv" id="v-shrimpcycles">3</span></label>
+      <input type="range" id="s-shrimpcycles" min="2" max="5" value="3" step="1">
+    </div>
+    <div class="row">
+      <label>白蝦躉售價 (元/公斤) <span class="sv" id="v-shrimpprice">220</span></label>
+      <input type="range" id="s-shrimpprice" min="100" max="400" value="220" step="10">
+    </div>
+    <div class="row">
+      <label>白蝦每尾放養成本 (元/尾) <span class="sv" id="v-shrimpcost">1.9</span></label>
+      <input type="range" id="s-shrimpcost" min="0.5" max="5" value="1.9" step="0.1">
+    </div>
+    <div class="table-scroll"><table class="cmp-table">
+      <tr><th>比較</th><th>純鱸魚</th><th>混養(鱸魚+白蝦)</th></tr>
+      <tr id="row-shrimp-year1"><td>第1年稅後現金流</td><td class="mono"></td><td class="mono"></td></tr>
+      <tr id="row-shrimp-npv" class="hl"><td>20年NPV</td><td class="mono"></td><td class="mono"></td></tr>
+    </table></div>
+    <p class="note">白蝦每年可養2-5輪,能在鱸魚8個月才收成一次的空窗期提供較密集的現金流入,主要用來緩解現金流節奏、不是取代鱸魚做為主力獲利來源。白蝦同樣受成本通膨侵蝕,長期仍需搭配售價調整或加工策略維持獲利。存活率/放養成本來源:水試所東港生技研究中心案例,僅供參考。</p>
+  </div>
+
+  <div id="sec-scenarios" class="card collapsed">
+    <h2><span class="htext">情境另存與比較<span class="sub">把目前整組設定存成一個情境,方便並排比較不同魚種/案場組合</span></span><span class="chev">▾</span></h2>
+    <div class="row pitch-hide">
+      <label>情境名稱</label>
+      <input type="text" id="s-scenario-name" placeholder="例如:金目鱸保守情境">
+    </div>
+    <p class="log-error" id="scenario-log-error" style="display:none;"></p>
+    <button class="toggle-btn log-btn-row" id="btn-scenario-save" type="button">另存目前設定為新情境</button>
+    <div class="table-scroll" style="margin-top:12px;">
+      <table class="cmp-table" id="scenario-table">
+        <tr><th>情境</th><th>年淨利(僅養殖)</th><th>合計NPV</th><th>合計IRR</th><th></th></tr>
+      </table>
+    </div>
+    <p class="note" id="scenario-empty">還沒有存任何情境。調好上面所有滑桿後,回來這裡存一筆,就可以跟別的組合並排比較;按「套用」可以把畫面切回那個情境的設定。</p>
+  </div>
+
+
+  <div class="section-eyebrow" id="grp-conclusion">結論</div>
+  <div id="sec-conclusion" class="card collapsed">
+    <h2><span class="htext">可行性結論與風險</span><span class="chev">▾</span></h2>
+    <div class="info-box" id="conclusion-detail"></div>
+  </div>
+
+  <p class="foot">
+  <h3>數字來源</h3>
+  295/249-1兩案場之養殖放養尾數、存活率、成本結構、單位售價,取自嘉義縣政府115年8月核准函所附「經營計畫書」表1-表3;太陽能裝置容量、躉購費率、建置成本、發電效益取自表4。白蝦混養參數來自水試所東港生技研究中心案例。加工方案、融資參數、進階財務假設(WACC/通膨率/土地租金/塭池整備費處理方式)為你自行設定的情境,原文件沒有對應數字。烏魚/吳郭魚/土虱為產業一般行情概估(在「養殖生產與售價」卡點選魚種即可切換),非官方文件數字,且皆為靜態查證數字,不會自動連網更新最新行情。
+  <h3>回收年限口徑</h3>
+  「太陽能卡的官方簡化」= 太陽能總成本÷年發電收入(文件用法,未計稅金與貸款);「NPV/IRR卡」= 20年折現現金流,已計入20%營所稅、成本通膨、太陽能效能衰減,是本App目前最嚴謹的口徑,但仍不代表精準財務規劃,實際請以會計師/銀行試算為準。
+  <h3>提醒</h3>
+  兩案場官方「陸上魚塭養殖漁業登記證」登記的養殖種類是烏魚/吳郭魚/土虱,與經營計畫書規劃的金目鱸不同;文件亦提及案場未來將由「育傑生物科技有限公司」接續養殖作業。土地所有權人是吳先生A/吳先生B/吳先生C等家人,不是家族企業自己,目前模型裡的土地租金預設為0,請務必填入實際數字,否則會高估獲利。建議把這幾點都跟家裡再核對清楚。
+  </p>
+</div>
+
+<script>
+// 主題切換:自動(跟裝置深/淺色設定)/固定淺色/固定深色,選擇會記住
+function applyTheme(choice){
+  if(choice==='light'){ document.documentElement.setAttribute('data-theme','light'); }
+  else if(choice==='dark'){ document.documentElement.setAttribute('data-theme','dark'); }
+  else { document.documentElement.removeAttribute('data-theme'); }
+  document.querySelectorAll('#theme-toggle .theme-btn').forEach(b=>b.classList.toggle('active', b.dataset.themeChoice===choice));
+  try{ localStorage.setItem('aquacalc_theme', choice); }catch(e){}
+}
+document.querySelectorAll('#theme-toggle .theme-btn').forEach(b=>{
+  b.addEventListener('click', ()=>applyTheme(b.dataset.themeChoice));
+});
+(function(){
+  let savedTheme='auto';
+  try{ savedTheme = localStorage.getItem('aquacalc_theme') || 'auto'; }catch(e){}
+  applyTheme(savedTheme);
+})();
+
+// 簡報模式:完整版(操作用)/簡報模式(給投資方看,隱藏滑桿只留關鍵數字)
+function applyPitchMode(choice){
+  const wasPitch=document.body.classList.contains('pitch-mode');
+  document.body.classList.toggle('pitch-mode', choice==='pitch');
+  document.querySelectorAll('#pitch-toggle .theme-btn').forEach(b=>b.classList.toggle('active', b.dataset.pitchChoice===choice));
+  try{ localStorage.setItem('aquacalc_pitchmode', choice); }catch(e){}
+  if(choice==='pitch' && !wasPitch){
+    const conclCard=document.getElementById('sec-conclusion');
+    if(conclCard){
+      document.querySelectorAll('.card').forEach(c=>{ if(c!==conclCard) c.classList.add('collapsed'); });
+      conclCard.classList.remove('collapsed');
+    }
+  }
+}
+document.querySelectorAll('#pitch-toggle .theme-btn').forEach(b=>{
+  b.addEventListener('click', ()=>applyPitchMode(b.dataset.pitchChoice));
+});
+(function(){
+  let savedPitch='full';
+  try{ savedPitch = localStorage.getItem('aquacalc_pitchmode') || 'full'; }catch(e){}
+  applyPitchMode(savedPitch);
+})();
+
+const taxRate=0.20, cyclesPerYear=1.5, dcfHorizon=20;
+
+const sites={
+  a:{
+    key:'a', label:'案場A・295地號', owner:'吳先生B/吳先生C各1/2',
+    landArea:18815, useArea:12053.49, pondArea:4994,
+    stocked:45900, survival:90, price:70,
+    cost:{pond:400000, fry:274000, feed:932000, water:3000, power:375000, maint:50000, other:50000, amort:200000},
+    laborOfficial:280000,
+    official:{unitCost:62, unitProfit:8, payback:5.2, annualProfit:495720}
+  },
+  b:{
+    key:'b', label:'案場B・249-1地號', owner:'吳先生A 1/1',
+    landArea:17350, useArea:12294.60, pondArea:5180,
+    stocked:47700, survival:90, price:70,
+    cost:{pond:400000, fry:285000, feed:970000, water:3000, power:390000, maint:50000, other:50000, amort:200000},
+    laborOfficial:280000,
+    official:{unitCost:61, unitProfit:9, payback:4.5, annualProfit:579555}
+  }
+};
+function nonLaborTotal(s){
+  const c=s.cost;
+  return c.pond+c.fry+c.feed+c.water+c.power+c.maint+c.other+c.amort;
+}
+
+const speciesPresets={
+  mullet:{name:'烏魚', density:2, survival:70, weight:1.0, price:150, costRatio:75, cycles:0.4,
+    fit:'bad', fitLabel:'不建議直接套用現有RAS設施',
+    note:'烏魚傳統是2-3年才收成取卵的長週期魚種,售價估算只算魚肉行情(約150元/公斤),不含烏魚子額外溢價(烏魚子零售可到2,000元/公斤以上,但技術門檻高、單靠魚肉不划算)。這跟現有為金目鱸設計的「快速輪養」室內循環水池邏輯衝突,若真的要養,可能需要另外規劃長週期蓄養池,建議先跟育傑生物科技討論可行性再評估,不要直接套用本頁滑桿。'},
+  tilapia:{name:'吳郭魚(台灣鯛)', density:15, survival:92, weight:0.6, price:65, costRatio:70, cycles:1.5,
+    fit:'good', fitLabel:'週期/密度與現有RAS相容度高',
+    note:'吳郭魚成長快、耐受度高,循環水系統放養密度可達15尾/㎡以上,8個月左右一期,跟金目鱸的週期相近,理論上最適合直接沿用現有室內循環水池輪養。售價概估65元/公斤(約合38-41元/台斤,2025年產地行情),吳郭魚是大宗商品魚,價格波動與通路議價空間都要留意。'},
+  catfish:{name:'土虱', density:20, survival:85, weight:0.75, price:130, costRatio:65, cycles:2,
+    fit:'warn', fitLabel:'週期尚可,密度/成本待查證',
+    note:'土虱5-6個月一收,週期比金目鱸短,理論上可以更頻繁輪養,但放養密度、確切成本結構在公開資料中查不到,本頁密度20尾/㎡與成本佔比65%都是粗略推估,務必實際詢價或小規模試養後再校正。售價概估130元/公斤(約合1-1.5台斤/尾、售價約100元/尾換算)。'}
+};
+let currentSpecies='mullet';
+let fishSpecies='jinmulu';
+
+const priceSourceNotes={
+  jinmulu:'金目鱸數字全部來自嘉義縣政府核准函所附「經營計畫書」表1-表3(查證日期2026-09),不是猜的:\n・放養尾數:文件寫「1分地放養9,000尾」,乘上各案場養殖池面積換算(案場A 45,900尾/案場B 47,700尾)\n・存活率90%:表2原始假設值\n・躉售價70元/尾(約600g):表3「單位售價」原文\n・非人事成本:表3成本結構(飼料+塭池整備+電費+魚苗+設施攤提+系統維護+其他+水費)加總\n這是靜態試算,不會自動連網更新,行情會隨時間變動,建議定期人工核對最新市場價後再調整滑桿。',
+  mullet:'烏魚兩份官方文件都沒有數字,以下為一般市場行情概估(查證日期2026-09):\n・密度2尾/㎡、存活率70%\n・售價150元/公斤(僅算魚肉行情,不含烏魚子額外溢價)\n・每2.5年一收(週期0.4/年)\n這隻魚傳統是長週期取卵魚種,跟現有RAS快速輪養設計邏輯衝突,數字僅供參考,務必自行查證或請教育傑生物科技團隊。',
+  tilapia:'吳郭魚兩份官方文件都沒有數字,以下為一般市場行情概估(查證日期2026-09):\n・密度15尾/㎡(循環水系統可達此密度)\n・售價65元/公斤(換算自2025年產地行情38-41元/台斤)\n成本佔營收比例等其他數字仍為粗估,務必自行查證。',
+  catfish:'土虱兩份官方文件都沒有數字,以下為一般市場行情概估(查證日期2026-09):\n・密度20尾/㎡\n・售價130元/公斤(換算自個案約100元/尾、1-1.5台斤規格)\n・每5-6個月一收(週期2/年)\n密度與成本結構查不到確切資料,務必自行查證或請教育傑生物科技團隊。'
+};
+
+const procSourceNotes={
+  jinmulu:'魚酥:零售價概估500元/公斤,參考台灣魚酥店家實際售價換算(60元/130g、90元/100g、60元/160g等,換算約375-900元/公斤,查證日期2026-09)。\n酸菜魚調理包:零售價概估180元/份,市售冷凍包多為900g以上家庭包裝,查無單一份精確零售價,此為概估。\n加工成本、通路抽成、每尾產出量皆為你可調整的假設,非官方文件內容,務必自行查證或試產後調整。',
+  mullet:'烏魚子:零售價概估4,500元/公斤,參考台北魚市場零售行情換算(4-6兩規格約2,700-2,820元/台斤,約合4,500-4,700元/公斤,查證日期2026-09)。⚠️ 此數字未考慮性別比例——只有成熟雌魚才有卵,實務上並非每尾處理的魚都能取到卵,實際經濟效益會比本頁試算更保守。\n烏魚一夜干:零售價概估800元/公斤,參考同類一夜干加工品(午仔魚一夜干230g規格約149-799元)換算推估,查無烏魚一夜干確切零售價,此為概估。\n加工成本仍為概估假設,務必自行查證。',
+  tilapia:'鹹酥吳郭魚片:零售價概估380元/公斤,參考魚酥類零食價格區間概估,查無此specific商品的公開零售價。\n吳郭魚精:零售價概估150元/份,同類魚精飲品概估,查無確切零售價。\n加工成本、通路抽成皆為概估假設,務必自行查證或試產後調整。',
+  catfish:'藥燉土虱湯包:零售價概估220元/份,參考夜市現煮當歸土虱約70元/碗的行情(查證日期2026-09),但預包裝宅配版本查無確切零售價,此處抓高一些反映包裝/冷凍宅配成本,僅供參考。\n土虱精:零售價概估160元/份,同類魚精飲品概估,查無確切零售價。\n加工成本皆為概估假設,務必自行查證。'
+};
+
+let latestCalc={};
+let site='b';
+let product='suo';
+let laborMode='profit';
+let solarApproved=false;
+let pondMode='recurring';
+
+const els={
+  stocked:document.getElementById('s-stocked'), survival:document.getElementById('s-survival'), price:document.getElementById('s-price'),
+  nonlabor:document.getElementById('s-nonlabor'),
+  basesalary:document.getElementById('s-basesalary'), months:document.getElementById('s-months'), share:document.getElementById('s-share'), empcap:document.getElementById('s-empcap'),
+  laborfixed:document.getElementById('s-laborfixed'),
+  cv:document.getElementById('s-cv'), yd:document.getElementById('s-yd'), rp:document.getElementById('s-rp'), pc:document.getElementById('s-pc'), cc:document.getElementById('s-cc'),
+  solarsites:document.getElementById('s-solarsites'), tariff:document.getElementById('s-tariff'), genperkwp:document.getElementById('s-genperkwp'), solardecay:document.getElementById('s-solardecay'),
+  loanratio:document.getElementById('s-loanratio'), loanrate:document.getElementById('s-loanrate'), loanterm:document.getElementById('s-loanterm'),
+  wacc:document.getElementById('s-wacc'), costinf:document.getElementById('s-costinf'), fishgrowth:document.getElementById('s-fishgrowth'), landrent:document.getElementById('s-landrent'),
+  shrimparea:document.getElementById('s-shrimparea'), shrimpdensity:document.getElementById('s-shrimpdensity'), shrimpsurvival:document.getElementById('s-shrimpsurvival'),
+  shrimpcycles:document.getElementById('s-shrimpcycles'), shrimpprice:document.getElementById('s-shrimpprice'), shrimpcost:document.getElementById('s-shrimpcost'),
+  spArea:document.getElementById('s-spArea'), spDensity:document.getElementById('s-spDensity'), spSurvival:document.getElementById('s-spSurvival'),
+  spWeight:document.getElementById('s-spWeight'), spPrice:document.getElementById('s-spPrice'), spCostRatio:document.getElementById('s-spCostRatio'), spCycles:document.getElementById('s-spCycles'),
+  wcbuffer:document.getElementById('s-wcbuffer'), reservecycles:document.getElementById('s-reservecycles'),
+  gridconnectdate:document.getElementById('s-gridconnectdate')
+};
+
+const presetsBySpecies={
+  jinmulu:{
+    suo:{name:'魚酥', yield:0.6, price:500, cost:100, cut:20, unit:'公斤'},
+    tsai:{name:'酸菜魚調理包', yield:1.0, price:180, cost:70, cut:25, unit:'份'}
+  },
+  mullet:{
+    roe:{name:'烏魚子', yield:0.08, price:4500, cost:400, cut:15, unit:'公斤'},
+    yagan:{name:'烏魚一夜干', yield:0.5, price:800, cost:80, cut:20, unit:'公斤'}
+  },
+  tilapia:{
+    fillet:{name:'鹹酥吳郭魚片', yield:0.3, price:380, cost:60, cut:20, unit:'公斤'},
+    extract:{name:'吳郭魚精', yield:0.4, price:150, cost:50, cut:15, unit:'份'}
+  },
+  catfish:{
+    soup:{name:'藥燉土虱湯包', yield:1.0, price:220, cost:80, cut:20, unit:'份'},
+    extract:{name:'土虱精', yield:0.4, price:160, cost:55, cut:15, unit:'份'}
+  }
+};
+
+function fmt(n){ return 'NT$'+Math.round(n).toLocaleString('en-US'); }
+function fmtInt(n){ return Math.round(n).toLocaleString('en-US'); }
+function fmtPct(n){ return (n*100).toFixed(1)+'%'; }
+
+function setSite(k){
+  site=k;
+  document.getElementById('btn-site-a').classList.toggle('active', k==='a');
+  document.getElementById('btn-site-b').classList.toggle('active', k==='b');
+  const s=sites[k];
+  els.stocked.value=s.stocked;
+  els.survival.value=s.survival;
+  els.price.value=s.price;
+  els.nonlabor.value=nonLaborTotal(s);
+  els.laborfixed.value=s.laborOfficial;
+  els.shrimparea.max=s.pondArea;
+  if(+els.shrimparea.value>s.pondArea) els.shrimparea.value=Math.round(s.pondArea*0.25);
+  els.spArea.value=s.pondArea;
+  document.getElementById('site-info').innerHTML=
+    '<b>'+s.label+'</b>(所有權人:'+s.owner+')<br>'+
+    '土地面積 '+fmtInt(s.landArea)+'㎡・容許使用面積 '+s.useArea.toLocaleString('en-US')+'㎡・養殖池 '+fmtInt(s.pondArea)+'㎡<br>'+
+    '官方經營計畫書參考值(皆為稅前):單位成本'+s.official.unitCost+'元/尾、單位獲利'+s.official.unitProfit+'元/尾、回收年限'+s.official.payback+'年、年收益約'+fmt(s.official.annualProfit)+'(稅前,未扣20%營所稅)。下方App結果卡算的是稅後淨利,數字會比這裡低。';
+  render();
+}
+document.getElementById('btn-site-a').addEventListener('click',()=>setSite('a'));
+document.getElementById('btn-site-b').addEventListener('click',()=>setSite('b'));
+
+function setProduct(p){
+  product=p;
+  document.querySelectorAll('#proc-toggle-row .toggle-btn').forEach(b=>b.classList.toggle('active', b.dataset.key===p));
+  const pr=presetsBySpecies[fishSpecies][p];
+  els.yd.value=pr.yield; els.rp.value=pr.price; els.pc.value=pr.cost; els.cc.value=pr.cut;
+  document.getElementById('unit-a').textContent=pr.unit;
+  document.getElementById('unit-b').textContent=pr.unit;
+  document.getElementById('unit-c').textContent=pr.unit;
+  render();
+}
+function renderProcessButtons(){
+  const set=presetsBySpecies[fishSpecies];
+  const keys=Object.keys(set);
+  const container=document.getElementById('proc-toggle-row');
+  container.innerHTML=keys.map((k,i)=>'<button class="toggle-btn'+(i===0?' active':'')+'" data-key="'+k+'" type="button">'+set[k].name+'</button>').join('');
+  container.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',()=>setProduct(btn.dataset.key));
+  });
+  setProduct(keys[0]);
+  document.getElementById('proc-source-note').textContent=procSourceNotes[fishSpecies];
+  document.getElementById('proc-source-note').style.display='none';
+}
+
+function setLaborMode(m){
+  laborMode=m;
+  document.getElementById('btn-labor-profit').classList.toggle('active', m==='profit');
+  document.getElementById('btn-labor-fixed').classList.toggle('active', m==='fixed');
+  document.getElementById('labor-profit-block').style.display=(m==='profit')?'':'none';
+  document.getElementById('labor-fixed-block').style.display=(m==='fixed')?'':'none';
+  render();
+}
+document.getElementById('btn-labor-profit').addEventListener('click',()=>setLaborMode('profit'));
+document.getElementById('btn-labor-fixed').addEventListener('click',()=>setLaborMode('fixed'));
+
+function setSolarApproved(v){
+  solarApproved=v;
+  document.getElementById('btn-solar-approved-no').classList.toggle('active', !v);
+  document.getElementById('btn-solar-approved-yes').classList.toggle('solar-active', v);
+  render();
+}
+document.getElementById('btn-solar-approved-no').addEventListener('click',()=>setSolarApproved(false));
+document.getElementById('btn-solar-approved-yes').addEventListener('click',()=>setSolarApproved(true));
+
+function setSpecies(k){
+  currentSpecies=k;
+  const p=speciesPresets[k];
+  els.spDensity.value=p.density; els.spSurvival.value=p.survival; els.spWeight.value=p.weight;
+  els.spPrice.value=p.price; els.spCostRatio.value=p.costRatio; els.spCycles.value=p.cycles;
+  render();
+}
+
+function setFishSpecies(k){
+  fishSpecies=k;
+  document.getElementById('btn-fish-jinmulu').classList.toggle('active', k==='jinmulu');
+  document.getElementById('btn-fish-mullet').classList.toggle('active', k==='mullet');
+  document.getElementById('btn-fish-tilapia').classList.toggle('active', k==='tilapia');
+  document.getElementById('btn-fish-catfish').classList.toggle('active', k==='catfish');
+  document.getElementById('jinmulu-block').style.display=(k==='jinmulu')?'':'none';
+  document.getElementById('generic-species-block').style.display=(k==='jinmulu')?'none':'';
+  document.getElementById('price-source-note').textContent=priceSourceNotes[k];
+  document.getElementById('price-source-note').style.display='none';
+  if(k!=='jinmulu') setSpecies(k);
+  renderProcessButtons();
+  render();
+}
+document.getElementById('btn-fish-jinmulu').addEventListener('click',()=>setFishSpecies('jinmulu'));
+document.getElementById('btn-fish-mullet').addEventListener('click',()=>setFishSpecies('mullet'));
+document.getElementById('btn-fish-tilapia').addEventListener('click',()=>setFishSpecies('tilapia'));
+document.getElementById('btn-fish-catfish').addEventListener('click',()=>setFishSpecies('catfish'));
+document.getElementById('btn-price-info').addEventListener('click',()=>{
+  const el=document.getElementById('price-source-note');
+  el.style.display = el.style.display==='none' ? '' : 'none';
+});
+document.getElementById('btn-proc-info').addEventListener('click',()=>{
+  const el=document.getElementById('proc-source-note');
+  el.style.display = el.style.display==='none' ? '' : 'none';
+});
+
+function applyScenario(scn){
+  document.getElementById('btn-scn-bad').classList.toggle('active', scn==='bad');
+  document.getElementById('btn-scn-base').classList.toggle('active', scn==='base');
+  document.getElementById('btn-scn-good').classList.toggle('active', scn==='good');
+  const s=sites[site];
+  const base=nonLaborTotal(s);
+  if(scn==='bad'){ els.survival.value=80; els.price.value=60; els.nonlabor.value=Math.round(base*1.1); }
+  else if(scn==='good'){ els.survival.value=97.5; els.price.value=80; els.nonlabor.value=Math.round(base*0.95); }
+  else { els.survival.value=s.survival; els.price.value=s.price; els.nonlabor.value=base; }
+  render();
+}
+document.getElementById('btn-scn-bad').addEventListener('click',()=>applyScenario('bad'));
+document.getElementById('btn-scn-base').addEventListener('click',()=>applyScenario('base'));
+document.getElementById('btn-scn-good').addEventListener('click',()=>applyScenario('good'));
+
+function laborCost(gross){
+  if(laborMode==='fixed'){
+    return +els.laborfixed.value;
+  }
+  const baseSalaryTotal=(+els.basesalary.value)*(+els.months.value);
+  const share=(+els.share.value)/100;
+  const poolable=Math.max(0,gross-baseSalaryTotal);
+  const empCap=+els.empcap.value;
+  const bonus=Math.min(empCap, poolable*share);
+  return baseSalaryTotal+bonus;
+}
+function afterTaxCycle(revenue, nonLabor, cycles){
+  if(cycles===undefined) cycles=cyclesPerYear;
+  const landRentPerPeriod=(+els.landrent.value)/cycles;
+  const gross=revenue-nonLabor-landRentPerPeriod;
+  const labor=laborCost(gross);
+  const pretax=gross-labor;
+  const tax=Math.max(0,pretax)*taxRate;
+  return pretax-tax;
+}
+
+function computeSolar(){
+  const kwpPerSite=1999.83, capexPerSite=69200000;
+  const n=+els.solarsites.value;
+  const kwp=kwpPerSite*n, capex=capexPerSite*n;
+  const tariff=+els.tariff.value, genPerKwp=+els.genperkwp.value;
+  const revenue=kwp*genPerKwp*tariff;
+  const opex=(200000+500000)*n;
+  const depreciation=capex/20;
+  const officialPayback=revenue>0? capex/revenue : NaN;
+  const officialAnnualNet=revenue-depreciation;
+
+  const loanRatio=(+els.loanratio.value)/100;
+  const loanAmount=capex*loanRatio;
+  const equityInvested=capex-loanAmount;
+  const rate=(+els.loanrate.value)/100;
+  const term=+els.loanterm.value;
+  const horizon=20;
+
+  let balance=loanAmount;
+  const payment= (rate<=0)? (term>0?loanAmount/term:0) : loanAmount*rate/(1-Math.pow(1+rate,-term));
+  let cumulative=-equityInvested;
+  let paybackYear=null;
+  let sumNetIncome=0;
+  let minDSCR=null, sumDSCR=0, dscrYears=0;
+
+  for(let y=1;y<=horizon;y++){
+    let interest=0, princ=0;
+    if(y<=term && balance>1){
+      interest=balance*rate;
+      princ=payment-interest;
+      if(princ>balance) princ=balance;
+      balance-=princ;
+    }
+    const pretax=revenue-opex-depreciation-interest;
+    const tax=Math.max(0,pretax)*taxRate;
+    const netIncome=pretax-tax;
+    sumNetIncome+=netIncome;
+    const cashFlow=netIncome+depreciation-princ;
+    const prevCum=cumulative;
+    cumulative+=cashFlow;
+    if(paybackYear===null && cumulative>=0){
+      const frac= cashFlow>0 ? Math.max(0,(-prevCum)/cashFlow) : 0;
+      paybackYear=(y-1)+Math.min(1,frac);
+    }
+    const debtService=interest+princ;
+    if(y<=term && debtService>0){
+      const dscr=(netIncome+depreciation+interest)/debtService;
+      if(minDSCR===null || dscr<minDSCR) minDSCR=dscr;
+      sumDSCR+=dscr; dscrYears++;
+    }
+  }
+  const avgDSCR = dscrYears>0? sumDSCR/dscrYears : null;
+  return {kwp,capex,revenue,officialPayback,officialAnnualNet,avgNetIncome:sumNetIncome/horizon,sumNetIncome20:sumNetIncome,rigorousPayback:paybackYear,equityInvested,minDSCR,avgDSCR};
+}
+
+function computeAquaAnnual(survivalPct, price, nonLabor, stocked){
+  const harvested=stocked*(survivalPct/100);
+  const baseRevenue=harvested*price;
+  return afterTaxCycle(baseRevenue, nonLabor)*cyclesPerYear;
+}
+
+// ---- 20年現金流序列(不含融資,project-level,含20%營所稅) ----
+function aquaCashflowSeries(){
+  const s=sites[site];
+  const stocked=+els.stocked.value, survival=(+els.survival.value)/100, price0=+els.price.value;
+  const nonLaborAgg=+els.nonlabor.value;
+  const totalDefault=nonLaborTotal(s);
+  const scale= totalDefault>0? nonLaborAgg/totalDefault : 1;
+  const pond_s=s.cost.pond*scale, fry_s=s.cost.fry*scale, feed_s=s.cost.feed*scale, water_s=s.cost.water*scale,
+        power_s=s.cost.power*scale, maint_s=s.cost.maint*scale, other_s=s.cost.other*scale, amort_s=s.cost.amort*scale;
+  const pondOnetime=(pondMode==='onetime');
+  const cashBase=fry_s+feed_s+water_s+power_s+maint_s+other_s+(pondOnetime?0:pond_s);
+  const amortAnnual=amort_s*cyclesPerYear;
+  const amortYears=20;
+  const capex=amortAnnual*amortYears+(pondOnetime? pond_s:0);
+  const costInf=(+els.costinf.value)/100;
+  const fishGrowth=(+els.fishgrowth.value)/100;
+  const landRentAnnual=+els.landrent.value;
+  const harvested=stocked*survival;
+
+  const cashArray=[-capex];
+  let sumNetIncome=0, sumCash=0;
+  for(let y=1;y<=dcfHorizon;y++){
+    const priceY=price0*Math.pow(1+fishGrowth,y-1);
+    const cashCostPeriod=cashBase*Math.pow(1+costInf,y-1);
+    const revenuePeriod=harvested*priceY;
+    const landRentPeriod=landRentAnnual/cyclesPerYear;
+    const grossPeriod=revenuePeriod-cashCostPeriod-amort_s-landRentPeriod;
+    const laborPeriod=laborCost(grossPeriod);
+    const pretaxPeriod=grossPeriod-laborPeriod;
+    const taxPeriod=Math.max(0,pretaxPeriod)*taxRate;
+    const netIncPeriod=pretaxPeriod-taxPeriod;
+    const netIncYear=netIncPeriod*cyclesPerYear;
+    const cashYear=netIncYear+amortAnnual;
+    cashArray.push(cashYear);
+    sumNetIncome+=netIncYear;
+    sumCash+=cashYear;
+  }
+  return {cashArray, sumNetIncome, sumCash, capex};
+}
+
+function solarCashflowSeriesUnlevered(){
+  const kwpPerSite=1999.83, capexPerSite=69200000;
+  const n=+els.solarsites.value;
+  const kwp=kwpPerSite*n, capex=capexPerSite*n;
+  const tariff=+els.tariff.value, genPerKwp0=+els.genperkwp.value;
+  const decay=(+els.solardecay.value)/100;
+  const opex=(200000+500000)*n;
+  const depreciation=capex/20;
+  const cashArray=[-capex];
+  const genArray=[0];
+  let sumCash=0;
+  for(let y=1;y<=dcfHorizon;y++){
+    const genY=kwp*genPerKwp0*Math.pow(1-decay,y-1);
+    genArray.push(genY);
+    const revenueY=genY*tariff;
+    const pretax=revenueY-opex-depreciation;
+    const tax=Math.max(0,pretax)*taxRate;
+    const netIncome=pretax-tax;
+    const cashY=netIncome+depreciation;
+    cashArray.push(cashY);
+    sumCash+=cashY;
+  }
+  return {cashArray, sumCash, capex, opex, genArray};
+}
+function levelizedCost(capex, opex, genArray, rate){
+  let pvCost=capex, pvGen=0;
+  for(let t=1;t<genArray.length;t++){
+    pvCost+=opex/Math.pow(1+rate,t);
+    pvGen+=genArray[t]/Math.pow(1+rate,t);
+  }
+  return pvGen>0? pvCost/pvGen : null;
+}
+
+function npv(rate, cashArray){
+  let v=cashArray[0];
+  for(let t=1;t<cashArray.length;t++) v+=cashArray[t]/Math.pow(1+rate,t);
+  return v;
+}
+function irr(cashArray){
+  let lo=-0.5, hi=3.0;
+  const flo=npv(lo,cashArray), fhi=npv(hi,cashArray);
+  if((flo>0)===(fhi>0)) return null;
+  for(let i=0;i<100;i++){
+    const mid=(lo+hi)/2;
+    const fmid=npv(mid,cashArray);
+    if(Math.abs(fmid)<1) return mid;
+    if((npv(lo,cashArray)>0)===(fmid>0)) lo=mid; else hi=mid;
+  }
+  return (lo+hi)/2;
+}
+function simplePayback(cashArray){
+  let cum=cashArray[0];
+  if(cum>=0) return 0;
+  for(let t=1;t<cashArray.length;t++){
+    const prev=cum; cum+=cashArray[t];
+    if(cum>=0){ const frac=cashArray[t]>0? Math.max(0,(-prev)/cashArray[t]):0; return (t-1)+Math.min(1,frac); }
+  }
+  return null;
+}
+function discountedPayback(cashArray, rate){
+  let cum=cashArray[0];
+  if(cum>=0) return 0;
+  for(let t=1;t<cashArray.length;t++){
+    const dv=cashArray[t]/Math.pow(1+rate,t);
+    const prev=cum; cum+=dv;
+    if(cum>=0){ const frac=dv>0? Math.max(0,(-prev)/dv):0; return (t-1)+Math.min(1,frac); }
+  }
+  return null;
+}
+function fmtYear(v){ return v===null? '20年內未回本' : v.toFixed(1)+' 年'; }
+
+function render(){
+  const stocked=+els.stocked.value, survival=+els.survival.value, price=+els.price.value, nonLabor=+els.nonlabor.value;
+  const convRatio=(+els.cv.value)/100, yieldPerFish=+els.yd.value, retail=+els.rp.value, procCost=+els.pc.value, cut=(+els.cc.value)/100;
+
+  document.getElementById('v-stocked').textContent=fmtInt(stocked)+' 尾';
+  document.getElementById('v-survival').textContent=survival+'%';
+  document.getElementById('v-price').textContent=price;
+  document.getElementById('v-nonlabor').textContent=fmtInt(nonLabor);
+  document.getElementById('v-basesalary').textContent=fmtInt(+els.basesalary.value);
+  document.getElementById('v-months').textContent=els.months.value;
+  document.getElementById('v-share').textContent=els.share.value+'%';
+  document.getElementById('v-empcap').textContent=fmtInt(+els.empcap.value);
+  document.getElementById('v-laborfixed').textContent=fmtInt(+els.laborfixed.value);
+  document.getElementById('v-cv').textContent=els.cv.value+'%';
+  document.getElementById('v-yd').textContent=yieldPerFish.toFixed(2);
+  document.getElementById('v-rp').textContent=retail;
+  document.getElementById('v-pc').textContent=procCost;
+  document.getElementById('v-cc').textContent=els.cc.value+'%';
+  document.getElementById('v-solarsites').textContent=(+els.solarsites.value)+' 場'+((+els.solarsites.value)===2?'(295+249-1合計)':'(295或249-1擇一)');
+  document.getElementById('v-tariff').textContent=(+els.tariff.value).toFixed(4);
+  document.getElementById('v-genperkwp').textContent=els.genperkwp.value;
+  document.getElementById('v-solardecay').textContent=(+els.solardecay.value).toFixed(1)+'%';
+  document.getElementById('v-loanratio').textContent=els.loanratio.value+'%';
+  document.getElementById('v-loanrate').textContent=(+els.loanrate.value).toFixed(1)+'%';
+  document.getElementById('v-loanterm').textContent=els.loanterm.value+'年';
+  document.getElementById('v-wacc').textContent=(+els.wacc.value).toFixed(1)+'%';
+  document.getElementById('v-costinf').textContent=(+els.costinf.value).toFixed(1)+'%';
+  document.getElementById('v-fishgrowth').textContent=(+els.fishgrowth.value).toFixed(1)+'%';
+  document.getElementById('v-landrent').textContent=fmtInt(+els.landrent.value);
+  document.getElementById('v-shrimparea').textContent=fmtInt(+els.shrimparea.value);
+  document.getElementById('v-shrimpdensity').textContent=els.shrimpdensity.value;
+  document.getElementById('v-shrimpsurvival').textContent=els.shrimpsurvival.value+'%';
+  document.getElementById('v-shrimpcycles').textContent=els.shrimpcycles.value;
+  document.getElementById('v-shrimpprice').textContent=els.shrimpprice.value;
+  document.getElementById('v-shrimpcost').textContent=(+els.shrimpcost.value).toFixed(1);
+  document.getElementById('v-spArea').textContent=fmtInt(+els.spArea.value);
+  document.getElementById('v-spDensity').textContent=els.spDensity.value;
+  document.getElementById('v-spSurvival').textContent=els.spSurvival.value+'%';
+  document.getElementById('v-spWeight').textContent=(+els.spWeight.value).toFixed(2);
+  document.getElementById('v-spPrice').textContent=els.spPrice.value;
+  document.getElementById('v-spCostRatio').textContent=els.spCostRatio.value+'%';
+  document.getElementById('v-spCycles').textContent=(+els.spCycles.value).toFixed(1);
+
+  const s=sites[site];
+  const c=s.cost;
+  document.getElementById('nonlabor-breakdown').innerHTML=
+    '<div class="bd-row"><span>官方成本結構(單期,'+s.label+')</span><b></b></div>'+
+    '<div class="bd-row"><span>飼料費</span><b>'+fmtInt(c.feed)+'</b></div>'+
+    '<div class="bd-row"><span>塭池整備費</span><b>'+fmtInt(c.pond)+'</b></div>'+
+    '<div class="bd-row"><span>電費</span><b>'+fmtInt(c.power)+'</b></div>'+
+    '<div class="bd-row"><span>魚苗費</span><b>'+fmtInt(c.fry)+'</b></div>'+
+    '<div class="bd-row"><span>設施<span class="term" data-term="amort">攤提</span>(分20年)</span><b>'+fmtInt(c.amort)+'</b></div>'+
+    '<div class="bd-row"><span>系統維護費</span><b>'+fmtInt(c.maint)+'</b></div>'+
+    '<div class="bd-row"><span>其他(利息/折舊/保險/添加劑)</span><b>'+fmtInt(c.other)+'</b></div>'+
+    '<div class="bd-row"><span>水費</span><b>'+fmtInt(c.water)+'</b></div>';
+
+  // 金目鱸基準(不論上方選了哪個魚種,都算出來供對照用)
+  const jinmuluHarvested=stocked*(survival/100);
+  const jinmuluBaseAnnual=afterTaxCycle(jinmuluHarvested*price, nonLabor, cyclesPerYear)*cyclesPerYear;
+
+  // 僅養殖 / 養殖+加工(依上方魚種選擇分流)
+  let harvested, pricePerFish, nonLaborForCalc, cyclesForCalc, spDetail=null;
+  if(fishSpecies==='jinmulu'){
+    harvested=jinmuluHarvested;
+    pricePerFish=price;
+    nonLaborForCalc=nonLabor;
+    cyclesForCalc=cyclesPerYear;
+  } else {
+    const spArea=+els.spArea.value, spDensity=+els.spDensity.value, spSurvival=(+els.spSurvival.value)/100,
+          spWeight=+els.spWeight.value, spPriceKg=+els.spPrice.value, spCostRatio=(+els.spCostRatio.value)/100, spCycles=+els.spCycles.value;
+    const spStocked=spArea*spDensity;
+    harvested=spStocked*spSurvival;
+    pricePerFish=spPriceKg*spWeight;
+    nonLaborForCalc=harvested*pricePerFish*spCostRatio;
+    cyclesForCalc=spCycles;
+    spDetail={spArea, spStocked, spWeight};
+  }
+
+  const baseRevenue=harvested*pricePerFish;
+  const baseAnnual=afterTaxCycle(baseRevenue, nonLaborForCalc, cyclesForCalc)*cyclesForCalc;
+
+  const processedQty=harvested*convRatio;
+  const wholesaleQty=harvested-processedQty;
+  const wholesaleRevenue=wholesaleQty*pricePerFish;
+  const combinedAquaAfterTaxCycle=afterTaxCycle(wholesaleRevenue, nonLaborForCalc, cyclesForCalc);
+  const procRevenue=processedQty*yieldPerFish*retail*(1-cut);
+  const procCostTotal=processedQty*yieldPerFish*procCost;
+  const procOpportunity=processedQty*pricePerFish;
+  const procPretax=procRevenue-procCostTotal-procOpportunity;
+  const procTax=Math.max(0,procPretax)*taxRate;
+  const procAfterTaxCycle=procPretax-procTax;
+  const mixAnnual=(combinedAquaAfterTaxCycle+procAfterTaxCycle)*cyclesForCalc;
+
+  // 太陽能(簡易卡)
+  const solar=computeSolar();
+  const solarAnnual=solar.avgNetIncome;
+  const totalAnnual=mixAnnual+solarAnnual;
+  const total20y=mixAnnual*20+solar.sumNetIncome20;
+
+  const speciesTagNames={jinmulu:'', mullet:'・烏魚', tilapia:'・吳郭魚', catfish:'・土虱'};
+  document.getElementById('r-species-tag').textContent=speciesTagNames[fishSpecies];
+  document.getElementById('r-base').textContent=fmt(baseAnnual);
+  document.getElementById('r-mix').textContent=fmt(mixAnnual);
+  document.getElementById('r-solar').textContent=fmt(totalAnnual);
+  document.getElementById('r-20y').textContent=fmt(total20y);
+  document.getElementById('r-solar-tag').textContent=solarApproved? '已核准・可實際售電' : '尚未核准・預估值';
+  document.getElementById('r-solar-tag').classList.toggle('ok', solarApproved);
+
+  const delta1=mixAnnual-baseAnnual;
+  document.getElementById('r-delta1').textContent=(delta1>=0?'+':'')+fmt(delta1)+' /年';
+  document.getElementById('r-delta2').textContent=(solarAnnual>=0?'+':'')+fmt(solarAnnual)+' /年';
+
+  document.getElementById('note-detail').textContent='轉加工 '+fmtInt(processedQty)+' 尾/期,其餘 '+fmtInt(wholesaleQty)+' 尾/期維持躉售。';
+
+  document.getElementById('solar-detail').innerHTML=
+    '裝置容量 '+solar.kwp.toLocaleString('en-US',{maximumFractionDigits:2})+' kWp・總造價 '+fmt(solar.capex)+'<br>'+
+    '年發電收入(第1年) '+fmt(solar.revenue)+'<br>'+
+    '官方簡化回收年限 '+solar.officialPayback.toFixed(1)+' 年(總成本÷第1年發電收入,未計稅金貸款效能衰減)<br>'+
+    '本App嚴謹回收年限(含20年折舊/貸款利息/20%營所稅) '+(solar.rigorousPayback!==null? solar.rigorousPayback.toFixed(1)+' 年':'20年內未回本')+'<br>'+
+    '20年稅後淨利累計(不含股東現金流調整) '+fmt(solar.sumNetIncome20)+'<br>'+
+    '自有資金投入 '+fmt(solar.equityInvested);
+
+  // ---- 太陽能查核大限倒數 ----
+  const gridDateStr = els.gridconnectdate.value;
+  let solarDaysLeft=null, solarDeadlineClass='warn';
+  const gridBox=document.getElementById('grid-countdown');
+  if(gridDateStr){
+    const gridDate=new Date(gridDateStr+'T00:00:00');
+    const deadline=new Date(gridDate); deadline.setMonth(deadline.getMonth()+6);
+    solarDaysLeft=Math.ceil((deadline-new Date())/86400000);
+    gridBox.style.display='';
+    if(solarDaysLeft<0){
+      solarDeadlineClass='bad';
+      gridBox.className='info-box warn';
+      gridBox.innerHTML='⚠️ 已超過完工併網後6個月查核大限('+Math.abs(solarDaysLeft)+'天前到期),請儘快確認地方政府查核結果,逾期未達標容許使用可能被廢止。';
+    } else {
+      solarDeadlineClass = solarDaysLeft<30?'bad':(solarDaysLeft<90?'warn':'good');
+      gridBox.className='info-box'+(solarDeadlineClass==='bad'?' warn':'');
+      gridBox.innerHTML='距離「完工併網滿6個月」查核大限還有 <b>'+solarDaysLeft+' 天</b>(依養殖事實查核指引4.0版,地面型案場須在此之前繳交養殖成果並達產量門檻)。';
+    }
+  } else {
+    gridBox.style.display='none';
+  }
+
+  // ---- 損益兩平與老闆稅後淨利(含租金,依上方魚種選擇分流,不再鎖定金目鱸) ----
+  const landRentAnnual=+els.landrent.value;
+  const landRentPeriod=landRentAnnual/cyclesForCalc;
+  const stockedEff = fishSpecies==='jinmulu' ? stocked : spDetail.spStocked;
+  const survivalEff = stockedEff>0 ? (harvested/stockedEff*100) : 0;
+  let breakevenSurvival;
+  if(fishSpecies==='jinmulu'){
+    breakevenSurvival = (stockedEff*pricePerFish)>0 ? (nonLaborForCalc+landRentPeriod)/(stockedEff*pricePerFish) : 0;
+  } else {
+    const costRatioEff=(+els.spCostRatio.value)/100;
+    const breakevenRevenue = landRentPeriod/(1-costRatioEff);
+    breakevenSurvival = (stockedEff*pricePerFish)>0 ? breakevenRevenue/(stockedEff*pricePerFish) : 0;
+  }
+  const marginOfSafety = survivalEff/100 - breakevenSurvival;
+  document.getElementById('breakeven-mini').innerHTML =
+    '<span class="term" data-term="breakeven">損益兩平存活率</span> <b>'+fmtPct(breakevenSurvival)+'</b>(低於這個存活率,公司這期就還沒賺錢,分紅為0)。目前設定存活率 '+survivalEff.toFixed(1)+'%,<span class="term" data-term="margin">安全邊際</span> '+fmtPct(marginOfSafety)+'。'+(fishSpecies!=='jinmulu'?'(魚種:'+speciesPresets[currentSpecies].name+',已依此魚種的成本結構重新計算,不是金目鱸數字)':'');
+
+  const grossW = baseRevenue - nonLaborForCalc - landRentPeriod;
+  const laborW = laborCost(grossW);
+  const pretaxW = grossW - laborW;
+  const taxW = Math.max(0,pretaxW)*taxRate;
+  const afterW = pretaxW - taxW;
+  const annualAfterW = afterW*cyclesForCalc;
+  document.getElementById('breakeven-detail').innerHTML =
+    '存活率 '+survivalEff.toFixed(1)+'%、售價'+fmt(pricePerFish)+'元/尾、土地租金'+fmt(landRentAnnual)+'/年 情境下:老闆年化稅後淨利 <b>'+fmt(annualAfterW)+'</b>,換算每月約 <b>'+fmt(annualAfterW/12)+'</b>。';
+  document.getElementById('waterfall-detail').innerHTML =
+    '<div class="bd-row"><span>本期養殖收入</span><b>'+fmt(baseRevenue)+'</b></div>'+
+    '<div class="bd-row"><span>減:非人事成本</span><b>-'+fmtInt(nonLaborForCalc)+'</b></div>'+
+    '<div class="bd-row"><span>減:土地租金(每期)</span><b>-'+fmtInt(landRentPeriod)+'</b></div>'+
+    '<div class="bd-row"><span>減:人事成本(依上方模式)</span><b>-'+fmtInt(laborW)+'</b></div>'+
+    '<div class="bd-row"><span>＝稅前淨利/期</span><b>'+fmtInt(pretaxW)+'</b></div>'+
+    '<div class="bd-row"><span>減:<span class="term" data-term="tax">營利事業所得稅</span>(20%)</span><b>-'+fmtInt(taxW)+'</b></div>'+
+    '<div class="bd-row"><span>＝稅後淨利/期</span><b>'+fmtInt(afterW)+'</b></div>'+
+    '<div class="bd-row"><span>年化稅後淨利(×'+cyclesForCalc.toFixed(1)+'期)</span><b>'+fmtInt(annualAfterW)+'</b></div>';
+
+  // ---- 週轉金與預備金 ----
+  const wcBuffer=(+els.wcbuffer.value)/100;
+  const reserveCycles=+els.reservecycles.value;
+  const committedLabor = laborMode==='fixed' ? (+els.laborfixed.value) : (+els.basesalary.value)*(+els.months.value);
+  const landRentPerPeriodWC = landRentAnnual/cyclesForCalc;
+  const workingCapitalBase = nonLaborForCalc + landRentPerPeriodWC + committedLabor;
+  const workingCapitalRecommended = workingCapitalBase * wcBuffer;
+
+  const pessHarvestRatio=0.85, pessPriceRatio=0.85, pessCostRatio=1.10;
+  const pessRevenueFund = harvested*pessHarvestRatio*pricePerFish*pessPriceRatio;
+  const pessNonLaborFund = nonLaborForCalc*pessCostRatio;
+  const pessGrossFund = pessRevenueFund - pessNonLaborFund - landRentPerPeriodWC;
+  const pessPretaxFund = pessGrossFund - committedLabor;
+  const pessLossPerCycle = Math.max(0, -pessPretaxFund);
+  const reserveFund = pessLossPerCycle * reserveCycles;
+  const totalFundingNeed = workingCapitalRecommended + reserveFund;
+
+  document.getElementById('v-wcbuffer').textContent=Math.round(wcBuffer*100)+'%';
+  document.getElementById('v-reservecycles').textContent=reserveCycles+' 期';
+  document.getElementById('fund-detail').innerHTML=
+    '單期基本<span class="term" data-term="workingcapital">週轉金</span>需求(不含緩衝) <b>'+fmt(workingCapitalBase)+'</b><br>'+
+    '建議週轉金(含'+Math.round(wcBuffer*100)+'%緩衝) <b>'+fmt(workingCapitalRecommended)+'</b><br>'+
+    '悲觀情境單期最大可能虧損(估) <b>'+fmt(pessLossPerCycle)+'</b><br>'+
+    '建議<span class="term" data-term="reserve">預備金</span>(可撐'+reserveCycles+'期虧損) <b>'+fmt(reserveFund)+'</b><br>'+
+    '<b style="color:var(--warn);">建議開始每期養殖前,口袋至少要有 '+fmt(totalFundingNeed)+'</b>';
+
+  // ---- NPV/IRR ----
+  const wacc=(+els.wacc.value)/100;
+  const aquaSeries=aquaCashflowSeries();
+  const solarSeries=solarCashflowSeriesUnlevered();
+
+  // ---- 太陽能融資體質:DSCR(償債保障比率)與LCOE(平準化發電成本) ----
+  const solarLCOE = levelizedCost(solarSeries.capex, solarSeries.opex, solarSeries.genArray, wacc);
+  const tariffNow = +els.tariff.value;
+  let dscrClass='good';
+  if(solar.minDSCR===null){ dscrClass='good'; }
+  else if(solar.minDSCR<1){ dscrClass='bad'; }
+  else if(solar.minDSCR<1.2){ dscrClass='warn'; }
+  document.getElementById('solar-financing-detail').className='info-box'+(dscrClass!=='good'?' warn':'');
+  document.getElementById('solar-financing-detail').innerHTML =
+    (solar.minDSCR===null
+      ? '<span class="term" data-term="dscr">DSCR</span>:目前貸款成數為0或貸款年限設定使本金已一次繳清,無還款期間可計算。'
+      : '<span class="term" data-term="dscr">DSCR(償債保障比率)</span> 貸款期間最低 <b>'+solar.minDSCR.toFixed(2)+'</b> 倍・平均 <b>'+solar.avgDSCR.toFixed(2)+'</b> 倍(銀行對太陽能專案融資常見門檻1.2~1.5倍以上,'+(solar.minDSCR<1.2?'目前低於常見門檻,實際貸款條件請跟銀行確認':'目前高於常見門檻')+')<br>')+
+    '<span class="term" data-term="lcoe">平準化發電成本(LCOE)</span> 約 <b>'+(solarLCOE!==null?solarLCOE.toFixed(2):'--')+'</b> 元/度,對照目前躉購費率 <b>'+tariffNow.toFixed(4)+'</b> 元/度('+(solarLCOE!==null && tariffNow>solarLCOE?'費率高於成本,有獲利空間':'費率低於或接近成本,獲利空間薄')+')';
+
+  const combinedCash=[aquaSeries.cashArray[0]+solarSeries.cashArray[0]];
+  for(let t=1;t<=dcfHorizon;t++) combinedCash.push(aquaSeries.cashArray[t]+solarSeries.cashArray[t]);
+
+  const aquaNPV=npv(wacc,aquaSeries.cashArray), solarNPV=npv(wacc,solarSeries.cashArray), combNPV=npv(wacc,combinedCash);
+  const aquaIRR=irr(aquaSeries.cashArray), solarIRR=irr(solarSeries.cashArray), combIRR=irr(combinedCash);
+  const aquaSP=simplePayback(aquaSeries.cashArray), solarSP=simplePayback(solarSeries.cashArray), combSP=simplePayback(combinedCash);
+  const aquaDP=discountedPayback(aquaSeries.cashArray,wacc), solarDP=discountedPayback(solarSeries.cashArray,wacc), combDP=discountedPayback(combinedCash,wacc);
+
+  function setRow(id, a,b,cAll, fmtFn){
+    const tds=document.getElementById(id).querySelectorAll('td');
+    tds[1].textContent=fmtFn(a); tds[2].textContent=fmtFn(b); tds[3].textContent=fmtFn(cAll);
+  }
+  setRow('row-capex', -aquaSeries.cashArray[0], -solarSeries.cashArray[0], -combinedCash[0], v=>fmt(v));
+  setRow('row-npv', aquaNPV, solarNPV, combNPV, v=>fmt(v));
+  setRow('row-irr', aquaIRR, solarIRR, combIRR, v=>v===null?'無法收斂':fmtPct(v));
+  setRow('row-simple', aquaSP, solarSP, combSP, v=>fmtYear(v));
+  setRow('row-disc', aquaDP, solarDP, combDP, v=>fmtYear(v));
+  setRow('row-cum20', aquaSeries.sumCash, solarSeries.sumCash, aquaSeries.sumCash+solarSeries.sumCash, v=>fmt(v));
+
+  document.getElementById('k-npv').textContent=fmt(combNPV);
+  document.getElementById('k-irr').textContent= combIRR===null? '無法收斂' : fmtPct(combIRR);
+  document.getElementById('k-payback').textContent= combSP===null? '未回本' : combSP.toFixed(1);
+  document.getElementById('k-dpayback').textContent= combDP===null? '未回本' : combDP.toFixed(1);
+
+  // ---- 一眼總覽(頁首,不用展開任何卡片就看得到) ----
+  let glanceClass;
+  if(combIRR===null || combNPV<=0){ glanceClass='bad'; }
+  else if(combIRR<wacc+0.02){ glanceClass='warn'; }
+  else { glanceClass='good'; }
+  document.getElementById('gb-npv').className='gbadge '+glanceClass;
+  document.getElementById('gb-irr').className='gbadge '+glanceClass;
+  document.getElementById('gb-npv-v').textContent=fmt(combNPV);
+  document.getElementById('gb-irr-v').textContent= combIRR===null? '無法收斂' : fmtPct(combIRR);
+  document.getElementById('gb-payback-v').textContent= combSP===null? '未回本' : combSP.toFixed(1)+'年';
+  document.getElementById('gb-payback').className='gbadge '+(combSP===null?'bad':(combSP>12?'warn':'good'));
+  const solarBadge=document.getElementById('gb-solar');
+  if(solarApproved){ solarBadge.className='gbadge good'; document.getElementById('gb-solar-v').textContent='已核准'; }
+  else if(solarDaysLeft!==null){
+    solarBadge.className='gbadge '+solarDeadlineClass;
+    document.getElementById('gb-solar-v').textContent = solarDaysLeft<0? '已逾6個月大限' : ('查核倒數'+solarDaysLeft+'天');
+  }
+  else { solarBadge.className='gbadge warn'; document.getElementById('gb-solar-v').textContent='尚未核准'; }
+
+  const speciesName = fishSpecies==='jinmulu'? '金目鱸' : speciesPresets[currentSpecies].name;
+  let glanceVerdict;
+  if(glanceClass==='bad'){
+    glanceVerdict='目前假設下,'+s.label+'＋'+speciesName+'的合計投資報酬<b>不理想</b>(IRR未達你設定的折現率,或20年NPV為負),建議先重新檢視下方假設,不要急著投入。';
+  } else if(glanceClass==='warn'){
+    glanceVerdict=s.label+'＋'+speciesName+'合計IRR '+(combIRR===null?'無法收斂':fmtPct(combIRR))+'，<b>理論上划算但緩衝不大</b>，太陽能目前'+(solarApproved?'已核准':'尚未核准(查核有一定風險)')+'，建議往下看「結論」卡的完整風險清單再決定。';
+  } else {
+    glanceVerdict=s.label+'＋'+speciesName+'合計IRR '+fmtPct(combIRR)+'、NPV約'+fmt(combNPV)+'，<b>數字面上具吸引力</b>，但太陽能'+(solarApproved?'已核准':'仍尚未核准,查核有撤照風險')+'，實際能不能做到位還要看養殖端能否穩定達標,詳見下方「結論」卡。';
+  }
+  document.getElementById('glance-verdict').innerHTML=glanceVerdict;
+
+  // ---- 投資人簡報模式:一句話商業模式+關鍵數字 ----
+  document.getElementById('pitch-onesent').innerHTML=
+    '把同一塊魚塭變成<b>雙重收入來源</b>:池裡養魚賣魚(含加工),池上/岸上裝太陽能板賣電給台電,20年躉購合約鎖定電價。'+
+    '目前試算情境是<b>'+s.label+'</b>,養殖魚種選<b>'+speciesName+'</b>。';
+  document.getElementById('pitch-scenario').textContent = s.label+'・'+speciesName+'・'+(solarApproved?'太陽能已核准':'太陽能尚未核准');
+  document.getElementById('pitch-total').textContent = fmt(totalAnnual)+' /年';
+  document.getElementById('pitch-npv').textContent = fmt(combNPV);
+  document.getElementById('pitch-irr').textContent = (combIRR===null?'無法收斂':fmtPct(combIRR))+' ・ '+(combSP===null?'未回本':combSP.toFixed(1)+'年回本');
+  document.getElementById('pitch-risk').innerHTML =
+    '<b>主要風險與因應</b>:太陽能須先做出養殖實績才能保住核准,依政府「查核指引4.0版」完工併網後6個月內產量要達門檻('+(solarApproved?'目前已核准':(solarDaysLeft!==null?(solarDaysLeft<0?'已逾查核大限,需盡快確認':'查核倒數'+solarDaysLeft+'天'):'尚未核准,倒數尚未開始'))+');上述NPV/IRR已計入20%營所稅、成本通膨與太陽能效能衰減,是相對保守的估算。';
+  document.getElementById('pitch-basis').textContent =
+    '養殖數字來源:嘉義縣政府115年8月核准函所附經營計畫書(金目鱸)/產業行情概估(其他魚種);太陽能數字來源:同一核准函表4,躉購費率請以簽約當年度能源署公告為準。';
+
+  // ---- 敏感度 ----
+  const baseline=baseAnnual;
+  function pctDelta(v){ return baseline===0? 0 : (v-baseline)/Math.abs(baseline)*100; }
+  const survHigh=computeAquaAnnual(Math.min(100,survival*1.1), price, nonLabor, stocked);
+  const survLow=computeAquaAnnual(Math.max(0,survival*0.9), price, nonLabor, stocked);
+  const priceHigh=computeAquaAnnual(survival, price*1.1, nonLabor, stocked);
+  const priceLow=computeAquaAnnual(survival, price*0.9, nonLabor, stocked);
+  const costHigh=computeAquaAnnual(survival, price, nonLabor*1.1, stocked);
+  const costLow=computeAquaAnnual(survival, price, nonLabor*0.9, stocked);
+
+  function sensRow(label, high, low){
+    const dh=pctDelta(high), dl=pctDelta(low);
+    return '<div class="sens-row"><span class="sl">'+label+' ±10%</span>'+
+      '<span class="sv2"><span class="'+(dh>=0?'up':'down')+'">'+(dh>=0?'+':'')+dh.toFixed(1)+'%</span> / '+
+      '<span class="'+(dl>=0?'up':'down')+'">'+(dl>=0?'+':'')+dl.toFixed(1)+'%</span></span></div>';
+  }
+  document.getElementById('sensitivity-list').innerHTML=
+    '<div class="sens-row"><span class="sl">變數(對「僅養殖年淨利」的影響)</span><span class="sv2">+10% / -10%</span></div>'+
+    sensRow('存活率', survHigh, survLow)+
+    sensRow('躉售價', priceHigh, priceLow)+
+    sensRow('非人事成本', costHigh, costLow);
+
+  // ---- 白蝦混養 ----
+  const pondTotal=s.pondArea;
+  const shrimpArea=Math.min(+els.shrimparea.value, pondTotal);
+  const remainRatio=Math.max(0, 1-(shrimpArea/pondTotal));
+  const fishCashPure=aquaSeries.cashArray;
+  const fishCashReduced=[fishCashPure[0]];
+  for(let t=1;t<=dcfHorizon;t++) fishCashReduced.push(fishCashPure[t]*remainRatio);
+
+  const shrimpDensity=+els.shrimpdensity.value, shrimpSurvival=(+els.shrimpsurvival.value)/100,
+        shrimpCycles=+els.shrimpcycles.value, shrimpPrice=+els.shrimpprice.value, shrimpCostPerFish=+els.shrimpcost.value;
+  const shrimpStocked=shrimpArea*shrimpDensity;
+  const shrimpHarvestKg=shrimpStocked*shrimpSurvival*0.015; // 15g/尾 收成規格,固定假設同水試所案例
+  const shrimpRevenuePeriod=shrimpHarvestKg*shrimpPrice;
+  const shrimpCostPeriod=shrimpStocked*shrimpCostPerFish;
+  const costInf=(+els.costinf.value)/100;
+  const shrimpCash=[0];
+  let shrimpSum=0;
+  for(let y=1;y<=dcfHorizon;y++){
+    const infl=Math.pow(1+costInf,y-1);
+    const rev=shrimpRevenuePeriod*infl, cst=shrimpCostPeriod*infl;
+    const pretax=(rev-cst)*shrimpCycles;
+    const tax=Math.max(0,pretax)*taxRate;
+    const after=pretax-tax;
+    shrimpCash.push(after);
+    shrimpSum+=after;
+  }
+  const mixedCash=[fishCashReduced[0]];
+  for(let t=1;t<=dcfHorizon;t++) mixedCash.push(fishCashReduced[t]+shrimpCash[t]);
+
+  function setRow2(id, a,b, fmtFn){
+    const tds=document.getElementById(id).querySelectorAll('td');
+    tds[1].textContent=fmtFn(a); tds[2].textContent=fmtFn(b);
+  }
+  setRow2('row-shrimp-year1', fishCashPure[1], mixedCash[1], v=>fmt(v));
+  setRow2('row-shrimp-npv', npv(wacc,fishCashPure), npv(wacc,mixedCash), v=>fmt(v));
+
+  // ---- 魚種概估卡(僅在上方選了非金目鱸魚種時更新;數字直接沿用上面已算好的僅養殖結果) ----
+  if(fishSpecies!=='jinmulu' && spDetail){
+    const p=speciesPresets[currentSpecies];
+    const spPerSqm=spDetail.spArea>0? baseAnnual/spDetail.spArea : 0;
+    const jinmuluPerSqm=s.pondArea>0? jinmuluBaseAnnual/s.pondArea : 0;
+    document.getElementById('species-detail').innerHTML=
+      '<span class="sname">'+p.name+' 概估(面積'+fmtInt(spDetail.spArea)+'㎡)</span>'+
+      '<div class="breakdown" style="border:none;padding-top:6px;">'+
+      '<div class="bd-row"><span>放養尾數</span><b>'+fmtInt(spDetail.spStocked)+'</b></div>'+
+      '<div class="bd-row"><span>年產量(公斤)</span><b>'+fmtInt(harvested*spDetail.spWeight*cyclesForCalc)+'</b></div>'+
+      '<div class="bd-row"><span>年稅後淨利(估,已計入人事成本與土地租金)</span><b>'+fmt(baseAnnual)+'</b></div>'+
+      '<div class="bd-row"><span>每㎡年稅後淨利</span><b>'+fmt(spPerSqm)+'</b></div>'+
+      '<div class="bd-row"><span>對照:金目鱸每㎡年稅後淨利('+s.label+')</span><b>'+fmt(jinmuluPerSqm)+'</b></div>'+
+      '</div>';
+    document.getElementById('species-fit').innerHTML=
+      '<span class="sname">相容性判斷<span class="sfit '+p.fit+'">'+p.fitLabel+'</span></span>'+
+      '<p class="note" style="margin-top:6px;">'+p.note+'</p>';
+  }
+
+  // ---- 結論(動態,會隨上方所有數字即時改變判斷與建議,不是固定文字) ----
+  const conclLines=[];
+
+  let irrVerdict;
+  if(combIRR===null){ irrVerdict='IRR在20年內無法收斂,代表現金流可能長期無法翻正,<b>目前假設下不建議貿然投入</b>,需要重新檢視太陽能與養殖假設。'; }
+  else if(combNPV<=0 || combIRR<wacc){ irrVerdict='IRR '+fmtPct(combIRR)+' <b>低於</b>你設定的折現率/WACC('+fmtPct(wacc)+'),NPV'+(combNPV<=0?'為負':'雖為正但緩衝薄')+',代表這筆投資報酬率可能不如把資金拿去做其他用途,建議重新檢視假設或降低太陽能/養殖的初期投入。'; }
+  else if(combIRR<wacc+0.05){ irrVerdict='IRR '+fmtPct(combIRR)+' 略高於WACC('+fmtPct(wacc)+'),理論上划算但緩衝不大,建議用「情境與敏感度」卡的悲觀情境再確認一次。'; }
+  else { irrVerdict='IRR '+fmtPct(combIRR)+' 明顯高於WACC('+fmtPct(wacc)+'),NPV為正,數字面上具吸引力。'; }
+  conclLines.push('本頁以20年為分析期間(對齊太陽能躉購合約年限),目前選定'+s.label+'，合計NPV約'+fmt(combNPV)+'、IRR '+(combIRR===null?'無法收斂':fmtPct(combIRR))+'、簡單回收約'+fmtYear(combSP)+'。'+irrVerdict+((fishSpecies!=='jinmulu')?'(此NPV/IRR仍是金目鱸官方模型算出來的,跟你上面選的'+speciesPresets[currentSpecies].name+'是兩回事,只能當太陽能端的參考)':''));
+
+  let feasNote;
+  if(fishSpecies==='jinmulu'){
+    feasNote='<b>可行性風險</b>:金目鱸是唯一有官方核准經營計畫書實測數字支持的魚種,財務數字的可行性風險最低;但兩案場官方「陸上魚塭養殖漁業登記證」登記的養殖種類其實是烏魚/吳郭魚/土虱,不是金目鱸——實際要養金目鱸可能得先辦理登記證的魚種變更,這是行政程序風險,務必跟育傑生物科技或地方政府漁業單位確認可行性,不是財務數字好看就能直接養。';
+  } else {
+    const p=speciesPresets[currentSpecies];
+    const fitWord = p.fit==='good'?'可行性風險較低,跟現有RAS設施相容度高':(p.fit==='warn'?'可行性風險中等,部分假設(密度/成本結構)查無公開資料待實測':'可行性風險較高,跟現有RAS快速輪養設計邏輯衝突,不建議直接套用現有設施');
+    const diffPct = jinmuluBaseAnnual!==0 ? ((baseAnnual-jinmuluBaseAnnual)/Math.abs(jinmuluBaseAnnual)*100) : 0;
+    feasNote='<b>可行性風險</b>:目前選的'+p.name+'相容性判斷為「'+p.fitLabel+'」，'+fitWord+'。概估年稅後淨利'+fmt(baseAnnual)+'，對照金目鱸官方模型('+s.label+')的'+fmt(jinmuluBaseAnnual)+'，'+(diffPct>=0?'高出':'低了')+Math.abs(diffPct).toFixed(0)+'%——但這隻魚的數字是市場概估、不是官方查證數字，財務面看起來好看或難看都務必先驗證假設是否成立，不是只看數字。'+p.note;
+  }
+  conclLines.push(feasNote);
+
+  if(!solarApproved){
+    conclLines.push('⚠️ 太陽能目前狀態為「尚未核准」——依農業部漁業署「漁電共生案場養殖事實查核參考指引4.0版」(2025年7月修訂),地面型案場完工併網後6個月內須繳交養殖成果,且產量須達該魚種近3年漁業統計年報平均值7成以上,查核不通過容許使用可能被廢止;《報導者》調查指出完工案場僅約4%實際通過查核。這是全案最大的單一風險,建議把「先穩定做出養殖產量紀錄」列為比擴大太陽能規模更優先的目標。');
+  } else {
+    conclLines.push('太陽能已核准,但依查核指引4.0版,地方政府仍會不定期複查養殖事實(工具/資材、放養與收成紀錄、產量是否達門檻)，建議把每期紀錄留存好，避免日後被追繳躉購金額或撤照。');
+  }
+
+  if(landRentAnnual===0){ conclLines.push('⚠️ 土地租金目前設為0元，這會高估老闆實際獲利，請儘快確認實際租約條件並調整「進階財務假設」卡的滑桿。'); }
+
+  let marginNote;
+  if(marginOfSafety<0){ marginNote='⚠️ 目前設定的存活率('+survivalEff.toFixed(1)+'%)已經<b>低於</b>損益兩平存活率('+fmtPct(breakevenSurvival)+')，照這個假設這期就是虧錢，請重新檢視存活率、售價或成本假設。'; }
+  else if(marginOfSafety<0.05){ marginNote='目前安全邊際只有'+fmtPct(marginOfSafety)+'，緩衝很薄，存活率稍微下滑就可能轉虧，建議提高「週轉金與預備金」卡的緩衝設定。'; }
+  else { marginNote='目前安全邊際'+fmtPct(marginOfSafety)+'，還算有緩衝，但建議每期實際收成後都回來對照，及早發現落差。'; }
+  conclLines.push(marginNote+'存活率是養殖端最大的敏感變數，飼料成本(佔非人事成本比重最高)是第二大因子，詳見上方「情境與敏感度」卡。');
+
+  conclLines.push('依上方「週轉金與預備金需求」卡試算，用目前魚種與假設，建議在每期開始養殖前準備好合計約'+fmt(totalFundingNeed)+'(週轉金'+fmt(workingCapitalRecommended)+'＋預備金'+fmt(reserveFund)+')，這筆錢最好在申請/開始養殖前就備妥，不要等收成後才發現缺口。');
+
+  document.getElementById('conclusion-detail').innerHTML=conclLines.map(l=>'• '+l).join('<br><br>');
+
+  latestCalc = {stockedEff, survivalEff, pricePerFish, nonLaborForCalc, landRentPeriod, afterW, baseAnnual, combNPV, combIRR};
+
+  saveState();
+}
+
+function saveState(){
+  try{
+    const state={site, product, laborMode, solarApproved, currentSpecies, fishSpecies, sliders:{}};
+    Object.keys(els).forEach(k=>{ if(els[k]) state.sliders[k]=els[k].value; });
+    localStorage.setItem('aquacalc_state_v1', JSON.stringify(state));
+  }catch(e){}
+}
+function loadState(){
+  try{
+    const raw=localStorage.getItem('aquacalc_state_v1');
+    return raw? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+
+// 收合卡片:各卡各自獨立展開/收合,可以同時開很多張,點一張不會自動收合其他張
+document.querySelectorAll('.card > h2').forEach(h=>{
+  h.addEventListener('click',(e)=>{
+    if(e.target.closest('.term')) return;
+    const card=h.parentElement;
+    card.classList.toggle('collapsed');
+  });
+});
+document.querySelectorAll('nav.quicknav a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    const id=a.getAttribute('href').slice(1);
+    const el=document.getElementById(id);
+    if(!el) return;
+    if(el.classList.contains('card')){
+      el.classList.remove('collapsed');
+      el.scrollIntoView({behavior:'smooth', block:'start'});
+    } else {
+      let sib=el.nextElementSibling;
+      while(sib && !sib.classList.contains('card')) sib=sib.nextElementSibling;
+      if(sib){ sib.classList.remove('collapsed'); sib.scrollIntoView({behavior:'smooth', block:'start'}); }
+    }
+  });
+});
+
+// 名詞解釋:點.term顯示小提示框,再點一次或點別處收起
+const glossary={
+  npv:'淨現值(NPV):把未來20年每一年的現金流,都換算成「現在的等值金額」加總起來。大於0代表理論上划算,數字越大越好。',
+  irr:'內部報酬率(IRR):這筆投資相當於年化幾%的報酬率,可以拿來跟銀行利率、其他投資機會比較。',
+  wacc:'折現率/WACC:把未來的錢換算成現在等值金額時用的年利率,反映資金成本與風險。數字越高,代表未來的錢換算回現在就越不值錢。',
+  cashflow:'現金流:這段期間實際「進出口袋」的錢,跟帳面上的獲利不完全一樣(獲利可能包含還沒真的收付的攤提費用)。',
+  amort:'攤提:把一次性的大筆建置成本,分攤到很多年的帳上費用,不是每年真的要付這筆現金。',
+  breakeven:'損益兩平存活率:剛好不賺不賠的臨界點,低於這個存活率,這期就是虧錢。',
+  margin:'安全邊際:目前假設距離「剛好不賺不賠」還有多少緩衝空間,數字越大代表越抗跌。',
+  tax:'營利事業所得稅:台灣公司要繳的所得稅,App一律用一般稅率20%試算。',
+  payback:'簡單回收年限:不考慮資金時間價值,單純算「投入的錢÷每年賺的錢」,大概幾年回本。',
+  discpayback:'折現回收年限:把每年的錢先折現(換算成現在等值)後,才算出的回本年限,通常比「簡單回收年限」更長,也更保守貼近實際。',
+  sensitivity:'敏感度分析:測試單一變數(例如存活率)變動時,對最終獲利的影響有多大,幫你抓出最需要盯緊的關鍵因素。',
+  capex:'初始資本支出:一次性投入的大筆建置/設備金額,例如太陽能板、養殖設施。',
+  costinf:'成本通膨率:假設每年飼料、人事等現金成本會固定上漲的比例。',
+  workingcapital:'週轉金:養殖從放苗到收成中間有6-8個月,這段期間飼料、人事、租金等成本要一直付,但收入要等收成賣魚才進來。週轉金就是這段空窗期需要先準備好、撐到收入進來的現金。',
+  reserve:'預備金:額外準備的緩衝資金,用來應付存活率不佳、魚價下跌等悲觀狀況造成的虧損,避免一次不好的收成就周轉不靈。',
+  dscr:'償債保障比率(DSCR):每年扣掉營運成本跟稅之後的現金,是當年要繳的貸款本金+利息的幾倍。銀行審核太陽能專案融資時常見門檻是1.2~1.5倍以上,低於1代表當年現金不夠還貸款,要另外調錢補。',
+  lcoe:'平準化發電成本(LCOE):把20年的建置成本、營運成本都折現後,除以20年總發電度數,算出「這套系統平均每度電的真實成本」。跟躉購費率比,費率越高於LCOE,代表這筆太陽能投資的獲利空間越大。'
+};
+let activeTooltip=null, activeTermEl=null;
+function hideTooltip(){
+  if(activeTooltip){ activeTooltip.remove(); activeTooltip=null; activeTermEl=null; }
+}
+document.addEventListener('click',(e)=>{
+  const term=e.target.closest('.term');
+  if(term){
+    e.stopPropagation();
+    if(activeTermEl===term){ hideTooltip(); return; }
+    hideTooltip();
+    const text=glossary[term.dataset.term];
+    if(!text) return;
+    const tip=document.createElement('div');
+    tip.className='term-tooltip';
+    tip.textContent=text;
+    document.body.appendChild(tip);
+    const rect=term.getBoundingClientRect();
+    const tw=tip.offsetWidth, th=tip.offsetHeight;
+    let left=Math.min(Math.max(16,rect.left), window.innerWidth-tw-16);
+    let top=rect.bottom+6;
+    if(top+th>window.innerHeight-16) top=Math.max(16,rect.top-th-6);
+    tip.style.left=left+'px';
+    tip.style.top=top+'px';
+    activeTooltip=tip; activeTermEl=term;
+  } else {
+    hideTooltip();
+  }
+});
+
+// ---- 實績記錄:實際 vs 預估對照 ----
+let cycleLog=[];
+function loadCycleLog(){
+  try{ const raw=localStorage.getItem('aquacalc_cyclelog_v1'); cycleLog = raw? JSON.parse(raw) : []; }catch(e){ cycleLog=[]; }
+}
+function saveCycleLog(){
+  try{ localStorage.setItem('aquacalc_cyclelog_v1', JSON.stringify(cycleLog)); }catch(e){}
+}
+function renderCycleLog(){
+  const tbl=document.getElementById('actual-log-table');
+  [...tbl.querySelectorAll('tr')].slice(1).forEach(r=>r.remove());
+  document.getElementById('actual-log-empty').style.display = cycleLog.length? 'none' : '';
+  cycleLog.slice().reverse().forEach(rec=>{
+    const delta=rec.actualAfter-rec.estAfter;
+    const deltaColor = delta>=0? 'var(--good)':'var(--bad)';
+    const tr=document.createElement('tr');
+    tr.innerHTML =
+      '<td>'+rec.date+'<br><span style="font-size:10px;color:var(--ink-faint);">'+rec.speciesLabel+(rec.note?'・'+rec.note:'')+'</span></td>'+
+      '<td class="mono">'+fmt(rec.estAfter)+'</td>'+
+      '<td class="mono">'+fmt(rec.actualAfter)+'</td>'+
+      '<td class="mono" style="color:'+deltaColor+';">'+(delta>=0?'+':'')+fmt(delta)+'</td>'+
+      '<td><button type="button" class="log-del" data-id="'+rec.id+'">刪除</button></td>';
+    tbl.appendChild(tr);
+  });
+  tbl.querySelectorAll('.log-del').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      cycleLog = cycleLog.filter(r=>r.id!==btn.dataset.id);
+      saveCycleLog(); renderCycleLog();
+    });
+  });
+}
+document.getElementById('btn-actual-add').addEventListener('click',()=>{
+  const errEl=document.getElementById('actual-log-error');
+  errEl.style.display='none';
+  const dateVal = document.getElementById('s-actual-date').value || new Date().toISOString().slice(0,10);
+  const aSurvival = parseFloat(document.getElementById('s-actual-survival').value);
+  const aPrice = parseFloat(document.getElementById('s-actual-price').value);
+  const aNonLabor = parseFloat(document.getElementById('s-actual-nonlabor').value);
+  if(isNaN(aSurvival) || isNaN(aPrice) || isNaN(aNonLabor)){
+    errEl.textContent='請至少填寫實際存活率、售價、非人事成本三項數字才能新增。';
+    errEl.style.display='';
+    return;
+  }
+  const snap=latestCalc;
+  const actualHarvested = snap.stockedEff*(aSurvival/100);
+  const actualRevenue = actualHarvested*aPrice;
+  const actualGross = actualRevenue - aNonLabor - snap.landRentPeriod;
+  const actualLabor = laborCost(actualGross);
+  const actualPretax = actualGross - actualLabor;
+  const actualTax = Math.max(0,actualPretax)*taxRate;
+  const actualAfter = actualPretax - actualTax;
+  cycleLog.push({
+    id: Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+    date: dateVal,
+    speciesLabel: (fishSpecies==='jinmulu'?'金目鱸':speciesPresets[currentSpecies].name)+'・'+sites[site].label,
+    estSurvival: snap.survivalEff, estPrice: snap.pricePerFish, estNonLabor: snap.nonLaborForCalc, estAfter: snap.afterW,
+    actualSurvival:aSurvival, actualPrice:aPrice, actualNonLabor:aNonLabor, actualAfter,
+    note: document.getElementById('s-actual-note').value||''
+  });
+  saveCycleLog();
+  document.getElementById('s-actual-survival').value='';
+  document.getElementById('s-actual-price').value='';
+  document.getElementById('s-actual-nonlabor').value='';
+  document.getElementById('s-actual-note').value='';
+  renderCycleLog();
+});
+
+// ---- 情境另存與比較 ----
+let scenarios=[];
+function loadScenarios(){
+  try{ const raw=localStorage.getItem('aquacalc_scenarios_v1'); scenarios = raw? JSON.parse(raw) : []; }catch(e){ scenarios=[]; }
+}
+function saveScenarios(){
+  try{ localStorage.setItem('aquacalc_scenarios_v1', JSON.stringify(scenarios)); }catch(e){}
+}
+function captureSnapshot(){
+  const snap={site, product, laborMode, solarApproved, fishSpecies, sliders:{}};
+  Object.keys(els).forEach(k=>{ if(els[k]) snap.sliders[k]=els[k].value; });
+  return snap;
+}
+function restoreSnapshot(snap){
+  setSite(snap.site || 'b');
+  setFishSpecies(snap.fishSpecies || 'jinmulu');
+  if(snap.product && presetsBySpecies[fishSpecies] && presetsBySpecies[fishSpecies][snap.product]) setProduct(snap.product);
+  setLaborMode(snap.laborMode || 'profit');
+  setSolarApproved(!!snap.solarApproved);
+  if(snap.sliders){ Object.keys(snap.sliders).forEach(k=>{ if(els[k]) els[k].value=snap.sliders[k]; }); }
+  render();
+}
+function renderScenarioTable(){
+  const tbl=document.getElementById('scenario-table');
+  [...tbl.querySelectorAll('tr')].slice(1).forEach(r=>r.remove());
+  document.getElementById('scenario-empty').style.display = scenarios.length? 'none' : '';
+  scenarios.forEach(sc=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML =
+      '<td>'+sc.name+'</td>'+
+      '<td class="mono">'+fmt(sc.baseAnnual)+'</td>'+
+      '<td class="mono">'+fmt(sc.combNPV)+'</td>'+
+      '<td class="mono">'+(sc.combIRR===null?'無法收斂':fmtPct(sc.combIRR))+'</td>'+
+      '<td><button type="button" class="log-apply" data-id="'+sc.id+'">套用</button><button type="button" class="log-del" data-id="'+sc.id+'">刪除</button></td>';
+    tbl.appendChild(tr);
+  });
+  tbl.querySelectorAll('.log-apply').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const sc=scenarios.find(s=>s.id===btn.dataset.id);
+      if(sc) restoreSnapshot(sc.snapshot);
+    });
+  });
+  tbl.querySelectorAll('.log-del').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      scenarios = scenarios.filter(s=>s.id!==btn.dataset.id);
+      saveScenarios(); renderScenarioTable();
+    });
+  });
+}
+document.getElementById('btn-scenario-save').addEventListener('click',()=>{
+  const errEl=document.getElementById('scenario-log-error');
+  errEl.style.display='none';
+  const name=document.getElementById('s-scenario-name').value.trim();
+  if(!name){
+    errEl.textContent='請先幫這個情境取個名字。';
+    errEl.style.display='';
+    return;
+  }
+  scenarios.push({
+    id: Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+    name,
+    baseAnnual: latestCalc.baseAnnual, combNPV: latestCalc.combNPV, combIRR: latestCalc.combIRR,
+    snapshot: captureSnapshot()
+  });
+  saveScenarios();
+  document.getElementById('s-scenario-name').value='';
+  renderScenarioTable();
+});
+
+const saved=loadState();
+setSite(saved && saved.site || 'b');
+setFishSpecies(saved && saved.fishSpecies || 'jinmulu');
+if(saved && saved.product && presetsBySpecies[fishSpecies][saved.product]) setProduct(saved.product);
+setLaborMode(saved && saved.laborMode || 'profit');
+setSolarApproved(saved ? !!saved.solarApproved : false);
+applyScenario('base');
+if(saved && saved.sliders){
+  Object.keys(saved.sliders).forEach(k=>{ if(els[k]) els[k].value=saved.sliders[k]; });
+}
+render();
+loadCycleLog(); renderCycleLog();
+loadScenarios(); renderScenarioTable();
+Object.values(els).forEach(el=>el && el.addEventListener('input',render));
+document.getElementById('btn-reset-all').addEventListener('click',()=>{
+  try{ localStorage.removeItem('aquacalc_state_v1'); }catch(e){}
+  location.reload();
+});
+</script>
+</body>
+</html>
