@@ -381,7 +381,7 @@ body.pitch-mode .log-del{display:none;}
 <header>
   <h1>漁電獲利站</h1>
   <p>295 / 249-1 兩案場・養殖＋加工＋太陽能整合獲利試算</p>
-  <p class="version-tag">v14・2026-09-08</p>
+  <p class="version-tag">v15・2026-09-09</p>
   <button class="reset-link" id="btn-reset-all" type="button">重置為預設值</button>
   <div class="theme-toggle" id="theme-toggle">
     <button type="button" data-theme-choice="auto" class="theme-btn">自動(跟裝置)</button>
@@ -677,7 +677,7 @@ body.pitch-mode .log-del{display:none;}
       <button class="toggle-btn active" id="btn-scn-base" type="button">基準</button>
       <button class="toggle-btn" id="btn-scn-good" type="button">樂觀</button>
     </div>
-    <p class="note">悲觀/樂觀會套用文件出現過的區間(存活率80~97.5%、售價60~80元)並自動調整上面的滑桿,你仍可再自行微調。</p>
+    <p class="note">悲觀/樂觀會套用文件出現過的區間(存活率80~97.5%、售價60~80元)並自動調整上面的滑桿,你仍可再自行微調。這裡只模擬存活率/售價的溫和波動;像太陽能查核不過、魚價像2026年台灣鯛那樣單年崩跌50%以上這種更極端的情況,不是滑桿能模擬的,請看下方「風險與避險」卡的具體因應工具。</p>
     <div class="sens-table" id="sensitivity-list"></div>
   </div>
 
@@ -940,9 +940,11 @@ function applyPitchMode(choice){
   try{ localStorage.setItem('aquacalc_pitchmode', choice); }catch(e){}
   if(choice==='pitch' && !wasPitch){
     const conclCard=document.getElementById('sec-conclusion');
+    const riskCard=document.getElementById('sec-risk');
     if(conclCard){
-      document.querySelectorAll('.card').forEach(c=>{ if(c!==conclCard) c.classList.add('collapsed'); });
+      document.querySelectorAll('.card').forEach(c=>{ if(c!==conclCard && c!==riskCard) c.classList.add('collapsed'); });
       conclCard.classList.remove('collapsed');
+      if(riskCard) riskCard.classList.remove('collapsed');
     }
   }
 }
