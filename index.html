@@ -360,7 +360,7 @@ body.pitch-mode .log-del{display:none;}
 <header>
   <h1>漁電獲利站</h1>
   <p>295 / 249-1 兩案場・養殖＋加工＋太陽能整合獲利試算</p>
-  <p class="version-tag">v7・2026-09-08</p>
+  <p class="version-tag">v8・2026-09-08</p>
   <button class="reset-link" id="btn-reset-all" type="button">重置為預設值</button>
   <div class="theme-toggle" id="theme-toggle">
     <button type="button" data-theme-choice="auto" class="theme-btn">自動(跟裝置)</button>
@@ -459,6 +459,8 @@ body.pitch-mode .log-del{display:none;}
     </div>
     <button class="info-toggle" id="btn-price-info" type="button">ⓘ 這些數字哪裡來的?</button>
     <p class="note" id="price-source-note" style="display:none;"></p>
+    <button class="info-toggle" id="btn-live-price" type="button">⟳ 查詢最近30天官方批發行情(即時)</button>
+    <p class="note" id="live-price-result" style="display:none;"></p>
 
     <div id="jinmulu-block">
       <div class="row">
@@ -770,7 +772,7 @@ body.pitch-mode .log-del{display:none;}
     </div>
     <div class="row">
       <label>白蝦躉售價 (元/公斤) <span class="sv" id="v-shrimpprice">220</span></label>
-      <input type="range" id="s-shrimpprice" min="100" max="400" value="220" step="10">
+      <input type="range" id="s-shrimpprice" min="100" max="400" value="220" step="5">
     </div>
     <div class="row">
       <label>白蝦每尾放養成本 (元/尾) <span class="sv" id="v-shrimpcost">1.9</span></label>
@@ -781,7 +783,7 @@ body.pitch-mode .log-del{display:none;}
       <tr id="row-shrimp-year1"><td>第1年稅後現金流</td><td class="mono"></td><td class="mono"></td></tr>
       <tr id="row-shrimp-npv" class="hl"><td>20年NPV</td><td class="mono"></td><td class="mono"></td></tr>
     </table></div>
-    <p class="note">白蝦每年可養2-5輪,能在鱸魚8個月才收成一次的空窗期提供較密集的現金流入,主要用來緩解現金流節奏、不是取代鱸魚做為主力獲利來源。白蝦同樣受成本通膨侵蝕,長期仍需搭配售價調整或加工策略維持獲利。存活率/放養成本來源:水試所東港生技研究中心案例,僅供參考。</p>
+    <p class="note">白蝦每年可養2-5輪,能在鱸魚8個月才收成一次的空窗期提供較密集的現金流入,主要用來緩解現金流節奏、不是取代鱸魚做為主力獲利來源。白蝦同樣受成本通膨侵蝕,長期仍需搭配售價調整或加工策略維持獲利。存活率/放養成本來源:水試所東港生技研究中心案例,僅供參考。躉售價220元/公斤已對照農業部「農業資料開放平臺」2026年8月下旬多市場交易均價(約222元/公斤,波動區間頗大),算是目前查得到最新的官方數字。</p>
   </div>
 
   <div id="sec-scenarios" class="card collapsed">
@@ -816,6 +818,8 @@ body.pitch-mode .log-del{display:none;}
   兩案場官方「陸上魚塭養殖漁業登記證」登記的養殖種類是烏魚/吳郭魚/土虱,與經營計畫書規劃的金目鱸不同;文件亦提及案場未來將由「育傑生物科技有限公司」接續養殖作業。土地所有權人是吳先生A/吳先生B/吳先生C等家人,不是家族企業自己;土地租金已確認為0元(自家土地不對外計租),模型裡的0元是確認過的事實,不是還沒填的假設值。
   <h3>育傑生物科技有限公司(查證日期2026-09)</h3>
   公開登記資料:統編42806751、負責人胡又中、資本額1,300萬元、2016年8月成立、登記地址高雄市苓雅區,主要營業項目為淡水魚塭養殖及水產品批發。公開徵才資訊顯示其核心養殖物種為<b>白蝦、螃蟹、鰻魚</b>(10甲戶外養殖,並發展室內養殖技術),實際營運據點在<b>雲林縣口湖鄉</b>,不是嘉義。這代表金目鱸(經營計畫書)、烏魚/吳郭魚/土虱(登記證)、白蝦/螃蟹/鰻魚(育傑公開資料上的專長)三邊物種都對不上,育傑是否真的有金目鱸的實際操作經驗、會不會派人常駐嘉義案場、或只是掛名合作,務必直接跟對方確認清楚,不要預設對方一定有現成的金目鱸養殖能力。公司已成立近10年、資本額不算小,不是空頭公司,這點算正面訊號。
+  <h3>AI智慧養殖導入與產學合作(查證日期2026-09)</h3>
+  海洋大學團隊已把AIoT智慧養殖系統模組化,拆成投餌/水質監測/打水等7個子系統,<b>每個模組建置成本可壓在10萬元以下</b>,不必一次砸數百萬,適合這種規模的案場分階段導入。國科會的「產學合作研究計畫」申請主體必須是學校/研究機構,個人或公司不能直接申請,務實做法是主動接洽已有實績的教授團隊(例如海大)或水試所鄰近的研究中心,用「提供場域+部分配合資源」換取技術輔導,對方再用這個場域去申請國科會/農業部的計畫——水試所已有跟個別養殖戶合作示範且活存率提升逾10%的實際案例,不是只服務大型業者。這條路除了技術,也是幫自己多找一組不靠育傑生物科技的外部技術backup,分散養殖端風險。
   </p>
 </div>
 
@@ -889,7 +893,7 @@ const speciesPresets={
   mullet:{name:'烏魚', density:2, survival:70, weight:1.0, price:150, costRatio:75, cycles:0.4,
     fit:'bad', fitLabel:'不建議直接套用現有RAS設施',
     note:'烏魚傳統是2-3年才收成取卵的長週期魚種,售價估算只算魚肉行情(約150元/公斤),不含烏魚子額外溢價(烏魚子零售可到2,000元/公斤以上,但技術門檻高、單靠魚肉不划算)。這跟現有為金目鱸設計的「快速輪養」室內循環水池邏輯衝突,若真的要養,可能需要另外規劃長週期蓄養池,建議先跟育傑生物科技討論可行性再評估,不要直接套用本頁滑桿。'},
-  tilapia:{name:'吳郭魚(台灣鯛)', density:15, survival:92, weight:0.6, price:65, costRatio:70, cycles:1.5,
+  tilapia:{name:'吳郭魚(台灣鯛)', density:15, survival:92, weight:0.6, price:68, costRatio:70, cycles:1.5,
     fit:'good', fitLabel:'週期/密度與現有RAS相容度高',
     note:'吳郭魚成長快、耐受度高,循環水系統放養密度可達15尾/㎡以上,8個月左右一期,跟金目鱸的週期相近,理論上最適合直接沿用現有室內循環水池輪養。售價概估65元/公斤(約合38-41元/台斤,2025年產地行情),吳郭魚是大宗商品魚,價格波動與通路議價空間都要留意。'},
   catfish:{name:'土虱', density:20, survival:85, weight:0.75, price:130, costRatio:65, cycles:2,
@@ -902,8 +906,8 @@ let fishSpecies='jinmulu';
 const priceSourceNotes={
   jinmulu:'金目鱸數字全部來自嘉義縣政府核准函所附「經營計畫書」表1-表3(查證日期2026-09),不是猜的:\n・放養尾數:文件寫「1分地放養9,000尾」,乘上各案場養殖池面積換算(案場A 45,900尾/案場B 47,700尾)\n・存活率90%:表2原始假設值\n・躉售價70元/尾(約600g):表3「單位售價」原文,換算約117元/公斤\n・非人事成本:表3成本結構(飼料+塭池整備+電費+魚苗+設施攤提+系統維護+其他+水費)加總\n\n市場價格核對(2026-09查證):農業部「漁產品批發市場交易行情站」115年8月金目鱸批發行情為106.8元/公斤,比文件的117元/公斤概算低約9%——批發市場價通常比產地躉售價低一些屬合理範圍,但也代表117元/尾這個數字偏樂觀,建議售價滑桿可以試著調低一點抓保守情境。\n這是靜態試算,不會自動連網更新,行情會隨時間變動,建議定期人工核對最新市場價後再調整滑桿。',
   mullet:'烏魚兩份官方文件都沒有數字,以下為一般市場行情概估(查證日期2026-09):\n・密度2尾/㎡、存活率70%\n・售價150元/公斤(僅算魚肉行情,不含烏魚子額外溢價)\n・每2.5年一收(週期0.4/年)\n這隻魚傳統是長週期取卵魚種,跟現有RAS快速輪養設計邏輯衝突,數字僅供參考,務必自行查證或請教育傑生物科技團隊。',
-  tilapia:'吳郭魚兩份官方文件都沒有數字,以下為一般市場行情概估(查證日期2026-09):\n・密度15尾/㎡(循環水系統可達此密度)\n・售價65元/公斤(換算自2025年產地行情38-41元/台斤)\n成本佔營收比例等其他數字仍為粗估,務必自行查證。',
-  catfish:'土虱兩份官方文件都沒有數字,以下為一般市場行情概估(查證日期2026-09):\n・密度20尾/㎡\n・售價130元/公斤(換算自個案約100元/尾、1-1.5台斤規格)\n・每5-6個月一收(週期2/年)\n密度與成本結構查不到確切資料,務必自行查證或請教育傑生物科技團隊。'
+  tilapia:'吳郭魚兩份官方文件都沒有數字,以下為一般市場行情概估(查證日期2026-09,已更新為2026年最新官方數字):\n・密度15尾/㎡(循環水系統可達此密度)\n・售價68元/公斤:農業部「農業資料開放平臺」漁產品交易行情資料集(品種代碼1011)2026年7-8月多市場交易均價約68.4元/公斤,不是2025年的舊數字\n成本佔營收比例等其他數字仍為粗估,務必自行查證。',
+  catfish:'土虱兩份官方文件都沒有數字,以下為一般市場行情概估(查證日期2026-09):\n・密度20尾/㎡\n・售價130元/公斤(換算自個案約100元/尾、1-1.5台斤規格)\n・每5-6個月一收(週期2/年)\n⚠️ 實際查證發現:土虱在農業部「農業資料開放平臺」漁產品批發交易行情資料集裡查不到交易紀錄(查了2026年7-8月共5,000多筆資料都沒有),代表土虱基本上不太走正式批發市場通路,可能都是走地區直售/餐廳契作/傳統市場等非正式管道——這件事本身就值得注意:如果真的要養土虱,銷售通路要自己另外找,不能預期能像金目鱸一樣直接送批發市場交易。密度與成本結構查不到確切資料,務必自行查證或請教育傑生物科技團隊。'
 };
 
 const procSourceNotes={
@@ -1054,6 +1058,47 @@ document.getElementById('btn-fish-catfish').addEventListener('click',()=>setFish
 document.getElementById('btn-price-info').addEventListener('click',()=>{
   const el=document.getElementById('price-source-note');
   el.style.display = el.style.display==='none' ? '' : 'none';
+});
+
+// ---- 即時查詢官方批發行情(農業部「農業資料開放平臺」漁產品交易行情,CORS開放可直接前端查詢) ----
+const speciesTypeNo={jinmulu:'1071', tilapia:'1011', mullet:null, catfish:null};
+function toROCDate(d){
+  const y=d.getFullYear()-1911;
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  return String(y).padStart(3,'0')+m+day;
+}
+async function queryLatestPrice(typeNo){
+  const end=new Date();
+  const start=new Date(); start.setDate(start.getDate()-30);
+  const url='https://data.moa.gov.tw/Service/OpenData/FromM/AquaticTransData.aspx?$top=1000&TypeNo='+typeNo+'&StartDate='+toROCDate(start)+'&EndDate='+toROCDate(end);
+  const res=await fetch(url);
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  const data=await res.json();
+  if(!Array.isArray(data) || data.length===0) return null;
+  const prices=data.map(r=>r['平均價']).filter(v=>typeof v==='number' && v>0);
+  if(prices.length===0) return null;
+  const avg=prices.reduce((a,b)=>a+b,0)/prices.length;
+  const dates=data.map(r=>r['交易日期']).filter(Boolean).sort();
+  return {avg, n:prices.length, from:dates[0], to:dates[dates.length-1]};
+}
+document.getElementById('btn-live-price').addEventListener('click', async ()=>{
+  const el=document.getElementById('live-price-result');
+  el.style.display='';
+  const typeNo=speciesTypeNo[fishSpecies];
+  const speciesLabel=fishSpecies==='jinmulu'?'金目鱸':(fishSpecies==='tilapia'?'吳郭魚':(fishSpecies==='mullet'?'烏魚':'土虱'));
+  if(!typeNo){
+    el.innerHTML=speciesLabel+'查不到農業部批發交易行情資料集裡對應的官方品種代碼('+(fishSpecies==='mullet'?'烏魚肉本身沒有,只查得到「烏魚子」這個獨立品項':'土虱經查證幾乎不走正式批發市場通路')+'),沒辦法用這個功能即時查,請自行到 <a href="https://efish.fa.gov.tw/efish/statistics/simplechart.htm" target="_blank" rel="noopener">漁產品批發市場交易行情站</a> 查詢或詢問通路商。';
+    return;
+  }
+  el.textContent='查詢中…';
+  try{
+    const r=await queryLatestPrice(typeNo);
+    if(!r){ el.textContent=speciesLabel+'最近30天查無交易紀錄,可能近期沒有這個魚種的批發交易資料。'; return; }
+    el.innerHTML=speciesLabel+' 最近30天('+r.from+'~'+r.to+' 民國年,共'+r.n+'筆交易)官方批發均價 <b>'+r.avg.toFixed(1)+' 元/公斤</b>。資料來源:農業部「農業資料開放平臺」漁產品交易行情資料集,即時查詢結果,跟上方滑桿設定的數字互相對照參考。';
+  }catch(e){
+    el.textContent='查詢失敗(可能網路問題或資料來源暫時無法連線),請稍後再試,或直接到 efish.fa.gov.tw 查詢。';
+  }
 });
 document.getElementById('btn-proc-info').addEventListener('click',()=>{
   const el=document.getElementById('proc-source-note');
