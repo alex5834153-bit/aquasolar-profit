@@ -407,7 +407,7 @@ body.pitch-mode .log-del{display:none;}
 <header>
   <h1>漁電獲利站</h1>
   <p>295 / 249-1 兩案場・養殖＋加工＋太陽能整合獲利試算</p>
-  <p class="version-tag">v18・2026-09-09</p>
+  <p class="version-tag">v19・2026-09-10</p>
   <button class="reset-link" id="btn-reset-all" type="button">重置為預設值</button>
   <div class="theme-toggle" id="theme-toggle">
     <button type="button" data-theme-choice="auto" class="theme-btn">自動(跟裝置)</button>
@@ -854,6 +854,37 @@ body.pitch-mode .log-del{display:none;}
 
 
   <div class="section-eyebrow" id="grp-conclusion">結論</div>
+
+  <div id="sec-investor" class="card collapsed">
+    <h2><span class="htext">投資方報酬試算<span class="sub">投資人自己實際能拿回多少,不是公司整體數字</span></span><span class="chev">▾</span></h2>
+    <div class="toggle-row" id="investor-mode-toggle">
+      <button class="toggle-btn active" data-inv-mode="equity" type="button">股權分潤型</button>
+      <button class="toggle-btn" data-inv-mode="debt" type="button">固定收益型(類債權)</button>
+    </div>
+    <div class="row">
+      <label>投資金額 (元) <span class="sv" id="v-invAmount">1,000,000</span></label>
+      <input type="range" id="s-invAmount" min="100000" max="20000000" step="100000" value="1000000">
+    </div>
+    <div class="row" id="investor-equity-row">
+      <label>換得股權/分潤比例 <span class="sv" id="v-invEquity">10%</span></label>
+      <input type="range" id="s-invEquity" min="1" max="49" step="1" value="10">
+    </div>
+    <div class="row" id="investor-rate-row" style="display:none;">
+      <label>約定年利率 <span class="sv" id="v-invRate">6%</span></label>
+      <input type="range" id="s-invRate" min="1" max="15" step="0.5" value="6">
+    </div>
+    <div class="row" id="investor-term-row" style="display:none;">
+      <label>借款年限 (年) <span class="sv" id="v-invTerm">5</span></label>
+      <input type="range" id="s-invTerm" min="1" max="15" step="1" value="5">
+    </div>
+    <div class="toggle-row" id="investor-basis-toggle">
+      <button class="toggle-btn active" data-inv-basis="aqua" type="button">僅養殖(保守)</button>
+      <button class="toggle-btn" data-inv-basis="total" type="button">養殖＋太陽能(樂觀)</button>
+    </div>
+    <div class="info-box" id="investor-detail"></div>
+    <p class="note">這裡的現金流基礎跟上方「現金流與可行性指標」卡用同一套20年DCF數字(僅養殖批發,不含加工/白蝦混養),股權分潤型:投資人依比例分公司每年可分配現金流,賺賠都跟著案場走。固定收益型:投資人約定利率收固定利息,借款期滿還本金,不參與案場漲跌,對投資人風險較低但報酬封頂,對你們家而言是固定要付的資金成本,不是分潤。兩種都只是試算參考,不是正式投資合約條款。</p>
+  </div>
+
   <div id="sec-conclusion" class="card collapsed">
     <h2><span class="htext">可行性結論與風險</span><span class="chev">▾</span></h2>
     <div class="info-box" id="conclusion-detail"></div>
@@ -1070,6 +1101,8 @@ let site='b';
 let product='suo';
 let laborMode='profit';
 let solarApproved=false;
+let investorMode='equity';
+let investorBasis='aqua';
 let pondMode='recurring';
 
 const els={
@@ -1693,6 +1726,49 @@ function render(){
   const aquaSP=simplePayback(aquaSeries.cashArray), solarSP=simplePayback(solarSeries.cashArray), combSP=simplePayback(combinedCash);
   const aquaDP=discountedPayback(aquaSeries.cashArray,wacc), solarDP=discountedPayback(solarSeries.cashArray,wacc), combDP=discountedPayback(combinedCash,wacc);
 
+  // ---- 投資方報酬試算:投資人自己放進去的錢，拿回多少，不是公司整體數字 ----
+  (function(){
+    const el=document.getElementById('investor-detail');
+    if(!el) return;
+    const amount=+document.getElementById('s-invAmount').value;
+    document.getElementById('v-invAmount').textContent=fmtInt(amount);
+    document.getElementById('v-invEquity').textContent=document.getElementById('s-invEquity').value+'%';
+    document.getElementById('v-invRate').textContent=document.getElementById('s-invRate').value+'%';
+    document.getElementById('v-invTerm').textContent=document.getElementById('s-invTerm').value;
+    const basisCash = investorBasis==='total' ? combinedCash : aquaSeries.cashArray;
+    const basisLabel = investorBasis==='total' ? '養殖＋太陽能' : '僅養殖';
+    let cf=[-amount], detailHtml='', warnFlag=false;
+    if(investorMode==='equity'){
+      const pct=(+document.getElementById('s-invEquity').value)/100;
+      for(let t=1;t<=dcfHorizon;t++) cf.push(basisCash[t]*pct);
+      const y1=cf[1];
+      detailHtml = '換得<b>'+(pct*100).toFixed(0)+'%</b>股權/分潤，以「'+basisLabel+'」20年現金流為基礎估算，第1年約可分到 <b>'+fmt(y1)+'</b>。';
+    } else {
+      const rate=(+document.getElementById('s-invRate').value)/100;
+      const term=+document.getElementById('s-invTerm').value;
+      let minCover=null;
+      for(let t=1;t<=dcfHorizon;t++){
+        let v = t<=term ? amount*rate : 0;
+        if(t===term) v += amount;
+        cf.push(v);
+        if(t<=term && basisCash[t]>0){
+          const cover=basisCash[t]/(amount*rate);
+          if(minCover===null || cover<minCover) minCover=cover;
+        }
+      }
+      warnFlag = (minCover!==null && minCover<1.2);
+      detailHtml = '約定年利率<b>'+(rate*100).toFixed(1)+'%</b>，借款<b>'+term+'</b>年到期還本金，每年利息 <b>'+fmt(amount*rate)+'</b>。'
+        + (minCover!==null? '案場「'+basisLabel+'」現金流覆蓋這筆利息的倍數最低約<b>'+minCover.toFixed(2)+'</b>倍'+(warnFlag?'(低於1.2倍，付息可能吃緊)':'') : '');
+    }
+    const invNPV=npv(wacc, cf), invIRR=irr(cf), invSP=simplePayback(cf);
+    el.className='info-box'+(warnFlag?' warn':'');
+    el.innerHTML =
+      '<div class="bd-row"><span>投資人<span class="term" data-term="npv">NPV</span>(用WACC '+(wacc*100).toFixed(1)+'%折現)</span><b>'+fmt(invNPV)+'</b></div>'+
+      '<div class="bd-row"><span>投資人<span class="term" data-term="irr">IRR</span></span><b>'+(invIRR===null?'無法收斂':fmtPct(invIRR))+'</b></div>'+
+      '<div class="bd-row"><span>投資人簡單回本年限</span><b>'+fmtYear(invSP)+'</b></div>'+
+      '<p style="margin:10px 0 0;font-size:12.5px;line-height:1.6;">'+detailHtml+'</p>';
+  })();
+
   function setRow(id, a,b,cAll, fmtFn){
     const tds=document.getElementById(id).querySelectorAll('td');
     tds[1].textContent=fmtFn(a); tds[2].textContent=fmtFn(b); tds[3].textContent=fmtFn(cAll);
@@ -2131,6 +2207,31 @@ document.getElementById('btn-print').addEventListener('click',()=>{
   const restore=()=>{ closedDetails.forEach(d=>d.removeAttribute('open')); window.removeEventListener('afterprint', restore); };
   window.addEventListener('afterprint', restore);
   window.print();
+});
+
+// ---- 投資方報酬試算:模式/基礎切換與滑桿 ----
+function setInvestorMode(m){
+  investorMode=m;
+  document.querySelectorAll('#investor-mode-toggle .toggle-btn').forEach(b=>b.classList.toggle('active', b.dataset.invMode===m));
+  document.getElementById('investor-equity-row').style.display = m==='equity' ? '' : 'none';
+  document.getElementById('investor-rate-row').style.display = m==='debt' ? '' : 'none';
+  document.getElementById('investor-term-row').style.display = m==='debt' ? '' : 'none';
+  render();
+}
+document.querySelectorAll('#investor-mode-toggle .toggle-btn').forEach(b=>{
+  b.addEventListener('click',()=>setInvestorMode(b.dataset.invMode));
+});
+function setInvestorBasis(v){
+  investorBasis=v;
+  document.querySelectorAll('#investor-basis-toggle .toggle-btn').forEach(b=>b.classList.toggle('active', b.dataset.invBasis===v));
+  render();
+}
+document.querySelectorAll('#investor-basis-toggle .toggle-btn').forEach(b=>{
+  b.addEventListener('click',()=>setInvestorBasis(b.dataset.invBasis));
+});
+['s-invAmount','s-invEquity','s-invRate','s-invTerm'].forEach(id=>{
+  const elx=document.getElementById(id);
+  if(elx) elx.addEventListener('input', render);
 });
 
 // 回到頂部懸浮按鈕:頁面拉長後,不用手動滑回最上面看總覽數字
