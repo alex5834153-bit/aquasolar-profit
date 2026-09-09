@@ -370,7 +370,28 @@ body.pitch-mode .pitch{display:block;}
 .back-to-top.show{opacity:1;pointer-events:auto;transform:translateY(0);}
 .back-to-top:active{transform:scale(0.93);}
 body.pitch-mode .back-to-top{display:none;}
-@media print{.back-to-top{display:none;}}
+@media print{
+  :root{
+    --bg:#F1ECDF !important;--surface:#FFFFFF !important;--ink:#16302E !important;
+    --ink-soft:#4B615F !important;--ink-faint:#8A9A97 !important;--line:#D9D2BF !important;
+    --header-bg:#FFFFFF !important;--header-text:#16302E !important;--header-text-soft:#4B615F !important;
+    --water:#3E9A93 !important;--water-deep:#1F5F5A !important;--water-pale:#DCE9E6 !important;--water-pale-border:#C3D9D5 !important;
+    --solar:#C8963E !important;--solar-pale:#F5E9D3 !important;--solar-pale-border:#E4CB98 !important;
+    --good:#1D7A5A !important;--good-pale:#DFF0E6 !important;--good-pale-border:#B9DCC7 !important;
+    --warn:#B4680C !important;--warn-pale:#F3E3CB !important;
+    --bad:#A5432E !important;--bad-pale:#F3DCD6 !important;
+    --purple:#5B4B8A !important;--purple-soft:#7B6BA5 !important;--purple-pale:#E7E2F2 !important;--purple-pale-border:#D2C8E8 !important;
+    --total-bg:#1F5F5A !important;--total-text:#FFFFFF !important;--total-text-soft:#CFE6E2 !important;
+  }
+  body{background:#fff !important;}
+  .back-to-top,nav.quicknav,#theme-toggle,#pitch-toggle,#btn-reset-all{display:none !important;}
+  .card{break-inside:avoid;border:1px solid #D9D2BF !important;}
+  .card.collapsed>*:not(h2){display:block !important;}
+  .card.collapsed h2 .chev{display:none;}
+  details:not([open])>*:not(summary){display:block !important;}
+  input[type="range"]{display:none !important;}
+  .log-btn-row,#btn-actual-add,#btn-scenario-save,#btn-live-price{display:none !important;}
+}
 .pitch-item{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:8px 10px;}
 .pitch-item .gl{font-size:10px;color:var(--ink-faint);display:block;}
 .pitch-item .gv{font-size:15px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:var(--ink);}
@@ -386,7 +407,7 @@ body.pitch-mode .log-del{display:none;}
 <header>
   <h1>漁電獲利站</h1>
   <p>295 / 249-1 兩案場・養殖＋加工＋太陽能整合獲利試算</p>
-  <p class="version-tag">v16・2026-09-09</p>
+  <p class="version-tag">v17・2026-09-09</p>
   <button class="reset-link" id="btn-reset-all" type="button">重置為預設值</button>
   <div class="theme-toggle" id="theme-toggle">
     <button type="button" data-theme-choice="auto" class="theme-btn">自動(跟裝置)</button>
@@ -397,6 +418,7 @@ body.pitch-mode .log-del{display:none;}
     <button type="button" data-pitch-choice="full" class="theme-btn">完整版(操作用)</button>
     <button type="button" data-pitch-choice="pitch" class="theme-btn">簡報模式(給投資方看)</button>
   </div>
+  <button class="reset-link" id="btn-print" type="button" style="margin-top:8px;">🖨️ 列印/匯出PDF(自動展開全部卡片)</button>
 </header>
 
 <div class="glance">
@@ -2101,6 +2123,13 @@ Object.values(els).forEach(el=>el && el.addEventListener('input',render));
 document.getElementById('btn-reset-all').addEventListener('click',()=>{
   try{ localStorage.removeItem('aquacalc_state_v1'); }catch(e){}
   location.reload();
+});
+document.getElementById('btn-print').addEventListener('click',()=>{
+  const closedDetails=[...document.querySelectorAll('details:not([open])')];
+  closedDetails.forEach(d=>d.setAttribute('open',''));
+  const restore=()=>{ closedDetails.forEach(d=>d.removeAttribute('open')); window.removeEventListener('afterprint', restore); };
+  window.addEventListener('afterprint', restore);
+  window.print();
 });
 
 // 回到頂部懸浮按鈕:頁面拉長後,不用手動滑回最上面看總覽數字
