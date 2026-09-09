@@ -384,7 +384,7 @@ body.pitch-mode .back-to-top{display:none;}
     --total-bg:#1F5F5A !important;--total-text:#FFFFFF !important;--total-text-soft:#CFE6E2 !important;
   }
   body{background:#fff !important;}
-  .back-to-top,nav.quicknav,#theme-toggle,#pitch-toggle,#btn-reset-all{display:none !important;}
+  .back-to-top,nav.quicknav,#theme-toggle,#pitch-toggle,#btn-reset-all,#btn-header-settings,#header-settings-panel{display:none !important;}
   .card{break-inside:avoid;border:1px solid #D9D2BF !important;}
   .card.collapsed>*:not(h2){display:block !important;}
   .card.collapsed h2 .chev{display:none;}
@@ -407,19 +407,22 @@ body.pitch-mode .log-del{display:none;}
 <header>
   <h1>漁電獲利站</h1>
   <p>295 / 249-1 兩案場・養殖＋加工＋太陽能整合獲利試算</p>
-  <p class="version-tag">v19・2026-09-10</p>
-  <button class="reset-link" id="btn-reset-all" type="button">重置為預設值</button>
-  <div class="theme-toggle" id="theme-toggle">
-    <button type="button" data-theme-choice="auto" class="theme-btn">自動(跟裝置)</button>
-    <button type="button" data-theme-choice="light" class="theme-btn">淺色</button>
-    <button type="button" data-theme-choice="dark" class="theme-btn">深色</button>
+  <p class="version-tag">v20・2026-09-10</p>
+  <button class="reset-link" id="btn-header-settings" type="button">⚙️ 顯示設定(主題／簡報模式／列印)</button>
+  <div id="header-settings-panel" style="display:none;">
+    <div class="theme-toggle" id="theme-toggle">
+      <button type="button" data-theme-choice="auto" class="theme-btn">自動(跟裝置)</button>
+      <button type="button" data-theme-choice="light" class="theme-btn">淺色</button>
+      <button type="button" data-theme-choice="dark" class="theme-btn">深色</button>
+    </div>
+    <div class="theme-toggle" id="pitch-toggle" style="margin-top:6px;">
+      <button type="button" data-pitch-choice="full" class="theme-btn">完整版(操作用)</button>
+      <button type="button" data-pitch-choice="pitch" class="theme-btn">簡報模式(給投資方看)</button>
+    </div>
+    <button class="reset-link" id="btn-print" type="button" style="margin-top:8px;">🖨️ 列印/匯出PDF(自動展開全部卡片)</button>
+    <a class="reset-link" href="agri-sop.html" style="margin-top:8px;display:inline-block;text-decoration:none;">🌱 智農申請SOP檢查表</a>
+    <button class="reset-link" id="btn-reset-all" type="button" style="margin-top:8px;">重置為預設值</button>
   </div>
-  <div class="theme-toggle" id="pitch-toggle" style="margin-top:6px;">
-    <button type="button" data-pitch-choice="full" class="theme-btn">完整版(操作用)</button>
-    <button type="button" data-pitch-choice="pitch" class="theme-btn">簡報模式(給投資方看)</button>
-  </div>
-  <button class="reset-link" id="btn-print" type="button" style="margin-top:8px;">🖨️ 列印/匯出PDF(自動展開全部卡片)</button>
-  <a class="reset-link" href="agri-sop.html" style="margin-top:8px;display:inline-block;text-decoration:none;">🌱 智農申請SOP檢查表</a>
 </header>
 
 <div class="glance">
@@ -1002,10 +1005,12 @@ function applyPitchMode(choice){
   if(choice==='pitch' && !wasPitch){
     const conclCard=document.getElementById('sec-conclusion');
     const riskCard=document.getElementById('sec-risk');
+    const investorCard=document.getElementById('sec-investor');
     if(conclCard){
-      document.querySelectorAll('.card').forEach(c=>{ if(c!==conclCard && c!==riskCard) c.classList.add('collapsed'); });
+      document.querySelectorAll('.card').forEach(c=>{ if(c!==conclCard && c!==riskCard && c!==investorCard) c.classList.add('collapsed'); });
       conclCard.classList.remove('collapsed');
       if(riskCard) riskCard.classList.remove('collapsed');
+      if(investorCard) investorCard.classList.remove('collapsed');
     }
   }
 }
@@ -1017,6 +1022,14 @@ document.querySelectorAll('#pitch-toggle .theme-btn').forEach(b=>{
   try{ savedPitch = localStorage.getItem('aquacalc_pitchmode') || 'full'; }catch(e){}
   applyPitchMode(savedPitch);
 })();
+
+document.getElementById('btn-header-settings').addEventListener('click', ()=>{
+  const panel=document.getElementById('header-settings-panel');
+  const btn=document.getElementById('btn-header-settings');
+  const isOpen = panel.style.display!=='none';
+  panel.style.display = isOpen ? 'none' : '';
+  btn.textContent = isOpen ? '⚙️ 顯示設定(主題／簡報模式／列印)' : '⚙️ 隱藏設定';
+});
 
 const taxRate=0.20, cyclesPerYear=1.5, dcfHorizon=20;
 
@@ -1119,7 +1132,9 @@ const els={
   spArea:document.getElementById('s-spArea'), spDensity:document.getElementById('s-spDensity'), spSurvival:document.getElementById('s-spSurvival'),
   spWeight:document.getElementById('s-spWeight'), spPrice:document.getElementById('s-spPrice'), spCostRatio:document.getElementById('s-spCostRatio'), spCycles:document.getElementById('s-spCycles'),
   wcbuffer:document.getElementById('s-wcbuffer'), reservecycles:document.getElementById('s-reservecycles'),
-  gridconnectdate:document.getElementById('s-gridconnectdate')
+  gridconnectdate:document.getElementById('s-gridconnectdate'),
+  invAmount:document.getElementById('s-invAmount'), invEquity:document.getElementById('s-invEquity'),
+  invRate:document.getElementById('s-invRate'), invTerm:document.getElementById('s-invTerm')
 };
 
 const presetsBySpecies={
@@ -1962,7 +1977,7 @@ function render(){
 
 function saveState(){
   try{
-    const state={site, product, laborMode, solarApproved, currentSpecies, fishSpecies, sliders:{}};
+    const state={site, product, laborMode, solarApproved, currentSpecies, fishSpecies, investorMode, investorBasis, sliders:{}};
     Object.keys(els).forEach(k=>{ if(els[k]) state.sliders[k]=els[k].value; });
     localStorage.setItem('aquacalc_state_v1', JSON.stringify(state));
   }catch(e){}
@@ -2123,7 +2138,7 @@ function saveScenarios(){
   try{ localStorage.setItem('aquacalc_scenarios_v1', JSON.stringify(scenarios)); }catch(e){}
 }
 function captureSnapshot(){
-  const snap={site, product, laborMode, solarApproved, fishSpecies, sliders:{}};
+  const snap={site, product, laborMode, solarApproved, fishSpecies, investorMode, investorBasis, sliders:{}};
   Object.keys(els).forEach(k=>{ if(els[k]) snap.sliders[k]=els[k].value; });
   return snap;
 }
@@ -2133,6 +2148,8 @@ function restoreSnapshot(snap){
   if(snap.product && presetsBySpecies[fishSpecies] && presetsBySpecies[fishSpecies][snap.product]) setProduct(snap.product);
   setLaborMode(snap.laborMode || 'profit');
   setSolarApproved(!!snap.solarApproved);
+  setInvestorMode(snap.investorMode || 'equity');
+  setInvestorBasis(snap.investorBasis || 'aqua');
   if(snap.sliders){ Object.keys(snap.sliders).forEach(k=>{ if(els[k]) els[k].value=snap.sliders[k]; }); }
   render();
 }
@@ -2189,6 +2206,8 @@ setFishSpecies(saved && saved.fishSpecies || 'jinmulu');
 if(saved && saved.product && presetsBySpecies[fishSpecies][saved.product]) setProduct(saved.product);
 setLaborMode(saved && saved.laborMode || 'profit');
 setSolarApproved(saved ? !!saved.solarApproved : false);
+setInvestorMode(saved && saved.investorMode || 'equity');
+setInvestorBasis(saved && saved.investorBasis || 'aqua');
 applyScenario('base');
 if(saved && saved.sliders){
   Object.keys(saved.sliders).forEach(k=>{ if(els[k]) els[k].value=saved.sliders[k]; });
@@ -2228,10 +2247,6 @@ function setInvestorBasis(v){
 }
 document.querySelectorAll('#investor-basis-toggle .toggle-btn').forEach(b=>{
   b.addEventListener('click',()=>setInvestorBasis(b.dataset.invBasis));
-});
-['s-invAmount','s-invEquity','s-invRate','s-invTerm'].forEach(id=>{
-  const elx=document.getElementById(id);
-  if(elx) elx.addEventListener('input', render);
 });
 
 // 回到頂部懸浮按鈕:頁面拉長後,不用手動滑回最上面看總覽數字
