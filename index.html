@@ -310,6 +310,7 @@ input[type="date"]:focus-visible,input[type="number"]:focus-visible,input[type="
 .cmp-table th{color:var(--ink-soft);font-weight:600;font-size:11px;}
 .cmp-table td.mono{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;}
 .cmp-table tr.hl td{font-weight:700;color:var(--water-deep);}
+.cmp-table th.sticky-actions,.cmp-table td.sticky-actions{position:sticky;right:0;background:var(--surface);box-shadow:-6px 0 6px -6px rgba(0,0,0,0.35);white-space:nowrap;}
 
 .species-card{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:10px;}
 .species-card .sname{font-weight:600;font-size:13px;}
@@ -407,7 +408,7 @@ body.pitch-mode .log-del{display:none;}
 <header>
   <h1>漁電獲利站</h1>
   <p>295 / 249-1 兩案場・養殖＋加工＋太陽能整合獲利試算</p>
-  <p class="version-tag">v20・2026-09-10</p>
+  <p class="version-tag">v21・2026-09-10</p>
   <button class="reset-link" id="btn-header-settings" type="button">⚙️ 顯示設定(主題／簡報模式／列印)</button>
   <div id="header-settings-panel" style="display:none;">
     <div class="theme-toggle" id="theme-toggle">
@@ -745,7 +746,7 @@ body.pitch-mode .log-del{display:none;}
     <button class="toggle-btn log-btn-row" id="btn-actual-add" type="button">新增這期實績記錄</button>
     <div class="table-scroll" style="margin-top:12px;">
       <table class="cmp-table" id="actual-log-table">
-        <tr><th>日期</th><th>預估稅後淨利/期</th><th>實際稅後淨利/期</th><th>差異</th><th></th></tr>
+        <tr><th>日期</th><th>預估稅後淨利/期</th><th>實際稅後淨利/期</th><th>差異</th><th class="sticky-actions"></th></tr>
       </table>
     </div>
     <p class="note" id="actual-log-empty">還沒有任何實績記錄,收成後回來記一筆,才能看出假設跟現實差多少。</p>
@@ -849,7 +850,7 @@ body.pitch-mode .log-del{display:none;}
     <button class="toggle-btn log-btn-row" id="btn-scenario-save" type="button">另存目前設定為新情境</button>
     <div class="table-scroll" style="margin-top:12px;">
       <table class="cmp-table" id="scenario-table">
-        <tr><th>情境</th><th>年淨利(僅養殖)</th><th>合計NPV</th><th>合計IRR</th><th></th></tr>
+        <tr><th>情境</th><th>年淨利(僅養殖)</th><th>合計NPV</th><th>合計IRR</th><th class="sticky-actions"></th></tr>
       </table>
     </div>
     <p class="note" id="scenario-empty">還沒有存任何情境。調好上面所有滑桿後,回來這裡存一筆,就可以跟別的組合並排比較;按「套用」可以把畫面切回那個情境的設定。</p>
@@ -2083,7 +2084,7 @@ function renderCycleLog(){
       '<td class="mono">'+fmt(rec.estAfter)+'</td>'+
       '<td class="mono">'+fmt(rec.actualAfter)+'</td>'+
       '<td class="mono" style="color:'+deltaColor+';">'+(delta>=0?'+':'')+fmt(delta)+'</td>'+
-      '<td><button type="button" class="log-del" data-id="'+rec.id+'">刪除</button></td>';
+      '<td class="sticky-actions"><button type="button" class="log-del" data-id="'+rec.id+'">刪除</button></td>';
     tbl.appendChild(tr);
   });
   tbl.querySelectorAll('.log-del').forEach(btn=>{
@@ -2164,7 +2165,7 @@ function renderScenarioTable(){
       '<td class="mono">'+fmt(sc.baseAnnual)+'</td>'+
       '<td class="mono">'+fmt(sc.combNPV)+'</td>'+
       '<td class="mono">'+(sc.combIRR===null?'無法收斂':fmtPct(sc.combIRR))+'</td>'+
-      '<td><button type="button" class="log-apply" data-id="'+sc.id+'">套用</button><button type="button" class="log-del" data-id="'+sc.id+'">刪除</button></td>';
+      '<td class="sticky-actions"><button type="button" class="log-apply" data-id="'+sc.id+'">套用</button><button type="button" class="log-del" data-id="'+sc.id+'">刪除</button></td>';
     tbl.appendChild(tr);
   });
   tbl.querySelectorAll('.log-apply').forEach(btn=>{
