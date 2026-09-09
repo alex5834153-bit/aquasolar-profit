@@ -88,7 +88,7 @@ header.top p{margin:0;color:var(--header-text-soft);font-size:13px;}
 .disclaimer{background:var(--gold-pale);border:1px solid var(--gold);color:var(--ink);border-radius:10px;padding:12px 14px;margin:14px 18px 0;font-size:12.5px;line-height:1.65;}
 .disclaimer b{color:var(--gold);}
 .tabs{display:flex;gap:8px;margin:16px 18px 0;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5;border-bottom:1px solid var(--line);}
-.tab-btn{flex:1;border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);border-radius:10px;padding:10px 8px;font-size:13.5px;font-weight:600;cursor:pointer;text-align:center;}
+.tab-btn{flex:1;border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);border-radius:10px;padding:10px 6px;font-size:12px;font-weight:600;cursor:pointer;text-align:center;line-height:1.35;}
 .tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 .wrap{padding:16px 18px 60px;max-width:720px;margin:0 auto;}
 [hidden]{display:none!important;}
@@ -134,6 +134,29 @@ table.plan th{background:var(--accent-pale);color:var(--accent-deep);font-weight
 .tag.gold{background:var(--gold-pale);color:var(--gold);border-color:var(--gold);}
 .fictional-banner{background:var(--bad-pale);border:1px solid var(--bad);color:var(--bad);border-radius:10px;padding:10px 14px;font-size:12px;margin-bottom:14px;font-weight:600;}
 footer.foot{text-align:center;font-size:11.5px;color:var(--ink-faint);padding:20px 18px 40px;}
+
+.core-line{background:var(--accent-pale);border:1px solid var(--accent-pale-border);border-radius:12px;padding:16px 18px;margin-bottom:16px;font-size:14.5px;line-height:1.75;color:var(--accent-deep);font-weight:600;}
+.role-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+.role-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+.role-card .rh{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.role-card .ricon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 auto;}
+.role-card.lead .ricon{background:var(--accent-pale);color:var(--accent-deep);}
+.role-card.co .ricon{background:var(--gold-pale);color:var(--gold);}
+.role-card.promo .ricon{background:var(--chip-bg);color:var(--ink-faint);border:1px dashed var(--line);}
+.role-card .rt{font-weight:700;font-size:14px;}
+.role-card .rd{font-size:12.5px;color:var(--ink-soft);margin-bottom:6px;}
+.role-card .rmap{font-size:12px;color:var(--gold);background:var(--gold-pale);border-radius:8px;padding:6px 10px;display:inline-block;}
+.flow-diagram{display:flex;flex-direction:column;align-items:stretch;gap:0;margin-bottom:18px;}
+.flow-box{background:var(--surface);border:1.5px solid var(--accent-pale-border);border-radius:10px;padding:12px 14px;font-size:13px;text-align:center;}
+.flow-box b{color:var(--accent-deep);}
+.flow-arrow{text-align:center;color:var(--ink-faint);font-size:16px;padding:2px 0;}
+.funnel{display:flex;flex-direction:column;gap:0;margin-bottom:8px;}
+.funnel-stage{border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:0 auto 0;font-size:12.5px;text-align:center;background:var(--surface);}
+.funnel-gate{text-align:center;font-size:11px;color:var(--bad);padding:4px 0;font-weight:700;}
+.funnel-arrow{text-align:center;color:var(--ink-faint);font-size:14px;}
+table.map{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:10px;}
+table.map th,table.map td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+table.map th{background:var(--accent-pale);color:var(--accent-deep);}
 </style>
 </head>
 <body>
@@ -150,6 +173,7 @@ footer.foot{text-align:center;font-size:11.5px;color:var(--ink-faint);padding:20
 
 <div class="tabs">
   <button class="tab-btn active" id="tab-btn-sop" type="button">申請SOP檢查表</button>
+  <button class="tab-btn" id="tab-btn-model" type="button">生態系心智模型</button>
   <button class="tab-btn" id="tab-btn-doc" type="button">範例計畫書(虛構公司)</button>
 </div>
 
@@ -167,6 +191,81 @@ footer.foot{text-align:center;font-size:11.5px;color:var(--ink-faint);padding:20
     </div>
 
     <div id="phases"></div>
+
+  </div>
+
+  <!-- ===== TAB 1.5: ECOSYSTEM MENTAL MODEL ===== -->
+  <div id="tab-model" hidden>
+
+    <div class="core-line">生態系不是「一家公司申請補助做自己的事」。是至少3家不同專長的業者組隊，共同解決一個產業痛點，一起驗證出一套未來可以複製、賣給其他業者的服務模式。政府補助的不是你的技術，是「這個生態系能不能真的運作起來」。</div>
+
+    <div class="doc">
+      <h2>一、三種角色，各自的任務</h2>
+      <div class="role-grid">
+        <div class="role-card lead">
+          <div class="rh"><span class="ricon">◆</span><span class="rt">主導業者</span></div>
+          <div class="rd">整合資源、代表團隊提出申請、統籌計畫執行與經費核銷。通常是「有場域、有痛點」的那一方，把其他角色的技術跟服務整合成一個完整解決方案。</div>
+          <span class="rmap">對應你：提供嘉義案場當場域，扮演統籌角色</span>
+        </div>
+        <div class="role-card co">
+          <div class="rh"><span class="ricon">●</span><span class="rt">協同業者（至少2家）</span></div>
+          <div class="rd">各自帶一項專業技術或服務來補主導業者的短板。彼此領域要不同，不能找兩家做同樣的事，審查會直接看「成員多元性與互補性」。</div>
+          <span class="rmap">對應你：找準備一起做的朋友，各自成立不同專長的小公司（例如一人做水質監測、一人做AI影像辨識）</span>
+        </div>
+        <div class="role-card promo">
+          <div class="rh"><span class="ricon">○</span><span class="rt">促進者（選填）</span></div>
+          <div class="rd">協助本計畫的政府機關、學研機構或法人單位，提供輔導與資源連結，但不是計畫的正式成員，不分配經費。</div>
+          <span class="rmap">對應你：地方政府農業處、水試所等，屬於外圍支援，不強制要有</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc">
+      <h2>二、生態系怎麼運作（不是線性任務，是共同解一題）</h2>
+      <div class="flow-diagram">
+        <div class="flow-box"><b>產業痛點</b><br>漁電共生案場僅4%通過查核，傳統人工紀錄無法佐證養殖事實</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box"><b>生態系共同開發</b><br>主導業者出場域 ＋ 協同業者A出水質監測 ＋ 協同業者B出AI辨識，三方技術整合成一套系統</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box"><b>產出可複製的解決方案</b><br>數位化養殖履歷，作為官方查核佐證，同時是一套標準化技術套組</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box"><b>擴散給其他客群</b><br>推廣給其他漁電共生案場業者採用，生態系從此有商業價值，不只服務自己</div>
+      </div>
+      <p style="font-size:12.5px;color:var(--ink-faint);margin:0;">政府審查最在意的其實是最後一步——「這個生態系解決完自己的問題後，能不能複製給別人」。只解決自家案場的問題，不算完整的生態系提案。</p>
+    </div>
+
+    <div class="doc">
+      <h2>三、審查關卡的形狀：漏斗＋驗證迴圈，不是一次交案</h2>
+      <div class="funnel">
+        <div class="funnel-stage">送件：計畫構想書＋合作意願書</div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-gate">▽ 資格審查（文件齊備即可過）</div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-stage">書面審查會議：8分鐘構想影片＋簡報</div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-gate">▽ 70分門檻（平均分數未達不得進下一階段）</div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-stage">生態系新星啟航培訓＋專家實地訪視</div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-stage">全程計畫書＋計畫審查會議（15分鐘簡報＋15分鐘詢答）</div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-gate">▽ 70分門檻（再次淘汰）</div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-stage">簽約執行，期間持續配合查核管考，不是簽約後就沒事</div>
+      </div>
+      <p style="font-size:12.5px;color:var(--ink-faint);margin:0;">兩層70分門檻的用意：政府在篩「這群人是不是真的能一起把事情做出來」，不是單純比賽誰的技術書面寫得漂亮——培訓＋實地訪視這一關就是拿來驗證「團隊是真的還是拼裝的」。</p>
+    </div>
+
+    <div class="doc">
+      <h2>四、對應到你的具體情況</h2>
+      <table class="map">
+        <tr><th>角色</th><th>目前對應</th><th>未定/待確認</th></tr>
+        <tr><td>主導業者</td><td>你（提供案場、統籌）</td><td>目前尚未能親自擔任公司負責人，過渡期需要委託其他家人或夥伴掛名</td></tr>
+        <tr><td>協同業者</td><td>準備一起做的朋友，各自成立不同專長的小公司</td><td>技術領域要互補、不能重複；誰做水質、誰做AI辨識，要提早分工</td></tr>
+        <tr><td>養殖操作know-how</td><td>育傑生物科技（現階段委外操作）</td><td>育傑未來是當協同業者、還是維持純委外關係，要看合作條件怎麼談</td></tr>
+      </table>
+      <p style="font-size:12.5px;color:var(--ink-faint);margin:0;">這張表是規劃用的心智地圖，不是現在就能送件的名單——實際申請時，主導業者的負責人必須是已登記公司的合法代表人，過渡期的掛名安排要另外跟家裡談清楚。</p>
+    </div>
 
   </div>
 
@@ -365,17 +464,19 @@ function updateProgress(){
 renderPhases();
 updateProgress();
 
-document.getElementById('tab-btn-sop').addEventListener('click', ()=>{
-  document.getElementById('tab-sop').hidden = false;
-  document.getElementById('tab-doc').hidden = true;
-  document.getElementById('tab-btn-sop').classList.add('active');
-  document.getElementById('tab-btn-doc').classList.remove('active');
-});
-document.getElementById('tab-btn-doc').addEventListener('click', ()=>{
-  document.getElementById('tab-sop').hidden = true;
-  document.getElementById('tab-doc').hidden = false;
-  document.getElementById('tab-btn-doc').classList.add('active');
-  document.getElementById('tab-btn-sop').classList.remove('active');
+const tabMap = {
+  'tab-btn-sop': 'tab-sop',
+  'tab-btn-model': 'tab-model',
+  'tab-btn-doc': 'tab-doc',
+};
+Object.keys(tabMap).forEach(btnId => {
+  document.getElementById(btnId).addEventListener('click', ()=>{
+    Object.keys(tabMap).forEach(otherBtnId => {
+      const isActive = otherBtnId === btnId;
+      document.getElementById(otherBtnId).classList.toggle('active', isActive);
+      document.getElementById(tabMap[otherBtnId]).hidden = !isActive;
+    });
+  });
 });
 </script>
 
