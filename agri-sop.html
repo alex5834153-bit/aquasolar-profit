@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>智農計畫申請手冊</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="智農申請SOP">
+<meta name="theme-color" content="#294A24">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F2E7;
+  --surface:#FFFFFF;
+  --ink:#1E2B1A;
+  --ink-soft:#4A5A42;
+  --ink-faint:#8B9683;
+  --line:#DCD5C0;
+  --accent:#3D6B35;
+  --accent-deep:#294A24;
+  --accent-pale:#E4EDE0;
+  --accent-pale-border:#C7D9C0;
+  --gold:#A6752E;
+  --gold-pale:#F1E4CC;
+  --bad:#A5432E;
+  --bad-pale:#F3DCD6;
+  --header-bg:#294A24;
+  --header-text:#F6F2E7;
+  --header-text-soft:#CFE0C8;
+  --chip-bg:rgba(255,255,255,0.14);
+  --chip-border:rgba(255,255,255,0.28);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141B12;
+    --surface:#1D2618;
+    --ink:#EAF0E4;
+    --ink-soft:#AEC0A4;
+    --ink-faint:#6E7E64;
+    --line:#354330;
+    --accent:#6FA85E;
+    --accent-deep:#8FC47C;
+    --accent-pale:#233221;
+    --accent-pale-border:#3A4E34;
+    --gold:#D2A75C;
+    --gold-pale:#332A17;
+    --bad:#D98A76;
+    --bad-pale:#3A241E;
+    --header-bg:#101A0E;
+    --header-text:#EAF0E4;
+    --header-text-soft:#A9C09E;
+    --chip-bg:rgba(255,255,255,0.08);
+    --chip-border:rgba(255,255,255,0.16);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141B12;
+  --surface:#1D2618;
+  --ink:#EAF0E4;
+  --ink-soft:#AEC0A4;
+  --ink-faint:#6E7E64;
+  --line:#354330;
+  --accent:#6FA85E;
+  --accent-deep:#8FC47C;
+  --accent-pale:#233221;
+  --accent-pale-border:#3A4E34;
+  --gold:#D2A75C;
+  --gold-pale:#332A17;
+  --bad:#D98A76;
+  --bad-pale:#3A241E;
+  --header-bg:#101A0E;
+  --header-text:#EAF0E4;
+  --header-text-soft:#A9C09E;
+  --chip-bg:rgba(255,255,255,0.08);
+  --chip-border:rgba(255,255,255,0.16);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;font-size:15px;line-height:1.7;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+a{color:var(--accent-deep);}
+header.top{background:var(--header-bg);color:var(--header-text);padding:22px 18px 16px;}
+header.top h1{margin:0 0 4px;font-size:20px;font-weight:700;}
+header.top p{margin:0;color:var(--header-text-soft);font-size:13px;}
+.disclaimer{background:var(--gold-pale);border:1px solid var(--gold);color:var(--ink);border-radius:10px;padding:12px 14px;margin:14px 18px 0;font-size:12.5px;line-height:1.65;}
+.disclaimer b{color:var(--gold);}
+.tabs{display:flex;gap:8px;margin:16px 18px 0;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5;border-bottom:1px solid var(--line);}
+.tab-btn{flex:1;border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);border-radius:10px;padding:10px 8px;font-size:13.5px;font-weight:600;cursor:pointer;text-align:center;}
+.tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.wrap{padding:16px 18px 60px;max-width:720px;margin:0 auto;}
+[hidden]{display:none!important;}
+
+.progress-wrap{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:16px;}
+.progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.progress-top .label{font-size:12.5px;color:var(--ink-faint);}
+.progress-top .count{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:700;color:var(--accent-deep);}
+.progress-bar{height:8px;border-radius:5px;background:var(--accent-pale);overflow:hidden;}
+.progress-fill{height:100%;background:var(--accent);border-radius:5px;transition:width .25s;}
+
+details.phase{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:12px;overflow:hidden;}
+details.phase summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:12px;}
+details.phase summary::-webkit-details-marker{display:none;}
+.phase-num{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--accent-pale);color:var(--accent-deep);border:1px solid var(--accent-pale-border);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;font-family:'IBM Plex Mono',monospace;}
+.phase-title{flex:1;}
+.phase-title .t{font-weight:700;font-size:14.5px;}
+.phase-title .s{font-size:11.5px;color:var(--ink-faint);margin-top:1px;}
+.phase-badge{flex:0 0 auto;font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--ink-faint);}
+.phase-chev{flex:0 0 auto;font-size:11px;color:var(--ink-faint);transition:transform .15s;}
+details[open] .phase-chev{transform:rotate(180deg);}
+.phase-body{padding:0 16px 16px;border-top:1px solid var(--line);}
+.item{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);}
+.item:last-child{border-bottom:none;}
+.item input[type="checkbox"]{margin-top:3px;width:17px;height:17px;accent-color:var(--accent);flex:0 0 auto;}
+.item label{flex:1;font-size:13.5px;cursor:pointer;}
+.item label .note{display:block;font-size:11.5px;color:var(--ink-faint);margin-top:2px;}
+.item.checked label{color:var(--ink-faint);text-decoration:line-through;}
+
+.doc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 20px 22px;margin-bottom:14px;}
+.doc h2{font-size:15.5px;margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--accent);color:var(--accent-deep);}
+.doc h3{font-size:13.5px;margin:16px 0 6px;color:var(--ink);}
+.doc p{margin:0 0 10px;font-size:13.5px;}
+.doc ul{margin:0 0 10px;padding-left:20px;font-size:13.5px;}
+.doc li{margin-bottom:4px;}
+.fieldrow{display:flex;gap:8px;font-size:12.5px;color:var(--ink-soft);padding:6px 0;border-bottom:1px dashed var(--line);}
+.fieldrow .k{flex:0 0 110px;color:var(--ink-faint);}
+.fieldrow .v{flex:1;font-weight:600;color:var(--ink);}
+table.plan{width:100%;border-collapse:collapse;font-size:12.5px;margin:10px 0 14px;}
+table.plan th,table.plan td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top;}
+table.plan th{background:var(--accent-pale);color:var(--accent-deep);font-weight:700;}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;background:var(--accent-pale);color:var(--accent-deep);border:1px solid var(--accent-pale-border);font-weight:600;}
+.tag.gold{background:var(--gold-pale);color:var(--gold);border-color:var(--gold);}
+.fictional-banner{background:var(--bad-pale);border:1px solid var(--bad);color:var(--bad);border-radius:10px;padding:10px 14px;font-size:12px;margin-bottom:14px;font-weight:600;}
+footer.foot{text-align:center;font-size:11.5px;color:var(--ink-faint);padding:20px 18px 40px;}
+</style>
+</head>
+<body>
+<div style="background:var(--header-bg,#294A24);text-align:center;padding:6px 0;"><a href="index.html" style="color:#fff;font-size:12px;text-decoration:none;opacity:0.85;">&larr; 回漁電獲利站</a></div>
+
+<header class="top">
+  <h1>智農計畫申請手冊</h1>
+  <p>農業部「AI增能共創智慧農業2.0—模組整合與智慧農場示範建構」業界參與計畫・申請SOP檢查表＋範例計畫書</p>
+</header>
+
+<div class="disclaimer">
+  <b>查證日期2026-09-09。</b>本手冊依113-114年度「智慧農業業界參與建立生態系計畫」申請作業手冊(制度性規則)＋116-119年度「AI增能共創智慧農業2.0」最新公告(申請資格、窗口、預算)整理而成。<b>最新一輪徵件已於2026-06-30截止,下一輪確切時程未公告</b>,執行前請務必到農業部官網(www.moa.gov.tw)、智慧農業網站(intelligentagri.com.tw)核對當年度最新公告,補助比率/窗口/表單版本以最新公告為準。
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" id="tab-btn-sop" type="button">申請SOP檢查表</button>
+  <button class="tab-btn" id="tab-btn-doc" type="button">範例計畫書(虛構公司)</button>
+</div>
+
+<div class="wrap">
+
+  <!-- ===== TAB 1: SOP CHECKLIST ===== -->
+  <div id="tab-sop">
+
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="label">整體完成度</span>
+        <span class="count"><span id="prog-done">0</span> / <span id="prog-total">0</span></span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%;"></div></div>
+    </div>
+
+    <div id="phases"></div>
+
+  </div>
+
+  <!-- ===== TAB 2: EXAMPLE PROPOSAL ===== -->
+  <div id="tab-doc" hidden>
+
+    <div class="fictional-banner">⚠️ 以下公司名稱、人名、數字全部虛構,純示範計畫書的寫法與架構,不代表任何真實申請案。套用時把虛構資訊換成你們家實際的公司與數字即可。</div>
+
+    <div class="doc">
+      <h2>壹、申請表</h2>
+      <div class="fieldrow"><span class="k">計畫名稱</span><span class="v">嘉義漁電共生場域AIoT智慧監控與金目鱸循環水養殖示範計畫</span></div>
+      <div class="fieldrow"><span class="k">計畫期間</span><span class="v mono">114年1月1日 至 115年12月31日(2年，範例)</span></div>
+      <div class="fieldrow"><span class="k">生態系主導業者</span><span class="v">利漁生技股份有限公司(虛構)</span></div>
+      <div class="fieldrow"><span class="k">協同業者1</span><span class="v">晴川水科技有限公司(虛構・水質監測物聯網設備商)</span></div>
+      <div class="fieldrow"><span class="k">協同業者2</span><span class="v">鑑魚科技股份有限公司(虛構・AI影像辨識系統商)</span></div>
+      <h3>計畫摘要說明(約500字，此段屬可公開部分)</h3>
+      <p>本計畫以嘉義縣漁電共生案場之金目鱸室內循環水養殖場域為實證基地，由主導業者利漁生技提供場域與養殖操作經驗，協同晴川水科技建置水質監測物聯網系統，並由鑑魚科技建置AI影像辨識與生長曲線分析模組，共同開發一套可產出官方查核佐證資料的「數位化養殖履歷」解決方案。現行漁電共生案場面臨完工案場僅約4%通過養殖事實查核之產業困境，主因在於傳統人工紀錄無法即時、完整佐證放養量、存活率與產量達標情形。本計畫整合水質參數即時監測、AI影像辨識存活率估算、雲端履歷資料庫三大模組，於2年期程內完成場域驗證，產出可複製之標準化技術套組，未來可推廣予其他漁電共生養殖業者，同時協助自家案場降低查核不通過之撤照風險，提升案場財務可行性。</p>
+    </div>
+
+    <div class="doc">
+      <h2>貳、計畫內容</h2>
+
+      <h3>一、擬解決問題分析</h3>
+      <ul>
+        <li>依農業部漁業署查核資料，全國完工併網之漁電共生案場僅約4%實際通過養殖事實查核，主因是缺乏系統性、可驗證的養殖數據佐證工具。</li>
+        <li>傳統人工紀錄(手寫養殖日誌)無法即時反映水質變化，存活率與生長曲線多以估算方式呈報，佐證力薄弱，查核時容易被要求補件甚至限期改善。</li>
+        <li>案場一旦查核不通過，改善期限最長僅約6個月(3個月＋可展延3個月)，若無即時監測數據支持改善成效，撤照風險極高，將直接影響案場太陽能端之20年售電收益。</li>
+        <li>市面上雖有零星水質感測器產品，但缺乏「監測數據→AI存活率估算→查核佐證文件」的整合服務，業者須自行拼湊多家廠商設備，導入門檻高。</li>
+      </ul>
+
+      <h3>二、全程計畫目標</h3>
+      <ul>
+        <li>建置整合型AIoT水質監測與AI影像辨識系統，於金目鱸室內循環水場域完成為期2年之場域驗證。</li>
+        <li>產出符合「漁電共生案場養殖事實查核參考指引」佐證需求之數位化養殖履歷雛型，技術準備度(TRL)由現行4提升至7以上。</li>
+        <li>驗證系統導入後之產業營運效益，包含查核通過率提升幅度、人工紀錄成本降低幅度、存活率估算準確度等量化指標。</li>
+        <li>建立可複製之標準化模組與服務規格，作為未來技術商轉、推廣予其他漁電共生業者之基礎。</li>
+      </ul>
+
+      <h3>三、生態系團隊組成與合作模式</h3>
+      <table class="plan">
+        <tr><th>角色</th><th>單位</th><th>負責內容</th></tr>
+        <tr><td>生態系主導業者</td><td>利漁生技股份有限公司(虛構)</td><td>提供嘉義案場養殖場域、執行日常養殖操作、協助系統效益驗證、統籌計畫執行與經費核銷</td></tr>
+        <tr><td>協同業者1</td><td>晴川水科技有限公司(虛構)</td><td>建置溶氧/水溫/pH/氨氮等水質感測器與物聯網雲端平台，即時回傳監測數據</td></tr>
+        <tr><td>協同業者2</td><td>鑑魚科技股份有限公司(虛構)</td><td>建置水下AI影像辨識鏡頭，開發魚體生長曲線與存活率估算演算法</td></tr>
+      </table>
+
+      <h3>四、重要工作項目及實施方法</h3>
+      <table class="plan">
+        <tr><th>期程</th><th>工作項目</th><th>實施方法</th></tr>
+        <tr><td>第1年上半年</td><td>需求訪查與系統架構設計</td><td>三方共同盤點場域現況、確認查核指引之佐證需求，完成系統架構規格書</td></tr>
+        <tr><td>第1年下半年</td><td>設備建置與初步整合</td><td>水質感測器與AI攝影機進場安裝，雲端資料平台上線，展開為期6個月之數據蒐集</td></tr>
+        <tr><td>第2年上半年</td><td>系統驗證與履歷產出</td><td>比對AI估算存活率與實際收成數據之準確度，產出首份數位化養殖履歷報告</td></tr>
+        <tr><td>第2年下半年</td><td>成效評估與擴散規劃</td><td>完成成本效益分析、標準化模組規格書，辦理成果發表會與技術推廣說明會</td></tr>
+      </table>
+
+      <h3>五、預期成果效益</h3>
+      <ul>
+        <li><b>質化效益</b>：產出可作為官方查核佐證之數位化養殖履歷雛型，降低案場撤照風險；建立可複製之AIoT養殖監控標準模組。</li>
+        <li><b>量化效益</b>：人工紀錄作業時間預估降低60%以上；AI估算存活率與實際收成數據誤差率控制在10%以內；計畫結束後1年內爭取至少2家其他漁電共生案場採用本模組。</li>
+      </ul>
+
+      <h3>六、計畫經費需求表(範例)</h3>
+      <table class="plan">
+        <tr><th>年度</th><th>年度經費(A+B)</th><th>政府補助款(A)</th><th>配合款(B)</th></tr>
+        <tr><td>第1年</td><td class="mono">3,000千元</td><td class="mono">1,500千元</td><td class="mono">1,500千元</td></tr>
+        <tr><td>第2年</td><td class="mono">3,000千元</td><td class="mono">1,500千元</td><td class="mono">1,500千元</td></tr>
+        <tr><td><b>合計</b></td><td class="mono"><b>6,000千元</b></td><td class="mono"><b>3,000千元</b></td><td class="mono"><b>3,000千元</b></td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--ink-faint);">政府補助款不得超過總經費50%；配合款須小於申請單位實收資本額。此範例假設主導業者實收資本額至少600萬元以上，方能編列300萬元配合款，實際編列需依三方實際資本額調整。</p>
+    </div>
+
+  </div>
+
+</div>
+
+<footer class="foot">整理自農業部官方申請作業手冊與最新公告・僅供規劃參考，實際送件請以最新官方文件為準</footer>
+
+<script>
+const phases = [
+  {t:'前置資格', s:'公司成立後才能啟動', tag:'必要', items:[
+    {id:'p0-1', l:'公司/商業登記完成，且非銀行拒絕往來戶'},
+    {id:'p0-2', l:'公司淨值為正值', n:'可用最近一年會計師財務簽證查核報告佐證；新成立公司可用設立登記資本額查核報告代替'},
+    {id:'p0-3', l:'確認公司非陸資投資企業'},
+    {id:'p0-4', l:'申請前5年內無執行政府計畫重大違約紀錄'},
+    {id:'p0-5', l:'申請前3年內無欠稅(國稅＋地方稅)'},
+  ]},
+  {t:'組建生態系團隊', s:'至少3家不同領域業者', tag:'組隊', items:[
+    {id:'p1-1', l:'確定主導業者', n:'通常是提供場域的養殖端公司，代表團隊提出申請、統籌經費核銷'},
+    {id:'p1-2', l:'找到至少2家協同業者', n:'例如：水質監測設備商、AI影像辨識/軟體服務商'},
+    {id:'p1-3', l:'跟每家協同業者簽署合作備忘錄或合作意願書'},
+    {id:'p1-4', l:'確認各協同業者也符合「前置資格」的所有條件'},
+  ]},
+  {t:'準備資格審查文件', s:'計畫構想書＋各項證明', tag:'備件', items:[
+    {id:'p2-1', l:'計畫構想書(含申請表)1式1份', n:'A4尺寸雙面黑白列印，左側裝訂，勿膠裝'},
+    {id:'p2-2', l:'生態系成員合作備忘錄/意願書影本', n:'須加蓋「與正本相符」章'},
+    {id:'p2-3', l:'申請文件自我檢查表'},
+    {id:'p2-4', l:'建議審查迴避人員清單', n:'如無迴避人員仍需填具'},
+    {id:'p2-5', l:'蒐集個人資料告知同意書', n:'計畫主持人及所有參與人員皆須簽'},
+    {id:'p2-6', l:'主導業者及所有協同業者的登記證明文件'},
+    {id:'p2-7', l:'財務證明文件', n:'會計師查核報告，或個人綜合所得稅明細(獨資/合夥)'},
+    {id:'p2-8', l:'財務信用文件', n:'台灣票據交換所出具之票據信用查覆單'},
+    {id:'p2-9', l:'無欠稅證明', n:'國稅局＋地方稅捐稽徵處，皆需最近1個月內'},
+    {id:'p2-10', l:'曾執行相關政府計畫之佐證文件', n:'如有經驗才附，無則免附'},
+  ]},
+  {t:'送件', s:'紙本＋電子檔', tag:'送件', items:[
+    {id:'p3-1', l:'紙本送至當年度公告指定窗口', n:'窗口單位歷年有變動，以最新公告為準'},
+    {id:'p3-2', l:'同時以電子郵件寄送word檔與pdf檔至指定信箱', n:'檔名註明申請單位全名與計畫名稱'},
+    {id:'p3-3', l:'確認送件在受理期限內', n:'以郵戳為憑'},
+  ]},
+  {t:'資格審查', s:'智農專案小組審視', tag:'審查', items:[
+    {id:'p4-1', l:'收到補件通知後3個工作天內補正', n:'逾期不予受理'},
+    {id:'p4-2', l:'確認收到資格審查通過通知'},
+  ]},
+  {t:'書面審查會議', s:'70分門檻', tag:'審查', items:[
+    {id:'p5-1', l:'準備8分鐘構想簡報說明影片'},
+    {id:'p5-2', l:'準備審查會議簡報', n:'含團隊組成、執行能力、計畫構想整體規劃'},
+    {id:'p5-3', l:'確認平均審查分數達70分以上(4捨5入至整數)才能進下一階段'},
+  ]},
+  {t:'提案溝通輔導', s:'生態系新星啟航培訓', tag:'培訓', items:[
+    {id:'p6-1', l:'指派3-6名人員(含計畫主持人)參加培訓課程'},
+    {id:'p6-2', l:'配合智農專案小組安排之專家實地訪視'},
+    {id:'p6-3', l:'完成培訓＋訪視，取得提出全程計畫書之資格'},
+  ]},
+  {t:'撰寫全程計畫書', s:'依審查意見修正', tag:'撰寫', items:[
+    {id:'p7-1', l:'依計畫構想書＋培訓討論結果＋專家訪視意見，撰寫全程計畫書'},
+    {id:'p7-2', l:'準備計畫審查會議簡報', n:'簡報15分鐘＋詢答15分鐘'},
+    {id:'p7-3', l:'確認出席人員名單', n:'生態系成員＋協力廠商代表，至多10人'},
+  ]},
+  {t:'計畫審查會議', s:'70分門檻', tag:'審查', items:[
+    {id:'p8-1', l:'依規定期限繳交簡報檔案至智農專案小組信箱'},
+    {id:'p8-2', l:'準備簡報紙本12份至會場'},
+    {id:'p8-3', l:'確認平均審查分數達70分以上，列入建議補助案件'},
+  ]},
+  {t:'研提與核定', s:'上網完成年度計畫研提', tag:'核定', items:[
+    {id:'p9-1', l:'依委員審查意見修正全程計畫書'},
+    {id:'p9-2', l:'至農業部農業計畫管理系統完成年度計畫研提', n:'project.moa.gov.tw'},
+    {id:'p9-3', l:'等待補助機關確認計畫核駁'},
+  ]},
+  {t:'簽約', s:'核定函所定期限內', tag:'簽約', items:[
+    {id:'p10-1', l:'備妥核定函、年度計畫說明書核定本、已用印契約'},
+    {id:'p10-2', l:'於核定函所定期限內完成簽約', n:'最長可展延1個月'},
+    {id:'p10-3', l:'開立補助款專戶並單獨設帳'},
+  ]},
+  {t:'執行與管考', s:'期中/期末工作報告', tag:'執行', items:[
+    {id:'p11-1', l:'依補助契約分期執行，配合期中/期末工作報告'},
+    {id:'p11-2', l:'配合不定期查核', n:'書面、會議或實地查訪'},
+    {id:'p11-3', l:'經費依規定科目比例執行，不得任意流用'},
+  ]},
+  {t:'結案', s:'成果推廣＋績效評估', tag:'結案', items:[
+    {id:'p12-1', l:'繳回未執行完畢款項及專戶孳息'},
+    {id:'p12-2', l:'配合計畫成果推廣活動', n:'成果發表會、記者會等宣導'},
+    {id:'p12-3', l:'提送計畫績效評估或成效追蹤所需資料'},
+  ]},
+];
+
+let checked = {};
+try{ checked = JSON.parse(localStorage.getItem('agri_sop_checklist_v1') || '{}'); }catch(e){ checked = {}; }
+function save(){ try{ localStorage.setItem('agri_sop_checklist_v1', JSON.stringify(checked)); }catch(e){} }
+
+function renderPhases(){
+  const root = document.getElementById('phases');
+  root.innerHTML = phases.map((ph, idx) => {
+    const items = ph.items.map(it => {
+      const isChecked = !!checked[it.id];
+      return '<div class="item'+(isChecked?' checked':'')+'">'
+        + '<input type="checkbox" id="'+it.id+'" data-id="'+it.id+'" '+(isChecked?'checked':'')+'>'
+        + '<label for="'+it.id+'">'+it.l+(it.n?'<span class="note">'+it.n+'</span>':'')+'</label>'
+        + '</div>';
+    }).join('');
+    return '<details class="phase" open>'
+      + '<summary><span class="phase-num">'+(idx)+'</span>'
+      + '<span class="phase-title"><span class="t">'+ph.t+'</span><span class="s">'+ph.s+'</span></span>'
+      + '<span class="phase-badge tag">'+ph.tag+'</span>'
+      + '<span class="phase-chev">▾</span></summary>'
+      + '<div class="phase-body">'+items+'</div>'
+      + '</details>';
+  }).join('');
+  root.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      checked[cb.dataset.id] = cb.checked;
+      save();
+      cb.closest('.item').classList.toggle('checked', cb.checked);
+      updateProgress();
+    });
+  });
+}
+
+function updateProgress(){
+  const total = phases.reduce((a,p)=>a+p.items.length,0);
+  const done = Object.values(checked).filter(Boolean).length;
+  document.getElementById('prog-total').textContent = total;
+  document.getElementById('prog-done').textContent = done;
+  document.getElementById('prog-fill').style.width = (total? (done/total*100):0)+'%';
+}
+
+renderPhases();
+updateProgress();
+
+document.getElementById('tab-btn-sop').addEventListener('click', ()=>{
+  document.getElementById('tab-sop').hidden = false;
+  document.getElementById('tab-doc').hidden = true;
+  document.getElementById('tab-btn-sop').classList.add('active');
+  document.getElementById('tab-btn-doc').classList.remove('active');
+});
+document.getElementById('tab-btn-doc').addEventListener('click', ()=>{
+  document.getElementById('tab-sop').hidden = true;
+  document.getElementById('tab-doc').hidden = false;
+  document.getElementById('tab-btn-doc').classList.add('active');
+  document.getElementById('tab-btn-sop').classList.remove('active');
+});
+</script>
+
+</body>
+</html>
