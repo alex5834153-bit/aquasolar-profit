@@ -296,6 +296,7 @@ input[type="date"]:focus-visible,input[type="number"]:focus-visible,input[type="
 .status-pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:5px 10px;border-radius:20px;margin-top:10px;}
 .status-pill.pending{background:var(--warn-pale);color:var(--warn);}
 .status-pill.ok{background:var(--good-pale);color:var(--good);}
+.status-pill.bad{background:var(--bad-pale);color:var(--bad);}
 
 .sens-table{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px;}
 .sens-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:5px 0;}
@@ -311,6 +312,7 @@ input[type="date"]:focus-visible,input[type="number"]:focus-visible,input[type="
 .cmp-table td.mono{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;}
 .cmp-table tr.hl td{font-weight:700;color:var(--water-deep);}
 .cmp-table th.sticky-actions,.cmp-table td.sticky-actions{position:sticky;right:0;background:var(--surface);box-shadow:-6px 0 6px -6px rgba(0,0,0,0.35);white-space:nowrap;}
+.cmp-table .status-pill{margin-top:0;padding:3px 8px;font-size:10.5px;white-space:nowrap;}
 
 .species-card{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:10px;}
 .species-card .sname{font-weight:600;font-size:13px;}
@@ -408,7 +410,7 @@ body.pitch-mode .log-del{display:none;}
 <header>
   <h1>漁電獲利站</h1>
   <p>295 / 249-1 兩案場・養殖＋加工＋太陽能整合獲利試算</p>
-  <p class="version-tag">v21・2026-09-10</p>
+  <p class="version-tag">v22・2026-09-12</p>
   <button class="reset-link" id="btn-header-settings" type="button">⚙️ 顯示設定(主題／簡報模式／列印)</button>
   <div id="header-settings-panel" style="display:none;">
     <div class="theme-toggle" id="theme-toggle">
@@ -751,6 +753,56 @@ body.pitch-mode .log-del{display:none;}
     </div>
     <p class="note" id="actual-log-empty">還沒有任何實績記錄,收成後回來記一筆,才能看出假設跟現實差多少。</p>
     <p class="note">預估值是「新增當下」上面所有滑桿算出來的稅後淨利/期(金目鱸用官方模型,其他魚種用概估模型),不會因為你之後調滑桿而改變,這樣才能公平比較。</p>
+  </div>
+
+  <div id="sec-audit" class="card collapsed">
+    <h2><span class="htext">養殖查核紀錄<span class="sub">定期記錄水質與存活率/FCR,超出安全範圍自動標示,可當對外查核與跟育傑對帳的憑證</span></span><span class="chev">▾</span></h2>
+    <div class="info-box" id="audit-summary">尚無記錄。</div>
+    <div class="row pitch-hide">
+      <label>記錄日期</label>
+      <input type="date" id="s-audit-date">
+    </div>
+    <div class="row pitch-hide">
+      <label>pH值 <span style="color:var(--ink-faint);">(參考正常 7.0~8.5)</span></label>
+      <input type="number" id="s-audit-ph" step="0.1" min="0" max="14" placeholder="例如 7.8">
+    </div>
+    <div class="row pitch-hide">
+      <label>溶氧 DO,mg/L <span style="color:var(--ink-faint);">(參考正常 ≥5)</span></label>
+      <input type="number" id="s-audit-do" step="0.1" min="0" placeholder="例如 6.2">
+    </div>
+    <div class="row pitch-hide">
+      <label>氨氮,mg/L <span style="color:var(--ink-faint);">(參考正常 ≤0.5)</span></label>
+      <input type="number" id="s-audit-nh3" step="0.05" min="0" placeholder="例如 0.2">
+    </div>
+    <div class="row pitch-hide">
+      <label>亞硝酸鹽,mg/L <span style="color:var(--ink-faint);">(參考正常 ≤0.2)</span></label>
+      <input type="number" id="s-audit-no2" step="0.05" min="0" placeholder="例如 0.1">
+    </div>
+    <div class="row pitch-hide">
+      <label>水溫,°C <span style="color:var(--ink-faint);">(參考正常 24~32)</span></label>
+      <input type="number" id="s-audit-temp" step="0.5" min="0" placeholder="例如 28">
+    </div>
+    <div class="row pitch-hide">
+      <label>餌料係數 FCR <span style="color:var(--ink-faint);">(參考正常 &lt;1.0)</span></label>
+      <input type="number" id="s-audit-fcr" step="0.05" min="0" placeholder="例如 0.9">
+    </div>
+    <div class="row pitch-hide">
+      <label>存活率,% <span style="color:var(--ink-faint);">(參考基準 ≥70)</span></label>
+      <input type="number" id="s-audit-survival" step="0.5" min="0" max="100" placeholder="例如 75">
+    </div>
+    <div class="row pitch-hide">
+      <label>備註(選填)</label>
+      <input type="text" id="s-audit-note" placeholder="例如:育傑回報數字/自己現場測">
+    </div>
+    <p class="log-error" id="audit-log-error" style="display:none;"></p>
+    <button class="toggle-btn log-btn-row" id="btn-audit-add" type="button">新增這筆查核記錄</button>
+    <div class="table-scroll" style="margin-top:12px;">
+      <table class="cmp-table" id="audit-log-table">
+        <tr><th>日期</th><th>pH</th><th>DO</th><th>氨氮</th><th>亞硝酸</th><th>水溫</th><th>FCR</th><th>存活率</th><th>狀態</th><th class="sticky-actions"></th></tr>
+      </table>
+    </div>
+    <p class="note" id="audit-log-empty">還沒有任何查核記錄。建議至少每週測一次水質,每期收成後補存活率/FCR,養成習慣之後這裡就是最直接的對帳/查核憑證。</p>
+    <p class="note">正常範圍是一般養殖魚類的通用參考值(不是鱸魚官方專屬標準),超出範圍不代表一定出事,但連續異常就該現場追查,別只看育傑回報的結論數字。數字來源:《漁業水質標準》、水產試驗所公開資料、業界FCR/存活率通用經驗值,實際仍以水試所或水產技師現場判斷為準。</p>
   </div>
 
   <div id="sec-fund" class="card collapsed">
@@ -2130,6 +2182,105 @@ document.getElementById('btn-actual-add').addEventListener('click',()=>{
   renderCycleLog();
 });
 
+// ---- 養殖查核紀錄 ----
+let auditLog=[];
+const AUDIT_RANGES={
+  ph:{min:7.0,max:8.5,label:'pH'},
+  do_:{min:5,max:Infinity,label:'DO'},
+  nh3:{min:-Infinity,max:0.5,label:'氨氮'},
+  no2:{min:-Infinity,max:0.2,label:'亞硝酸'},
+  temp:{min:24,max:32,label:'水溫'},
+  fcr:{min:-Infinity,max:1.0,label:'FCR'},
+  survival:{min:70,max:Infinity,label:'存活率'}
+};
+const AUDIT_FIELDS=['ph','do_','nh3','no2','temp','fcr','survival'];
+function auditFieldBad(key,val){
+  if(val===null || val===undefined || isNaN(val)) return false;
+  const r=AUDIT_RANGES[key];
+  return val<r.min || val>r.max;
+}
+function loadAuditLog(){
+  try{ const raw=localStorage.getItem('aquacalc_auditlog_v1'); auditLog = raw? JSON.parse(raw) : []; }catch(e){ auditLog=[]; }
+}
+function saveAuditLog(){
+  try{ localStorage.setItem('aquacalc_auditlog_v1', JSON.stringify(auditLog)); }catch(e){}
+}
+function auditCell(rec,key,unit){
+  const val=rec[key];
+  if(val===null || val===undefined || isNaN(val)) return '<td class="mono">-</td>';
+  const bad=auditFieldBad(key,val);
+  return '<td class="mono"'+(bad?' style="color:var(--bad);font-weight:700;"':'')+'>'+val+(unit||'')+'</td>';
+}
+function renderAuditLog(){
+  const tbl=document.getElementById('audit-log-table');
+  [...tbl.querySelectorAll('tr')].slice(1).forEach(r=>r.remove());
+  document.getElementById('audit-log-empty').style.display = auditLog.length? 'none' : '';
+  let abnormalCount=0;
+  auditLog.slice().reverse().forEach(rec=>{
+    const flags=AUDIT_FIELDS.filter(k=>auditFieldBad(k,rec[k]));
+    if(flags.length) abnormalCount++;
+    const tr=document.createElement('tr');
+    tr.innerHTML =
+      '<td>'+rec.date+(rec.note?'<br><span style="font-size:10px;color:var(--ink-faint);">'+rec.note+'</span>':'')+'</td>'+
+      auditCell(rec,'ph')+
+      auditCell(rec,'do_')+
+      auditCell(rec,'nh3')+
+      auditCell(rec,'no2')+
+      auditCell(rec,'temp')+
+      auditCell(rec,'fcr')+
+      auditCell(rec,'survival','%')+
+      '<td>'+(flags.length?'<span class="status-pill bad">異常'+flags.length+'項</span>':'<span class="status-pill ok">正常</span>')+'</td>'+
+      '<td class="sticky-actions"><button type="button" class="log-del" data-id="'+rec.id+'">刪除</button></td>';
+    tbl.appendChild(tr);
+  });
+  tbl.querySelectorAll('.log-del').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      auditLog = auditLog.filter(r=>r.id!==btn.dataset.id);
+      saveAuditLog(); renderAuditLog();
+    });
+  });
+  const summaryEl=document.getElementById('audit-summary');
+  if(!auditLog.length){
+    summaryEl.className='info-box';
+    summaryEl.innerHTML='尚無記錄,新增第一筆查核資料開始追蹤。';
+  } else {
+    const latest=auditLog[auditLog.length-1];
+    const latestFlags=AUDIT_FIELDS.filter(k=>auditFieldBad(k,latest[k]));
+    summaryEl.className='info-box'+(latestFlags.length||abnormalCount? ' warn':'');
+    summaryEl.innerHTML =
+      '累計 <b>'+auditLog.length+'</b> 筆記錄,其中 <b>'+abnormalCount+'</b> 筆有異常項目。<br>'+
+      '最近一筆('+latest.date+'):'+(latestFlags.length? '<b style="color:var(--bad);">異常─'+latestFlags.map(k=>AUDIT_RANGES[k].label).join('、')+'</b>':'<b style="color:var(--good);">正常</b>');
+  }
+}
+document.getElementById('btn-audit-add').addEventListener('click',()=>{
+  const errEl=document.getElementById('audit-log-error');
+  errEl.style.display='none';
+  const dateVal = document.getElementById('s-audit-date').value || new Date().toISOString().slice(0,10);
+  const parse=id=>{ const v=document.getElementById(id).value; return v===''? null : parseFloat(v); };
+  const rec={
+    id: Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+    date: dateVal,
+    ph: parse('s-audit-ph'),
+    do_: parse('s-audit-do'),
+    nh3: parse('s-audit-nh3'),
+    no2: parse('s-audit-no2'),
+    temp: parse('s-audit-temp'),
+    fcr: parse('s-audit-fcr'),
+    survival: parse('s-audit-survival'),
+    note: document.getElementById('s-audit-note').value||''
+  };
+  const hasAny=AUDIT_FIELDS.some(k=>rec[k]!==null);
+  if(!hasAny){
+    errEl.textContent='請至少填寫一項水質或生產數字才能新增。';
+    errEl.style.display='';
+    return;
+  }
+  auditLog.push(rec);
+  saveAuditLog();
+  ['s-audit-ph','s-audit-do','s-audit-nh3','s-audit-no2','s-audit-temp','s-audit-fcr','s-audit-survival','s-audit-note'].forEach(id=>{ document.getElementById(id).value=''; });
+  renderAuditLog();
+});
+
 // ---- 情境另存與比較 ----
 let scenarios=[];
 function loadScenarios(){
@@ -2215,6 +2366,7 @@ if(saved && saved.sliders){
 }
 render();
 loadCycleLog(); renderCycleLog();
+loadAuditLog(); renderAuditLog();
 loadScenarios(); renderScenarioTable();
 Object.values(els).forEach(el=>el && el.addEventListener('input',render));
 document.getElementById('btn-reset-all').addEventListener('click',()=>{
